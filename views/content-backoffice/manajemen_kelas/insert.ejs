@@ -1,0 +1,62 @@
+<% include ../../template-backoffice/header.ejs %>
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Tambah Data Kelas</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a></li>
+        <li><a href="/manajemen_master/kelas">Data</a></li>
+        <li class="active">Tambah Data</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <form role="form" action="/manajemen_master/kelas/submit_insert" method="POST" class="form-horizontal">
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Sekolah</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="sekolah" id="">
+                  <% for(var i=0; i<sekolah.length; i++){ %>
+                    <option><%= sekolah[i].nama%></option>
+                    <%}%>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Kelas</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="kelas" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary btn-embossed">Simpan</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+
+</script>

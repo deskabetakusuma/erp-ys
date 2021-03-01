@@ -1,0 +1,361 @@
+<% include ../../template-backoffice/header.ejs %>
+<script src="/plugins/moment/moment.js"></script>
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Tambah Data Siswa</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a></li>
+        <li><a href="/manajemen_jatuh_tempo">Data</a></li>
+        <li class="active">Tambah Data</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <form role="form" id="forme" action="/manajemen_jatuh_tempo/submit_insert" method="POST" class="form-horizontal">
+
+            <div class="tab tab-light clearfix"> 
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SISWA</span></a></li>
+                  <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA SPP</span></a></li>
+                  <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA OPERASIONAL</span></a></li>
+                  <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA GEDUNG & SERAGAM</span></a></li>
+                  <li><a href="#tab2-5" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SIMPAN DATA</span></a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content" style="padding-left: 0;">
+                <div role="tabpanel" class="tab-pane fade active in" id="tab2-1">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Sekolah</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="sekolah" id="sekolah" data-search="true" required>
+                            <option value="">-- Pilih --</option>
+                            <% for(var i=0; i<sekolah.length; i++){ %>
+                              <option><%= sekolah[i].nama%></option>
+                              <%}%>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Kelas</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="kelas" id="kelas" data-search="true" required>
+                            <option value="">-- Pilih Sekolah Dulu --</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Tahun Ajaran</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="tahun_ajaran" id="" data-search="true">
+                            <% for(var i=0; i<tahun_ajaran.length; i++){ %>
+                              <option><%= tahun_ajaran[i].tahun_ajaran%></option>
+                              <%}%>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Nama</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="id_siswa" id="id_siswa" data-search="true" required>
+                            <option value="">-- Pilih Sekolah Dulu --</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-2">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <div class="panel bg-aero">
+                        <div class="panel-header ui-sortable-handle">
+                          <h3>Input jatuh tempo dan nominal otomatis</h3>
+                        </div>
+                        <div class="panel-content table-no-border">
+                          <table class="table table-bordered">
+                            <tbody>
+                              <tr>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control tgl" name="" id="tanggale" placeholder="Tanggal Jatuh Tempo"></td>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="nominale" placeholder="Nominal Pembayaran"></td>
+                                <td style="padding: 0 10px;margin: 0;"><button type="button" class="btn btn-primary btn-embossed" id="proses">Proses</button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th style="width: 20px;">Pembayaran</th>
+                            <th>Tanggal Jatuh Tempo</th>
+                            <th>Nominal Pembayaran</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td style="text-align: center;">1</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_1" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">2</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_2" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">3</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_3" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">4</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_4" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">5</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_5" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">6</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_6" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">7</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_7" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">8</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_8" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">9</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_9" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">10</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_10" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">11</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_11" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">12</td>
+                            <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_12" placeholder="Tanggal Jatuh Tempo" required></td>
+                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-3">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <table class="table table-bordered" id="operasional">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">Tanggal Jatuh Tempo</th>
+                            <th style="text-align: center;">Nominal Tagihan</th>
+                            <th style="text-align: center;width: 100px;">Option</th>
+                          </tr>
+                        </thead>
+                      </table>
+
+                      <span class="btn btn-warning btn-embossed tambah-operasional">Tambah Pembayaran</span>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-4">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <table class="table table-bordered" id="gedung-seragam">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">Tanggal Jatuh Tempo</th>
+                            <th style="text-align: center;">Nominal Tagihan</th>
+                            <th style="text-align: center;width: 100px;">Option</th>
+                          </tr>
+                        </thead>
+                      </table>
+
+                      <span class="btn btn-warning btn-embossed tambah-gedung-seragam">Tambah Pembayaran</span>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-5">
+                  <label>Apakah anda yakin akan menyimpan data ini ?</label><br/>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+    
+                
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+moment.addRealMonth = function addRealMonth(d) {
+  var fm = moment(d).add(1, 'M');
+  var fmEnd = moment(fm).endOf('month');
+  return d.date() != fm.date() && fm.isSame(fmEnd.format('YYYY-MM-DD')) ? fm.add(1, 'd') : fm;  
+}
+
+$("#proses").click(function(){
+  
+  // console.log(cicil);
+  var mont=$("#tanggale").val();
+  var nominal=$("#nominale").val();
+  $(".nom").val(nominal);
+  for(var i=1; i<=12; i++){
+    
+    $("#tempo_"+i+"").val(mont);
+    
+    var nextMonth = moment.addRealMonth(moment(mont));
+    
+    mont = nextMonth.format('YYYY-MM-DD')
+  }
+
+  
+
+})
+
+$('#sekolah').change(function(){
+  $("#kelas").empty();
+        $('#kelas').select2('val', null);
+
+                     $.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_master/get_kelas/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#kelas').append('<option >'+item.kelas+'</option>')
+                              })
+                             
+                              }
+                            });   
+
+
+                            $("#id_siswa").empty();
+        $('#id_siswa').select2('val', null);
+
+                     $.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_siswa/get_siswa/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#id_siswa').append('<option value="'+item.id+'">'+item.nama+'</option>')
+                              })
+                             
+                              }
+                            });  
+                    
+                    
+                })
+
+  $(".tambah-operasional").click(function(){
+    $("#operasional").append('<tr><td><input type="text" class="form-control tgl" name="tempo_op[]" id="" placeholder="Tanggal Pembayaran" required></td><td><input type="text" class="form-control" name="nominal_op[]" id="" placeholder="Nominal Pembayaran"></td><td><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></td></tr>');
+    $('#operasional').find(".tgl").datepicker({
+              format: 'yyyy-mm-dd',
+              orientation: "auto top",
+              autoclose: true,
+              todayHighlight:true,
+    });
+    
+  });
+  $("#operasional").on('click','.hapus-operasional',function(){
+    var row=$(this).parent().parent();
+    
+    row.remove();
+    
+  });
+
+  $(".tambah-gedung-seragam").click(function(){
+    $("#gedung-seragam").append('<tr><td><input type="text" class="form-control tgl" name="tempo_gedung[]" id="" placeholder="Tanggal Pembayaran" required></td><td><input type="text" class="form-control" name="nominal_gedung[]" id="" placeholder="Nominal Pembayaran"></td><td><button class="btn btn-danger btn-embossed hapus-gedung-seragam">Hapus</button></td></tr>');
+    $('#gedung-seragam').find(".tgl").datepicker({
+              format: 'yyyy-mm-dd',
+              orientation: "auto top",
+              autoclose: true,
+              todayHighlight:true,
+    });
+    
+    
+  });
+  $("#gedung-seragam").on('click','.hapus-gedung-seragam',function(){
+   var row= $(this).parent().parent();
+   
+    row.remove();
+  });
+
+  
+
+  
+</script>

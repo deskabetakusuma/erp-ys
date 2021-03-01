@@ -1,0 +1,202 @@
+<% include ../../template-backoffice/header.ejs %>
+
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Data Aset</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a>
+        </li>
+        <li class="active">Data</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-header header-line">
+           <button class="btn btn-primary btn-embossed" type="button" data-toggle="modal" data-target=".modal-input"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</button>
+        </div>
+        <div class="panel-content pagination2">
+          <table class="table table-bordered table-striped table-hover" id="data">
+            <thead>
+              <tr>
+                <th class="header">No.</th>
+                <th class="header">Kode</th>
+                <th class="header">Kategori</th>
+                <th class="header">Nama Aset</th>
+                <th class="header">Open Balance</th>
+                <th class="header">Option</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+            <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>
+                <center>
+                <ul class="list-inline" style="text-align: center;">
+                  <li><button class="btn btn-warning btn-embossed btn-sm" type="button" data-toggle="modal" data-target=".modal-edit" style="margin-right: 0;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></li>
+                  <li class="separator">|</li>
+                  <li><a class="btn btn-danger btn-embossed btn-sm" href="#" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+                </ul>
+                </center>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<div class="modal fade modal-input" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form role="form" action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Tambah Data Aset</strong></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Kode</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" name="" id="" value="1" disabled style="text-align: center;">
+          </div>
+
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Kategori</label>
+          <div class="col-sm-9">
+            <select class="form-control" name="" id="">
+              <option value="">-- Pilih --</option>
+              <option>Aktiva</option>
+              <option>Pasiva</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Nama Aset</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark btn-embossed" data-dismiss="modal">Batalkan</button>
+        <button type="button" class="btn btn-primary btn-embossed">Simpan</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form role="form" action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Edit Data Aset</strong></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Kode</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" name="" id="" value="1" disabled style="text-align: center;">
+          </div>
+
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Kategori</label>
+          <div class="col-sm-9">
+            <select class="form-control" name="" id="">
+              <option value="">-- Pilih --</option>
+              <option>Aktiva</option>
+              <option>Pasiva</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Nama Aset</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark btn-embossed" data-dismiss="modal">Batalkan</button>
+        <button type="button" class="btn btn-primary btn-embossed">Simpan</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<% include ../../template-backoffice/footer.ejs %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#data').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      "columnDefs": [
+          { "width": "100px", "targets": 5}
+      ],
+    });
+  });
+</script>

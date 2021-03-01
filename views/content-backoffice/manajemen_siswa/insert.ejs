@@ -1,0 +1,589 @@
+<% include ../../template-backoffice/header.ejs %>
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Tambah Data Siswa</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a></li>
+        <li><a href="/manajemen_siswa">Data</a></li>
+        <li class="active">Tambah Data</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <form role="form" id="forme" class="form-horizontal">
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Nama</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nama" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">NIPD</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nipd" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Jenis Kelamin</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="jk" id="">
+                  <option>-- Pilih --</option>
+                  <option>L</option>
+                  <option>P</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">NISN</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nisn" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Rekening</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="no_rekening" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Tempat, Tanggal Lahir</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" name="tempat_lahir" id="" placeholder="Tempat Lahir">
+              </div>
+
+              <div class="col-sm-5">
+                <input type="text" class="form-control tgl" name="tanggal_lahir" id="" placeholder="Tanggal Lahir">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">NIK</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nik" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Agama</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="agama" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Alamat, RT, RW</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="alamat" id="" placeholder="Alamat">
+              </div>
+
+              <div class="col-sm-1">
+                <input type="text" class="form-control" name="rt" id="" placeholder="RT">
+              </div>
+
+              <div class="col-sm-1">
+                <input type="text" class="form-control" name="rw" id="" placeholder="RW">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Dusun</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="dusun" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Kecamatan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="kecamatan" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Kelurahan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="kelurahan" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Kode Pos</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="kode_pos" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Jenis Tinggal</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="jenis_tinggal" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Alat Transportasi</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="alat_transportasi" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Telepon (Rumah)</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="telp" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Hp</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="hp" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Email</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="email" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">SKHUN</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="skhun" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Penerima KPS</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="penerima_kps" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. KPS</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="no_kps" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-6 col-lg-6">
+                <h3><strong>DATA ORANG TUA (AYAH)</strong></h3>
+                <hr>
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Nama</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="nama_ayah" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Tahun Lahir</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="tahun_ayah" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Jenjang Pendidikan</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="pendidikan_ayah" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Penghasilan</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="penghasilan_ayah" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">NIK</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="nik_ayah" id="">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <h3><strong>DATA ORANG TUA (IBU)</strong></h3>
+                <hr>
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Nama</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="nama_ibu" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Tahun Lahir</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="tahun_ibu" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Jenjang Pendidikan</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="pendidikan_ibu" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">Penghasilan</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="penghasilan_ibu" id="">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label" style="text-align: left;">NIK</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="nik_ibu" id="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-12 col-lg-12">
+                <h3><strong>DATA WALI</strong></h3>
+                <hr>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Nama</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nama_wali" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Tahun Lahir</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="tahun_wali" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Jenjang Pendidikan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="pendidikan_wali" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Pekerjaan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="pekerjaan_wali" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Penghasilan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="penghasilan_wali" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">NIK</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nik_wali" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-12 col-lg-12">
+                <hr>
+              </div>
+            </div>
+
+            
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Peserta Ujian Nasional</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="no_ujian_nas" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Seri Ijazah</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="no_seri_ijazah" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Penerima KIP</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="penerima_kip" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. KIP</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nomor_kip" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Nama KIP</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nama_dikip" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. KKS</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="nomor_kks" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Registrasi Akta Lahir</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="no_akta" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Bank</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="bank" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. Rekening Bank</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="norek_bank" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Rekening Atas Nama</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="rek_atas_nama" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Layak PIP (Usulan dari sekolah)</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="layak_pip" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Alasan Layak PIP</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="alasan_layak" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Kebutuhan Khusus</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="kebutuhan_khusus" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Sekolah Asal</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="sekolah_asal" id="">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Anak Ke-berapa</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="anak_ke" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Koordinat Lintang</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="lintang" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Koordinat Bujur</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="bujur" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">No. KK</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="no_kk" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Berat Badan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="bb" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Tinggal Badan</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="tb" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Lingkar Kepala</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="lk" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Jumlah Saudara Kandung</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="jml_saudara" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Jarak Rumah Kesekolah (KM)</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="jarak_rumah" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Foto</label>
+              <div class="col-sm-10">
+                <input type="file" class="form-control" name="foto" id="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Sekolah</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="sekolah" id="sekolah">
+                  <option value="">-- Pilih --</option>
+                  <% var k=0; for(var i=0; i<sekolah.length; i++){ %>
+                    <option><%= sekolah[i].nama%></option>
+                    <%}%>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Rombel Saat Ini</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="rombel_now" id="kelas">
+                  <option value="">-- Pilih Sekolah Dulu --</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label" style="text-align: left;">Status Siswa</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="status" id="">
+                  
+                  <option selected>Aktif</option>
+                  <option>Tidak Aktif</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              
+            </div>
+
+            
+          </form>
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-primary btn-embossed" onclick="simpanform()">Simpan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+$('#sekolah').change(function(){
+  $("#kelas").empty();
+        $('#kelas').select2('val', null);
+
+                     $.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_master/get_kelas/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#kelas').append('<option >'+item.kelas+'</option>')
+                              })
+                             
+                              }
+                            });   
+                    
+                    
+                })
+
+function simpanform(){
+   
+var fd = new FormData(forme);
+console.log(fd)
+$.ajax({
+  type: 'POST',
+  enctype : 'multipart/form-data',
+  url: '/manajemen_siswa/submit_insert',
+  data: fd,
+  processData: false,
+  contentType: false,
+  success: function(data){
+    console.log(data)
+    
+      alert(data);
+      location.reload();
+    
+  }
+});
+
+}
+</script>

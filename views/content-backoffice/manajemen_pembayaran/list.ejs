@@ -1,0 +1,210 @@
+  <% include ../../template-backoffice/header.ejs %>
+
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Data Pembayaran</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a>
+        </li>
+        <li class="active">Data</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-header header-line">
+           <a class="btn btn-primary btn-embossed" href="/manajemen_pembayaran/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
+        </div>
+        <div class="panel-content pagination2">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <hr style="margin-top: 0;">
+            </div>
+          </div>
+          <div class="tab tab-light clearfix"> 
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">PEMBAYARAN SPP</span></a></li>
+                <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">PEMBAYARAN OPERASIONAL</span></a></li>
+                <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">PEMBAYARAN GEDUNG & SERAGAM</span></a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content" style="padding-left: 0;">
+              <div role="tabpanel" class="tab-pane fade active in" id="tab2-1">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <table class="table table-bordered table-striped table-hover" id="data">
+                      <thead>
+                        <tr>
+                          <th class="header">No.</th>
+                          <th class="header">Sekolah</th>
+                          <th class="header">Siswa</th>
+                          <th class="header">Tanggal Pembayaran</th>
+                          <th class="header">Nominal</th>
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+
+                        <tr>
+                          <td>1.</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="tab2-2">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <table class="table table-bordered table-striped table-hover" id="data2">
+                      <thead>
+                        <tr>
+                          <th class="header">No.</th>
+                          <th class="header">Sekolah</th>
+                          <th class="header">Siswa</th>
+                          <th class="header">Tanggal Pembayaran</th>
+                          <th class="header">Nominal</th>
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+
+                        <tr>
+                          <td>1.</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div role="tabpanel" class="tab-pane fade" id="tab2-3">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <table class="table table-bordered table-striped table-hover" id="data3">
+                      <thead>
+                        <tr>
+                          <th class="header">No.</th>
+                          <th class="header">Sekolah</th>
+                          <th class="header">Siswa</th>
+                          <th class="header">Tanggal Pembayaran</th>
+                          <th class="header">Nominal</th>
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+
+                        <tr>
+                          <td>1.</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#data').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      // "columnDefs": [
+      //     { "width": "100px", "targets": 2}
+      // ],
+    });
+  
+
+  $('#data2').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      // "columnDefs": [
+      //     { "width": "100px", "targets": 2}
+      // ],
+    });
+  
+
+  $('#data3').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      // "columnDefs": [
+      //     { "width": "100px", "targets": 2}
+      // ],
+    });
+  });
+</script>

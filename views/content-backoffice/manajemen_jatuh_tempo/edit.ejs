@@ -1,0 +1,274 @@
+<% include ../../template-backoffice/header.ejs %>
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Edit Data Siswa</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a></li>
+        <li><a href="/manajemen_master/siswa">Data</a></li>
+        <li class="active">Edit Data</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <form role="form" action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+
+            <div class="tab tab-light clearfix"> 
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SISWA</span></a></li>
+                  <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA SPP</span></a></li>
+                  <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA OPERASIONAL</span></a></li>
+                  <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA GEDUNG & SERAGAM</span></a></li>
+                  <li><a href="#tab2-5" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SIMPAN DATA</span></a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content" style="padding-left: 0;">
+                <div role="tabpanel" class="tab-pane fade active in" id="tab2-1">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Sekolah</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="" id="" data-search="true">
+                            <option>-- Pilih --</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Kelas</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="" id="" data-search="true">
+                            <option>-- Pilih --</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Tahun Ajaran</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="" id="" data-search="true">
+                            <option>-- Pilih --</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Nama</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" name="" id="" data-search="true">
+                            <option>-- Pilih --</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-2">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <div class="panel bg-aero">
+                        <div class="panel-header ui-sortable-handle">
+                          <h3>Input jatuh tempo dan nominal otomatis</h3>
+                        </div>
+                        <div class="panel-content table-no-border">
+                          <table class="table table-bordered">
+                            <tbody>
+                              <tr>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                                <td style="padding: 0 10px;margin: 0;"><button class="btn btn-primary btn-embossed">Proses</button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th style="width: 20px;">Pembayaran</th>
+                            <th>Tanggal Jatuh Tempo</th>
+                            <th>Nominal Pembayaran</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td style="text-align: center;">1</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">2</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">3</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">4</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">5</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">6</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">7</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">8</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">9</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">10</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">11</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                          <tr>
+                            <td style="text-align: center;">12</td>
+                            <td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-3">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <table class="table table-bordered" id="operasional">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">Tanggal Pembayaran</th>
+                            <th style="text-align: center;">Nominal Pembayaran</th>
+                            <th style="text-align: center;width: 100px;">Option</th>
+                          </tr>
+                        </thead>
+                      </table>
+
+                      <span class="btn btn-primary tambah-operasional">Input Pembayaran</span>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-4">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <table class="table table-bordered" id="gesam">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">Tanggal Pembayaran</th>
+                            <th style="text-align: center;">Nominal Pembayaran</th>
+                            <th style="text-align: center;width: 100px;">Option</th>
+                          </tr>
+                        </thead>
+                      </table>
+
+                      <span class="btn btn-primary tambah-gesam">Input Pembayaran</span>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-5">
+                  
+                </div>
+    
+                
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+  $(".tambah-operasional").click(function(){ 
+    $("#operasional").append('<tr><td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Pembayaran"></td><td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td><td><center><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></center></td></tr>');
+    $('#operasional').find(".tgl").datepicker({
+              format: 'yyyy-mm-dd',
+              orientation: "auto top",
+              autoclose: true,
+              todayHighlight:true,
+    });
+  });
+  $("#operasional").on('click','.hapus-operasional',function(){
+    $(this).parent().parent().remove();
+  });
+
+  $(".tambah-gesam").click(function(){ 
+    $("#gesam").append('<tr><td><input type="text" class="form-control tgl" name="" id="" placeholder="Tanggal Pembayaran"></td><td><input type="text" class="form-control" name="" id="" placeholder="Nominal Pembayaran"></td><td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td></tr>');
+    $('#gesam').find(".tgl").datepicker({
+              format: 'yyyy-mm-dd',
+              orientation: "auto top",
+              autoclose: true,
+              todayHighlight:true,
+    });
+  });
+  $("#gesam").on('click','.hapus-gesam',function(){
+    $(this).parent().parent().remove();
+  });
+</script>
