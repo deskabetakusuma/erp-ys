@@ -11,7 +11,7 @@ var passport = require('passport')
  var cek_login = require('./login').cek_login;
 var dbgeo = require("dbgeo");
 var multer = require("multer");
-  var gdal = require("gdal");
+ 
       var Parser = require('node-dbf');
       var deasync = require('deasync');
 path.join(__dirname, '/foto')
@@ -72,30 +72,30 @@ var upload = multer({ storage: storage })
 
 
 
-router.get('/', cek_login, function(req, res) {
+// router.get('/', cek_login, function(req, res) {
 
-  res.render('upload_form_shp');
-});
-var cpUpload = upload.fields([{ name: 'shp', maxCount: 1 }, { name: 'shx', maxCount: 1 }, { name: 'dbf', maxCount: 1 }])
-  router.post('/shp', cpUpload, function(req, res){
+//   res.render('upload_form_shp');
+// });
+// var cpUpload = upload.fields([{ name: 'shp', maxCount: 1 }, { name: 'shx', maxCount: 1 }, { name: 'dbf', maxCount: 1 }])
+//   router.post('/shp', cpUpload, function(req, res){
    
-    //dbf
+//     //dbf
 
 
-   // parser.parse();
-     //shp
-     var data_geometry = [];
-      var dataset = gdal.open("shp/datane.shp");
+//    // parser.parse();
+//      //shp
+//      var data_geometry = [];
+//       var dataset = gdal.open("shp/datane.shp");
       
-       dataset.layers.get(0).features.forEach(function(feature, index) {
-         data_geometry.push(feature.getGeometry().toWKT())
-         // console.log(feature.getGeometry().toWKT());
-        //  console.log(datanya[index])
-       });
-       res.json(data_geometry[0])
+//        dataset.layers.get(0).features.forEach(function(feature, index) {
+//          data_geometry.push(feature.getGeometry().toWKT())
+//          // console.log(feature.getGeometry().toWKT());
+//         //  console.log(datanya[index])
+//        });
+//        res.json(data_geometry[0])
   
-   // res.sendStatus(200)
-})
+//    // res.sendStatus(200)
+// })
 
    
 module.exports = router;
