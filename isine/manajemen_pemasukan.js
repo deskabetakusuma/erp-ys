@@ -59,7 +59,12 @@ var upload = multer({ storage: storage })
 
 //start-------------------------------------
 router.get('/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_pemasukan/insert'); 
+  connection.query("SELECT * from akun ", function(err, akun, fields) {
+    connection.query("SELECT * from sekolah ", function(err, objek, fields) {
+      res.render('content-backoffice/manajemen_pemasukan/insert',{akun,objek, user:req.user[0]}); 
+      })
+    })
+
 });
 
 module.exports = router;

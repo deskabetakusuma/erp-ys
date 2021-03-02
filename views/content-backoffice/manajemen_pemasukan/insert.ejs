@@ -22,8 +22,11 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Akun</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="" id="" data-search="true">
+                    <select class="form-control" name="kode_akun" data-search="true">
                       <option value="">-- Pilih --</option>
+                            <% for(var i=0; i<akun.length; i++){ %>
+                              <option value="<%= akun[i].kode%>"><%= akun[i].nama%></option>
+                              <%}%>
                     </select>
                   </div>
                 </div>
@@ -31,8 +34,11 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Objek</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="" id="" data-search="true">
+                    <select class="form-control" name="id_objek" data-search="true">
                       <option value="">-- Pilih --</option>
+                      <% for(var i=0; i<objek.length; i++){ %>
+                        <option value="<%= objek[i].id%>"><%= objek[i].nama%></option>
+                        <%}%>
                     </select>
                   </div>
                 </div>
@@ -40,7 +46,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Keterangan</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" name="keterangan">
                   </div>
                 </div>
               </div>
@@ -49,14 +55,14 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">id</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" name="no_id">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Tanggal</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="" id="">
+                    <input type="text" class="form-control" name="tgl">
                   </div>
                 </div>
               </div>
@@ -111,7 +117,17 @@
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
           $(".tambah-tipe").click(function(){
-            $("#tipe-perumahan").append('<tr><td><select class="form-control" name="" id=""><option>-- Pilih --</option></select></td><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>');
+            $("#tipe-perumahan").append(`<tr><td>
+              <select class="form-control" name="kode_akun[]">
+                <option>-- Pilih --</option>
+                <% for(var i=0; i<akun.length; i++){ %>
+                              <option value="<%= akun[i].kode%>"><%= akun[i].nama%></option>
+                              <%}%>
+                </select></td>
+                <td><input type="text" class="form-control" name="nama"></td>
+                <td><input type="text" class="form-control" name="jumlah"></td>
+                <td><input type="text" class="form-control" name="catatan"></td>
+                <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>`);
           });
           $("#tipe-perumahan").on('click','.hapus-tipe',function(){
             $(this).parent().parent().remove();
