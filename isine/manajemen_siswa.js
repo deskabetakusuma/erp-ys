@@ -65,14 +65,14 @@ router.get('/', cek_login, function(req, res) {
 });
 
 router.get('/insert', cek_login, function(req, res) {
-  connection.query("SELECT * from sekolah where deleted=0", function(err, rows, fields) {
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rows, fields) {
   res.render('content-backoffice/manajemen_siswa/insert',{sekolah:rows}); 
   })
 });
 
 router.get('/edit/:id', cek_login, function(req, res) {
   connection.query("SELECT *, DATE_FORMAT(tanggal_lahir,'%Y-%m-%d') as tanggal_lahir2 from data_siswa where deleted=0 and id="+req.params.id, function(err, data, fields) {
-  connection.query("SELECT * from sekolah where deleted=0", function(err, rows, fields) {
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rows, fields) {
   res.render('content-backoffice/manajemen_siswa/edit',{data, sekolah:rows});
   }) 
 })

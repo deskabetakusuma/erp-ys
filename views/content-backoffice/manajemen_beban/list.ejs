@@ -31,21 +31,23 @@
             </thead>
             
             <tbody>
-            <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <center>
-                <ul class="list-inline" style="text-align: center;">
-                  <li><button class="btn btn-warning btn-embossed btn-sm" type="button" data-toggle="modal" data-target=".modal-edit" style="margin-right: 0;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></li>
-                  <li class="separator">|</li>
-                  <li><a class="btn btn-danger btn-embossed btn-sm" href="#" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
-                </ul>
-                </center>
-              </td>
-            </tr>
+              <%for(var i=0;i<data.length; i++){%>
+                <tr>
+                  <td><%= i+1%></td>
+                  <td><%= data[i].kode%></td>
+                  <td><%= data[i].nama%></td>
+                  <td><%= data[i].balance%></td>
+                  <td>
+                    <center>
+                    <ul class="list-inline" style="text-align: center;">
+                      <li><button class="btn btn-warning btn-embossed btn-sm" type="button" onclick="edit('<%= data[i].id%>')" style="margin-right: 0;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></li>
+                      <li class="separator">|</li>
+                      <li><a class="btn btn-danger btn-embossed btn-sm" role="button" onclick="hapus('<%= data[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+                    </ul>
+                    </center>
+                  </td>
+                </tr>
+            <%}%>
             </tbody>
           </table>
         </div>
@@ -66,42 +68,45 @@
 <div class="modal fade modal-input" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form role="form" action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+      
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel"><strong>Tambah Data Beban</strong></h4>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="" class="col-sm-3 control-label" style="text-align: left;">Kode</label>
-          <div class="col-sm-2">
-            <input type="text" class="form-control" name="" id="" value="4" disabled style="text-align: center;">
+      <form role="form" class="form-horizontal">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="" class="col-sm-3 control-label" style="text-align: left;">Kode</label>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" name="" id="kode_depan" value="6" disabled style="text-align: center;">
+            </div>
+  
+            <div class="col-sm-7">
+              <input type="text" class="form-control" name="" id="kode_belakang">
+            </div>
           </div>
-
-          <div class="col-sm-7">
-            <input type="text" class="form-control" name="" id="">
+  
+          
+  
+          <div class="form-group">
+            <label for="" class="col-sm-3 control-label" style="text-align: left;">Nama Beban</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="" id="nama">
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="" id="balance">
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="" class="col-sm-3 control-label" style="text-align: left;">Nama Beban</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" name="" id="">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" name="" id="">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-dark btn-embossed" data-dismiss="modal">Batalkan</button>
-        <button type="button" class="btn btn-primary btn-embossed">Simpan</button>
-      </div>
       </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark btn-embossed" data-dismiss="modal">Batalkan</button>
+          <button type="button" class="btn btn-primary btn-embossed" onclick="simpan()">Simpan</button>
+        </div>
     </div>
   </div>
 </div>
@@ -109,41 +114,46 @@
 <div class="modal fade modal-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form role="form" action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+      
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel"><strong>Edit Data Beban</strong></h4>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="" class="col-sm-3 control-label" style="text-align: left;">Kode</label>
-          <div class="col-sm-2">
-            <input type="text" class="form-control" name="" id="" value="4" disabled style="text-align: center;">
+      <form role="form" class="form-horizontal">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="" class="col-sm-3 control-label" style="text-align: left;">Kode</label>
+            <div class="col-sm-2">
+              <input type="hidden" class="form-control" name="" id="id" >
+              <input type="text" class="form-control" name="" id="kode_depane"  disabled style="text-align: center;">
+            </div>
+  
+            <div class="col-sm-7">
+              <input type="text" class="form-control" name="" id="kode_belakange">
+            </div>
           </div>
-
-          <div class="col-sm-7">
-            <input type="text" class="form-control" name="" id="">
+  
+          
+  
+          <div class="form-group">
+            <label for="" class="col-sm-3 control-label" style="text-align: left;">Nama Beban</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="" id="namae">
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="" id="balancee">
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="" class="col-sm-3 control-label" style="text-align: left;">Nama Beban</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" name="" id="">
-          </div>
+      </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark btn-embossed" data-dismiss="modal">Batalkan</button>
+          <button type="button" class="btn btn-primary btn-embossed" onclick="simpan_edit()">Simpan</button>
         </div>
-
-        <div class="form-group">
-          <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" name="" id="">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-dark btn-embossed" data-dismiss="modal">Batalkan</button>
-        <button type="button" class="btn btn-primary btn-embossed">Simpan</button>
-      </div>
       </form>
     </div>
   </div>
@@ -152,6 +162,82 @@
 <% include ../../template-backoffice/footer.ejs %>
 
 <script type="text/javascript">
+function simpan(){
+        
+        if($( "#nama" ).val()==''){
+            $('.modal-input').modal('toggle');
+        }else{
+            console.log("ok")
+
+            $.post( "/manajemen_akun/submit_akun", { kode: $( "#kode_depan" ).val()+''+$( "#kode_belakang" ).val(), nama: $( "#nama" ).val(), balance: $( "#balance" ).val()})
+        .done(function( data ) {
+            console.log(data)
+                    
+                    alert(data);
+                    location.reload();
+        });
+
+        }
+
+    }
+
+function edit(id){
+
+  $.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_akun/get_akun/"+id,
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                                $("#id").val(data[0].id);
+                                $("#kode_depane").val(data[0].kode.substring(0, 1));
+                                $("#kode_belakange").val(data[0].kode.substring(1));
+                                
+                                $("#namae").val(data[0].nama);
+                                $("#balancee").val(data[0].balance);
+                                
+                                
+                             $(".modal-edit").modal("toggle");
+                              }
+                            })
+                          
+    }
+
+    function simpan_edit(){
+        
+        if($( "#namae" ).val()==''){
+            $('.modal-edit').modal('toggle');
+        }else{
+            console.log("ok")
+
+            $.post( "/manajemen_akun/submit_edit", {id:$( "#id" ).val(), kode: $( "#kode_depane" ).val()+''+$( "#kode_belakange" ).val(), nama: $( "#namae" ).val(), balance: $( "#balancee" ).val()})
+        .done(function( data ) {
+            console.log(data)
+                    
+                    alert(data);
+                    location.reload();
+        });
+
+        }
+
+    }
+
+    function hapus(id){
+        var r = confirm("Apakah anda yakin akan menghapus akun ini!");
+        if (r == true) {
+            $.get( "/manajemen_akun/delete/"+id, function( data ) {
+            
+            alert(data);
+            location.reload();
+            });
+        } else {
+            
+        }
+
+        
+    }
   $(document).ready(function() {
     $('#data').DataTable({
       "language": {

@@ -102,7 +102,7 @@ router.get('/detail_reserved/:id_reserved', cek_login, function(req, res) {
 
 router.get('/insert', cek_login, function(req, res) {
   connection.query("SELECT * from tahun_ajaran where deleted=0", function(err, tahun_ajaran, fields) {
-  connection.query("SELECT * from sekolah where deleted=0", function(err, rows, fields) {
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rows, fields) {
   res.render('content-backoffice/manajemen_jatuh_tempo/insert',{sekolah:rows, tahun_ajaran}); 
   })
 })
