@@ -32,42 +32,7 @@
             </thead>
             
             <tbody>
-              <%for(var i=0; i<data.length; i++){%>
-            <tr>
-              <td><%= i+1%></td>
-              <td><%= data[i].sekolah%></td>
-              <td><%= data[i].nama%></td>
-              <td><%= data[i].nipd%></td>
-              <td><%= data[i].nisn%></td>
-              
-              <td>
-                <center>
-                <!-- <ul class="list-inline text-center">
-                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/manajemen_jatuh_tempo/edit/1" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
-                  <li class="separator">|</li>
-                  <li><a class="btn btn-danger btn-embossed btn-sm" href="#" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
-                  
-                  
-                </ul> -->
-                <%for(var e=0; e<data[i].reserved.length; e++){%>
-                <ul class="list-inline text-center" style="margin-top: 5px;">
-                  <li>
-                    <div class="dropdown" style="padding-right: 0;margin-right: 0;">
-                      <button type="button" class="btn btn-success btn-embossed btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <%= data[i].reserved[e].kelas%> (<%= data[i].reserved[e].tahun_ajaran%>)<span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="/manajemen_jatuh_tempo/edit/<%= data[i].reserved[e].id%>">Lihat</a></li>
-                        <li><a href="/manajemen_jatuh_tempo/delete/<%= data[i].reserved[e].id%>" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');">Hapus</a></li>
-                      </ul>
-                    </div>
-                  </li>
-                </ul>
-                <%}%>
-                </center>
-              </td>
-            </tr>
-            <%}%>
+             
             </tbody>
           </table>
         </div>
@@ -89,11 +54,11 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#data').DataTable({
+    var t  =  $('#data').DataTable({
       "language": {
-          "sProcessing":   "Sedang memproses...",
+        "sProcessing":   '<span>Sedang memproses...</span><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>',
           "sLengthMenu":   "_MENU_",
-          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sZeroRecords":  "Tidak ditemukan data, silahkan pilih Kab/kota",
           "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
           "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
           "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
@@ -106,9 +71,122 @@
             "sLast":     "Terakhir"
           }
       },
-      "columnDefs": [
-          { "width": "100px", "targets": 5}
-      ],
+  
+      "processing": true,
+           "ajax": "/manajemen_jatuh_tempo/list_json/",
+           "columns": [
+               { "data": null},
+              //  { "data": "jenis"},
+               { "data": "sekolah"},
+               { "data": "nama"},
+               { "data": "nipd"},
+               { "data": "nisn"},
+              //  { "data": "hargaSurvey", render: function(data){
+              //   //  console.log(data)
+              //   let text ="<ul>";
+              //     data.forEach(function(item){
+              //       text+=`<li>${item.nama_toko} : ${item.harga}</li>`
+              //     })
+              //     text+="</ul>"
+              //    return text;
+              //  }},
+               { "data": null, render: function(data){
+                if(data.jmlReserved){
+
+                  return `<a href="#" class="reserved" id_reserved="${data.id}">Detail</a>`;
+                }else{
+                  return ``;
+                }
+               }},
+              
+         ],
+        //  'rowsGroup': [1],
+      //    'createdRow': function(row, data, dataIndex){
+      //    // Use empty value in the "Office" column
+      //    // as an indication that grouping with COLSPAN is needed
+      //    if(data[1] === ''){
+      //       // Add COLSPAN attribute
+      //       $('td:eq(0)', row).attr('colspan', 5);
+
+      //       // Hide required number of columns
+      //       // next to the cell with COLSPAN attribute
+      //       $('td:eq(1)', row).css('display', 'none');
+      //       $('td:eq(2)', row).css('display', 'none');
+      //       $('td:eq(3)', row).css('display', 'none');
+      
+      //    }
+      // },
+         "deferRender": true,
+         // "ordering": false,
+        //  "columnDefs": [
+        //      { "width": "3%" },
+        //      { "width": "20%" },
+        //      { "width": "24%" },
+        //      { "width": "10%" },
+        //      { "width": "20%" },
+        //      { "width": "20%" },
+    
+        //      { "width": "20%" }
+        //   ],
+         "fnRowCallback": function( row, data, iDisplayIndex ) {
+                   var index = iDisplayIndex +1;
+                   $('td:eq(0)',row).html(index);
+                   return row;
+         },
+    //   "columnDefs": [
+    //       { "width": "100px", "targets": 14}
+    //   ],
     });
+
+  //   $('#id_kab').change(function(){
+   
+   
+  //   t.ajax.url( `/manajemen_master/pekerjaan/list_json/${$('#id_kab').val()}` ).load();
+
+  // })
+
+ 
+
+
+
+      $('#data').on('click', '.reserved', function(e) {
+          // console.log($(this).attr('id_standar_harga'));
+          if($(this).length>1){
+            $(this).popover('hide');
+          }
+          $.getJSON( "/manajemen_jatuh_tempo/detail_reserved/"+$(this).attr('id_reserved'), function( data ) {
+            console.log(data)
+            $('.reserved').popover({
+                        "html": true,
+                        trigger: 'manual',
+                        placement: 'left',
+                        "content": function () {
+                          let text ="<ul class='list-unstyled'>";
+                  data.data.forEach(function(item){
+                    text+=`<li><a href="/manajemen_jatuh_tempo/edit/${item.id}">${item.kelas} : ${item.tahun_ajaran}</a>  <a href="/manajemen_jatuh_tempo/delete/${item.id}">[HAPUS]</a></li>`
+                  })
+                  text+="</ul>"
+                 return text;
+                        }
+                    })
+
+            $(e.target).popover('toggle');
+          })
+
+         
+      })
+
+
+      // $('#data').on('click', function(e) {
+      //     // console.log($(this).attr('id_standar_harga'));
+      //     if($(this).length>1)
+      //       $(this).popover('hide');
+      //      $(e.target).popover('toggle');
+       
+
+         
+      // })
+
+      
   });
 </script>

@@ -59,24 +59,45 @@ var upload = multer({ storage: storage })
 
 //start-------------------------------------
 router.get('/', cek_login, function(req, res) {
+ 
+  res.render('content-backoffice/manajemen_jatuh_tempo/list'); 
+});
+
+router.get('/list_json', cek_login, function(req, res) {
   var datane=[];
   var done=false;
-  connection.query("SELECT id, nama, sekolah, nisn, nipd from data_siswa where deleted=0", function(err, rows, fields) {
+  connection.query("SELECT id, nama, sekolah, nisn, nipd, (select count(id) from reserved where deleted=0 and id_siswa=data_siswa.id) as jmlReserved from data_siswa where deleted=0", function(err, rows, fields) {
     datane=rows;
     done=true;
   })
   deasync.loopWhile(function(){return !done;});
-  for(var index=0; index<datane.length; index++){
-    done=false;
-    datane[index].reserved=[];
-    connection.query("SELECT id, kelas, tahun_ajaran from reserved where deleted=0 and id_siswa="+datane[index].id, function(err, rows, fields) {
-      datane[index].reserved=rows;
+  // for(var index=0; index<datane.length; index++){
+  //   done=false;
+  //   datane[index].reserved=[];
+  //   connection.query("SELECT id, kelas, tahun_ajaran from reserved where deleted=0 and id_siswa="+datane[index].id, function(err, rows, fields) {
+  //     datane[index].reserved=rows;
+  //     done=true;
+  //   })
+  //   deasync.loopWhile(function(){return !done;});
+  // }
+  //res.json(datane);
+  res.json({data:datane}); 
+});
+
+router.get('/detail_reserved/:id_reserved', cek_login, function(req, res) {
+  var datane=[];
+
+ 
+   let done=false;
+    
+    connection.query("SELECT id, kelas, tahun_ajaran from reserved where deleted=0 and id_siswa="+req.params.id_reserved, function(err, rows, fields) {
+      datane=rows;
       done=true;
     })
     deasync.loopWhile(function(){return !done;});
-  }
+
   //res.json(datane);
-  res.render('content-backoffice/manajemen_jatuh_tempo/list',{data:datane}); 
+  res.json({data:datane}); 
 });
 
 router.get('/insert', cek_login, function(req, res) {
@@ -88,7 +109,14 @@ router.get('/insert', cek_login, function(req, res) {
 });
 
 router.get('/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_jatuh_tempo/edit'); 
+    connection.query("SELECT a.*, b.* from data_siswa a join reserved b on a.id = b.id_siswa where b.id="+req.params.id, function(err, rows, fields) {
+      connection.query("SELECT *, DATE_FORMAT(jatuh_tempo, '%Y-%m-%d') as tgl_tampil from tagihan where id_reserved="+req.params.id, function(err, tagihan, fields) {
+        res.render('content-backoffice/manajemen_jatuh_tempo/edit',{data_siswa:rows, tagihan}); 
+        })
+      
+    })
+ 
+
 });
 
 router.post('/submit_insert', function(req, res) {
