@@ -111,7 +111,7 @@
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
           $(".tambah-tipe").click(function(){
-            $("#tipe-perumahan").append('<tr><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>');
+            $("#tipe-perumahan").append('<tr><td><select class="form-control" name="" id=""><option>-- Pilih --</option></select></td><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><input type="text" class="form-control" name="" id=""></td><td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>');
           });
           $("#tipe-perumahan").on('click','.hapus-tipe',function(){
             $(this).parent().parent().remove();

@@ -166,16 +166,19 @@
 function simpan(){
         
         if($( "#nama" ).val()==''){
-            $('.modal-input').modal('toggle');
+          alert("Nama tidak boleh kosong!");
         }else{
             console.log("ok")
 
             $.post( "/manajemen_akun/submit_akun", { kode: $( "#kode_depan" ).val()+''+$( "#kode_belakang" ).val(), nama: $( "#nama" ).val(), balance: $( "#balance" ).val()})
         .done(function( data ) {
             console.log(data)
-                    
-                    alert(data);
+            if(data.data==1){
+                    alert("Berhasil!");
                     location.reload();
+                  }else{
+                    alert("Gagal Kode Sudah Ada !");
+                  }  
         });
 
         }
@@ -209,7 +212,7 @@ function edit(id){
     function simpan_edit(){
         
         if($( "#namae" ).val()==''){
-            $('.modal-edit').modal('toggle');
+          alert("Nama tidak boleh kosong!");
         }else{
             console.log("ok")
 
@@ -217,8 +220,12 @@ function edit(id){
         .done(function( data ) {
             console.log(data)
                     
-                    alert(data);
+            if(data.data==1){
+                    alert("Berhasil!");
                     location.reload();
+                  }else{
+                    alert("Gagal Kode Sudah Ada !");
+                  }  
         });
 
         }
