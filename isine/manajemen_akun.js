@@ -98,11 +98,19 @@ router.get('/beban', cek_login, function(req, res) {
 
 //objek
 router.get('/objek', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_objek/list'); 
+  connection.query("select * from sekolah where is_sekolah=0 and deleted=0", function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_objek/list',{data:rows}); 
+  })
 });
 
 router.get('/get_akun/:id', function(req, res) {
   connection.query("select * from akun where id="+req.params.id, function(err, data, fields) {
+  res.json(data)
+  })
+});
+
+router.get('/get_objek/:id', function(req, res) {
+  connection.query("select * from sekolah where id="+req.params.id, function(err, data, fields) {
   res.json(data)
   })
 });
@@ -113,15 +121,29 @@ router.post('/submit_akun', cek_login, function(req, res) {
  post = req.body;
  post['id_user']=req.user[0].id_user
 console.log(post)
-sql_enak.insert(post).into("akun").then(function (id) {
-  console.log(id);
-  idne=id;
+var cek_rows;
+var done=false;
+connection.query("select count(*) as jml from akun where kode='"+req.body.kode+"' and deleted=0", function(err, rows, fields) {
+cek_rows=rows[0].jml;
+console.log(cek_rows);
+done=true;
 })
-.finally(function() {
-  
-    res.send('Berhasil'); 
-    }) 
-  
+deasync.loopWhile(function(){return !done;});
+console.log('ini cek rows'+cek_rows);
+console.log(cek_rows==0)
+if(cek_rows==0){
+  console.log("jmbt");
+  sql_enak.insert(post).into("akun").then(function (id) {
+    console.log(id);
+    idne=id;
+  })
+  .finally(function() {
+    
+      res.json({data:1}); 
+      }) 
+}else{
+  res.json({data:0}); 
+}
 });
 
 router.post('/submit_edit', function(req, res) {
@@ -130,15 +152,26 @@ router.post('/submit_edit', function(req, res) {
  post = req.body;
  
 console.log(post)
+var cek_rows;
+var done=false;
+connection.query("select count(*) as jml from akun where kode='"+req.body.kode+"' and deleted=0 and id!="+req.body.id, function(err, rows, fields) {
+cek_rows=rows[0].jml;
+console.log(cek_rows);
+done=true;
+})
+deasync.loopWhile(function(){return !done;});
+if(cek_rows==0){
    sql_enak("akun").where("id", req.body.id)
   .update(post).then(function (count) {
  console.log(count);
 })
 .finally(function() {
   
-    res.send('Berhasil'); 
+  res.json({data:1}); 
     }) 
-  
+}else{
+  res.json({data:0}); 
+}
 });
 
 router.get('/delete/:id', cek_login, function(req, res) {
@@ -155,4 +188,54 @@ router.get('/delete/:id', cek_login, function(req, res) {
   
 });
 
+
+router.post('/submit_objek', cek_login, function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ 
+console.log(post)
+
+sql_enak.insert(post).into("sekolah").then(function (id) {
+  console.log(id);
+  idne=id;
+})
+.finally(function() {
+  
+    res.send('Berhasil'); 
+    }) 
+  
+});
+
+router.post('/update_objek', cek_login, function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ 
+console.log(post)
+
+sql_enak("sekolah").where("id", req.body.id)
+  .update(post).then(function (count) {
+ console.log(count);
+})
+.finally(function() {
+  
+    res.send('Berhasil'); 
+    }) 
+  
+});
+
+router.get('/delete_objek/:id', cek_login, function(req, res) {
+  
+  // senjata
+  // console.log(req.params.id)
+  connection.query("update sekolah SET deleted=1 WHERE id='"+req.params.id+"'", function(err, rows, fields) {
+    
+  //  if (err) throw err;
+    numRows = rows.affectedRows;
+    res.send("Berhasil")
+  })
+
+  
+});
 module.exports = router;
