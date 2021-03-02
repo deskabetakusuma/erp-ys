@@ -66,13 +66,13 @@ router.get('/kelas', cek_login, function(req, res) {
 });
 
 router.get('/kelas/insert', cek_login, function(req, res) {
-  connection.query("SELECT * from sekolah where deleted=0", function(err, rows, fields) {
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rows, fields) {
   res.render('content-backoffice/manajemen_kelas/insert',{sekolah:rows}); 
   })
 });
 
 router.get('/kelas/edit/:id', cek_login, function(req, res) {
-  connection.query("SELECT * from sekolah where deleted=0", function(err, rowss, fields) {
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rowss, fields) {
   connection.query("SELECT * from kelas where id='"+req.params.id+"'", function(err, rows, fields) {
   res.render('content-backoffice/manajemen_kelas/edit', {data:rows, sekolah:rowss}); 
   });
