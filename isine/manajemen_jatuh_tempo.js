@@ -118,7 +118,20 @@ router.get('/edit/:id', cek_login, function(req, res) {
  
 
 });
+router.post('/submit_edit/:tipe/:id_reserved', function(req, res) {
+  console.log(req.body)
+  connection.query(`delete from tagihan where jenis_tagihan='${req.params.tipe}' and id_reserved=${req.params.id_reserved};`, function(err, aa, fields) {
+    for(var i=0;i<req.body.jatuh_tempo.length;i++){
+      connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo) VALUES ('"+req.params.id_reserved+"', '"+req.params.tipe+"', '"+req.body.nominal_tagihan[i]+"','"+req.body.jatuh_tempo[i]+"');", function(err, aa, fields) {
+       
+    })
+    }
+    res.sendStatus(200)
+  })
+    
 
+
+})
 router.post('/submit_insert', function(req, res) {
   var idne ="";
   var post = {}
