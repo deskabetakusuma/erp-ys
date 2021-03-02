@@ -99,6 +99,7 @@
                         </thead>
 
                         <tbody>
+                          <form id="formSpp">
                           <% for(let i =0; i < tagihan.length; i++){
                             if(tagihan[i].jenis_tagihan=='spp'){
                             %>
@@ -108,8 +109,8 @@
                             <td><input type="text" class="form-control" name="" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
                           </tr>
                           <%}}%>
-                         
-
+                          <button>Update</button>
+                        </form>
                         </tbody>
                       </table>
                     </div>
