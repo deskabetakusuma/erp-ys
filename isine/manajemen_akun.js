@@ -60,79 +60,99 @@ var upload = multer({ storage: storage })
 //start-------------------------------------
 // aset
 router.get('/aset', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_aset/list'); 
-});
-
-router.get('/aset/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_aset/insert'); 
-});
-
-router.get('/aset/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_aset/edit'); 
+  connection.query("select * from akun where LEFT(kode, 1)=1 and deleted=0", function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_aset/list',{data:rows}); 
+  })
 });
 
 // hutang
 router.get('/hutang', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_hutang/list'); 
+  connection.query("select * from akun where LEFT(kode, 1)=2 and deleted=0", function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_hutang/list',{data:rows}); 
+  })
 });
 
-router.get('/hutang/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_hutang/insert'); 
-});
-
-router.get('/hutang/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_hutang/edit'); 
-});
 
 // modal
 router.get('/modal', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_modal/list'); 
+  connection.query("select * from akun where LEFT(kode, 1)=3 and deleted=0", function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_modal/list',{data:rows}); 
+  })
 });
 
-router.get('/modal/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_modal/insert'); 
-});
-
-router.get('/modal/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_modal/edit'); 
-});
 
 // pendapatan
 router.get('/pendapatan', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_pendapatan/list'); 
-});
-
-router.get('/pendapatan/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_pendapatan/insert'); 
-});
-
-router.get('/pendapatan/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_pendapatan/edit'); 
+  connection.query("select * from akun where LEFT(kode, 1)=4 and deleted=0", function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_pendapatan/list',{data:rows});
+  }) 
 });
 
 // beban
 router.get('/beban', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_beban/list'); 
+  connection.query("select * from akun where LEFT(kode, 1)=6 and deleted=0", function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_beban/list',{data:rows}); 
+  })
 });
 
-router.get('/beban/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_beban/insert'); 
-});
-
-router.get('/beban/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_beban/edit'); 
-});
 
 //objek
 router.get('/objek', cek_login, function(req, res) {
   res.render('content-backoffice/manajemen_objek/list'); 
 });
 
-router.get('/objek/insert', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_objek/insert'); 
+router.get('/get_akun/:id', function(req, res) {
+  connection.query("select * from akun where id="+req.params.id, function(err, data, fields) {
+  res.json(data)
+  })
 });
 
-router.get('/objek/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_objek/edit'); 
+router.post('/submit_akun', cek_login, function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ post['id_user']=req.user[0].id_user
+console.log(post)
+sql_enak.insert(post).into("akun").then(function (id) {
+  console.log(id);
+  idne=id;
+})
+.finally(function() {
+  
+    res.send('Berhasil'); 
+    }) 
+  
 });
+
+router.post('/submit_edit', function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ 
+console.log(post)
+   sql_enak("akun").where("id", req.body.id)
+  .update(post).then(function (count) {
+ console.log(count);
+})
+.finally(function() {
+  
+    res.send('Berhasil'); 
+    }) 
+  
+});
+
+router.get('/delete/:id', cek_login, function(req, res) {
+  
+  // senjata
+  // console.log(req.params.id)
+  connection.query("update akun SET deleted=1 WHERE id='"+req.params.id+"'", function(err, rows, fields) {
+    
+  //  if (err) throw err;
+    numRows = rows.affectedRows;
+    res.send("Berhasil")
+  })
+
+  
+});
+
 module.exports = router;
