@@ -60,8 +60,12 @@ var upload = multer({ storage: storage })
 //start-------------------------------------
 // aset
 router.get('/aset', cek_login, function(req, res) {
-  connection.query("select * from akun where LEFT(kode, 1)=1 and deleted=0", function(err, rows, fields) {
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
+  from akun a
+    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=1 and a.deleted=0`, function(err, rows, fields) {
   res.render('content-backoffice/manajemen_aset/list',{data:rows}); 
+  //res.json(rows)
   })
 });
 

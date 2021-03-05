@@ -16,30 +16,47 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-header header-line">
-          
+          <form action="#">
+              <input type="text" name="tgl_start" placeholder="tgl start" value="<%= tgl_start%>">
+              <input type="text" name="tgl_end" placeholder="tgl akhir" value="<%= tgl_end%>">
+              <button id="cari">CARI</button>
+            </form>
         </div>
         <div class="panel-content pagination2">
           <table class="table table-bordered table-striped table-hover" id="data">
             <thead>
               <tr>
                 <th class="header">No.</th>
-                <th class="header">Tanggal</th>
-                <th class="header">Id</th>
+                <!-- <th class="header">Tanggal</th> -->
+                <th class="header">Kode</th> 
                 <th class="header">Akun</th>
                 <th class="header">Debit</th>
                 <th class="header">Kredit</th>
+                <th class="header">Catatan</th>
               </tr>
             </thead>
             
             <tbody>
+              <% for(let a=0; a< data.length; a++){%>
             <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
+              <td colspan="6"><%= data[a].tgl_tampil%> - <%= data[a].no_id%> - <%= data[a].keterangan%></td>
+              <td style="display: none;"></td>
+              <td style="display: none;"></td>
+              <td style="display: none;"></td>
+              <td style="display: none;"></td>
+              <td style="display: none;"></td>
             </tr>
+            <% for(let b=0; b< data[a].subjurnal.length; b++){%>
+              <tr>
+                <td></td>
+                <td><%= data[a].subjurnal[b].kode_akun%></td>
+                <td><%= data[a].subjurnal[b].nama%></td>
+                <td><%= data[a].subjurnal[b].debit%></td>
+                <td><%= data[a].subjurnal[b].credit%></td>
+                <td><%= data[a].subjurnal[b].catatan%></td>
+              </tr>
+              <%}%>
+            <%}%>
             </tbody>
           </table>
         </div>
@@ -62,6 +79,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('#data').DataTable({
+      "ordering": false,
       "language": {
           "sProcessing":   "Sedang memproses...",
           "sLengthMenu":   "_MENU_",
@@ -78,9 +96,61 @@
             "sLast":     "Terakhir"
           }
       },
-      "columnDefs": [
-          { "width": "100px", "targets": 1}
-      ],
+      // "processing": true,
+      //      "ajax": "/manajemen_jurnal/pemasukan_json",
+      //      "columns": [
+      //          { "data": null},
+      //         //  { "data": "jenis"},
+      //          { "data": "nama"},
+      //          { "data": "satuan"},
+      //         //  { "data": "hargaSurvey", render: function(data){
+      //         //   //  console.log(data)
+      //         //   let text ="<ul>";
+      //         //     data.forEach(function(item){
+      //         //       text+=`<li>${item.nama_toko} : ${item.harga}</li>`
+      //         //     })
+      //         //     text+="</ul>"
+      //         //    return text;
+      //         //  }},
+      //          { "data": null, render: function(data){
+      //            (!data.hargaMin)?data.hargaMin=0:data.hargaMin;
+      //             return `<a href="#" class="hargamin" id_standar_harga="${data.id}">${data.hargaMin}</a>`;
+      //          }},
+              
+      //    ],
+      //   //  'rowsGroup': [1],
+      // //    'createdRow': function(row, data, dataIndex){
+      // //    // Use empty value in the "Office" column
+      // //    // as an indication that grouping with COLSPAN is needed
+      // //    if(data[1] === ''){
+      // //       // Add COLSPAN attribute
+      // //       $('td:eq(0)', row).attr('colspan', 5);
+
+      // //       // Hide required number of columns
+      // //       // next to the cell with COLSPAN attribute
+      // //       $('td:eq(1)', row).css('display', 'none');
+      // //       $('td:eq(2)', row).css('display', 'none');
+      // //       $('td:eq(3)', row).css('display', 'none');
+      
+      // //    }
+      // // },
+      //    "deferRender": true,
+      //    // "ordering": false,
+      //   //  "columnDefs": [
+      //   //      { "width": "3%" },
+      //   //      { "width": "20%" },
+      //   //      { "width": "24%" },
+      //   //      { "width": "10%" },
+      //   //      { "width": "20%" },
+      //   //      { "width": "20%" },
+    
+      //   //      { "width": "20%" }
+      //   //   ],
+      //    "fnRowCallback": function( row, data, iDisplayIndex ) {
+      //              var index = iDisplayIndex +1;
+      //              $('td:eq(0)',row).html(index);
+      //              return row;
+      //    },
     });
   });
 </script>

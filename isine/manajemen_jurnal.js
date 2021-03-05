@@ -15,6 +15,7 @@ var passport = require('passport')
   var multer = require("multer");
   var st = require('knex-postgis')(sql_enak);
   var deasync = require('deasync');
+  var moment = require('moment');
   path.join(__dirname, '/public/foto')
   router.use(bodyParser.json());
   router.use(bodyParser.urlencoded({ extended: true }));
@@ -58,13 +59,81 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 //start-------------------------------------s
-
+moment.locale('ID');
 router.get('/pemasukan', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_jurnal/pemasukan'); 
+  var datane=[];
+  var q="";
+  let tgl_start='';
+  let tgl_end='';
+  if(req.query.tgl_start){
+    tgl_start = req.query.tgl_start;
+    q+=" and tgl>='"+req.query.tgl_start+"'"
+  }
+  if(req.query.tgl_end){
+    tgl_end= req.query.tgl_end
+    q+=" and tgl<='"+req.query.tgl_end+"'"
+  }
+  var done=false;
+  connection.query("select *, DATE_FORMAT(tgl,'%d %m %Y') as tgl2 from jurnal where is_pemasukan=1"+q, function(err, rows, fields) {
+datane=rows;
+for(let i =0; i < datane.length; i++){
+   datane[i].tgl_tampil =  moment(datane[i].tgl).format('dddd D/MMMM/YYYY')
+}
+done=true;
+  })
+  deasync.loopWhile(function(){return !done;});
+  for(var i=0;i<datane.length;i++){
+    datane[i].subjurnal=[];
+    done=false;
+    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+datane[i].id, function(err, rows, fields) {
+      datane[i].subjurnal=rows;
+      done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+  }
+  res.render('content-backoffice/manajemen_jurnal/pemasukan',{data:datane, tgl_start, tgl_end}); 
+  // res.json({data:datane})
 });
 
+// router.get('/pemasukan', cek_login, function(req, res) {
+//   res.render('content-backoffice/manajemen_jurnal/pemasukan'); 
+ 
+// })
+
 router.get('/pengeluaran', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_jurnal/pengeluaran'); 
+  var datane=[];
+  var q="";
+  let tgl_start='';
+  let tgl_end='';
+  if(req.query.tgl_start){
+    tgl_start = req.query.tgl_start;
+    q+=" and tgl>='"+req.query.tgl_start+"'"
+  }
+  if(req.query.tgl_end){
+    tgl_end= req.query.tgl_end
+    q+=" and tgl<='"+req.query.tgl_end+"'"
+  }
+  var done=false;
+  connection.query("select *, DATE_FORMAT(tgl,'%d %m %Y') as tgl2 from jurnal where is_pemasukan=0"+q, function(err, rows, fields) {
+datane=rows;
+for(let i =0; i < datane.length; i++){
+  datane[i].tgl_tampil =  moment(datane[i].tgl).format('dddd D/MMMM/YYYY')
+}
+done=true;
+  })
+  deasync.loopWhile(function(){return !done;});
+  for(var i=0;i<datane.length;i++){
+    datane[i].subjurnal=[];
+    done=false;
+    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+datane[i].id, function(err, rows, fields) {
+      datane[i].subjurnal=rows;
+      done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+  }
+  
+  // res.json(datane)
+  res.render('content-backoffice/manajemen_jurnal/pengeluaran',{data:datane, tgl_start, tgl_end}); 
 });
 
 module.exports = router;

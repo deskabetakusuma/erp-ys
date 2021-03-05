@@ -67,4 +67,56 @@ router.get('/insert', cek_login, function(req, res) {
 
 });
 
+router.post('/submit', cek_login, function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ 
+console.log(post)
+var kode_akun=req.body.kode_akun;
+var nominal=req.body.nominal;
+var sub_kode=[];
+if(req.body.sub_kode){
+  sub_kode=req.body.sub_kode;
+}
+
+var jumlah=[];
+
+if(req.body.jumlah){
+  jumlah=req.body.jumlah;
+}
+var catatan=[];
+if(req.body.catatan){
+  catatan=req.body.catatan;
+}
+
+post['is_pemasukan']=1;
+post['id_user']=req.user[0].id_user;
+delete post.sub_kode;
+
+delete post.jumlah;
+delete post.catatan;
+delete post.kode_akun;
+delete post.nominal;
+console.log(sub_kode);
+
+console.log(jumlah);
+console.log(catatan);
+console.log(post);
+sql_enak.insert(post).into("jurnal").then(function (id) {
+  console.log(id);
+  idne=id;
+})
+.finally(function() {
+  connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, debit) VALUES ('"+idne+"', '"+kode_akun+"', '"+nominal+"');", function(err, aa, fields) {
+  for(var i=0;i<sub_kode.length;i++){
+    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, credit, catatan) VALUES ('"+idne+"', '"+sub_kode[i]+"', '"+jumlah[i]+"','"+catatan[i]+"');", function(err, aa, fields) {
+      console.log("insert sub jurnal");
+    })
+  }
+})
+    res.send('Berhasil'); 
+    }) 
+  
+});
 module.exports = router;
