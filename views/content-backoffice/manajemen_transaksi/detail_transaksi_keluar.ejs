@@ -1,0 +1,130 @@
+<% include ../../template-backoffice/header.ejs %>
+
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Detail Transaksi Keluar</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a>
+        </li>
+        <li class="active">Data</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-6 col-lg-6 table-no-border">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td style="width: 160px;">Akun</td>
+                    <td style="width: 1px;">:</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Objek</td>
+                    <td>:</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Keterangan</td>
+                    <td>:</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-lg-6 table-no-border">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td style="width: 160px;">Id</td>
+                    <td style="width: 1px;">:</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Tanggal</td>
+                    <td>:</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Nominal</td>
+                    <td>:</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Akun</th>
+                    <th>Jumlah</th>
+                    <th>Catatan</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#data').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      "columnDefs": [
+          { "width": "60px", "targets": 4}
+      ],
+    });
+  });
+</script>

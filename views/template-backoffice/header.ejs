@@ -134,14 +134,14 @@
        TAB - Light
     --------------------------------------*/
     .tab.tab-light .nav-tabs{width:100%; margin:0px; margin-bottom:-1px; border-bottom:1px solid #e6e6e6; text-align:center;}
-    .tab.tab-light .nav-tabs li{margin-right:0; width:auto; float:none; margin:0 1px; border:1px solid #e0e0e0; background:#aa0418; border-bottom:none;}
+    .tab.tab-light .nav-tabs li{margin-right:0; width:auto; float:none; margin:0 1px; border:1px solid #e0e0e0; background:#18a689 ; border-bottom:none;}
     .tab.tab-light .nav-tabs li:last-child{margin-right:0px;}
     .tab.tab-light .nav-tabs li.active{border-bottom:none; background:none;}
     .tab.tab-light .nav-tabs li a{border:none; display:block; background:none; padding:18px 25px; color:#fff; position:relative;}
     .tab.tab-light .nav-tabs li a i{display:none;}
     .tab.tab-light .nav-tabs li a span{text-align:left; vertical-align:middle;}
     .tab.tab-light .nav-tabs li.active a{color:#000;}
-    .tab.tab-light .nav-tabs li a:before{content:""; width:0; height:3px; margin:0; background:#aa0418; position:absolute; left:50%; top:-1px; -webkit-transition: all .3s ease; -o-transition: all .3s ease; transition: all .3s ease;}
+    .tab.tab-light .nav-tabs li a:before{content:""; width:0; height:3px; margin:0; background:#18a689 ; position:absolute; left:50%; top:-1px; -webkit-transition: all .3s ease; -o-transition: all .3s ease; transition: all .3s ease;}
     .tab.tab-light .nav-tabs li.active a:before{width:100%; left:0;}
     .tab.tab-light .nav-tabs li.active a:after{content:""; width:100%; height:2px; margin:0; background:#ffffff; position:absolute; left:0; bottom:-2px;}
 
@@ -207,7 +207,7 @@
           
 
           <ul class="nav nav-sidebar">
-            <!-- <li><a href="/manajemen_basic"><i class="icon-layers"></i><span>Menu Normal</span></a></li> -->
+            <li><a href="/backoffice"><i class="icon-layers"></i><span>Dashboard</span></a></li>
             <li class="nav-parent">  
               <a href="#"><i class="icon-layers"></i><span>Master</span> <span class="fa arrow"></span></a>  
               <ul class="children collapse">  
@@ -230,7 +230,7 @@
 
             
             <li><a href="/manajemen_siswa"><i class="icon-layers"></i><span>Siswa</span></a></li>
-            <li><a href="/manajemen_jatuh_tempo"><i class="icon-layers"></i><span>Jatuh Tempo</span></a></li>
+            <li><a href="/manajemen_jatuh_tempo"><i class="icon-layers"></i><span>Piutang Siswa</span></a></li>
             <li><a href="/manajemen_pemasukan/insert"><i class="icon-layers"></i><span>Pemasukan</span></a></li>
             <li><a href="/manajemen_pengeluaran/insert"><i class="icon-layers"></i><span>Pengeluaran</span></a></li>
             <li><a href="/manajemen_pembayaran"><i class="icon-layers"></i><span>Pembayaran</span></a></li>
@@ -239,6 +239,15 @@
               <ul class="children collapse">  
                 <li><a href="/manajemen_jurnal/pemasukan"><i class="icon-layers"></i><span>Pemasukan</span></a></li> 
                 <li><a href="/manajemen_jurnal/pengeluaran"><i class="icon-layers"></i><span>Pengeluaran</span></a></li> 
+               
+              </ul>  
+            </li> 
+
+            <li class="nav-parent">  
+              <a href="#"><i class="icon-layers"></i><span>Pengajuan Approval</span> <span class="fa arrow"></span></a>  
+              <ul class="children collapse">  
+                <li><a href="/manajemen_permintaan/pemasukan"><i class="icon-layers"></i><span>Pemasukan</span></a></li> 
+                <li><a href="/manajemen_permintaan/pengeluaran"><i class="icon-layers"></i><span>Pengeluaran</span></a></li> 
                
               </ul>  
             </li> 

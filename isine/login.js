@@ -30,7 +30,7 @@ passport.use(new LocalStrategy({
   passReqToCallback : true
 },
   function(req, username, password, done) {
-    connection.query("SELECT * from user WHERE username='"+username+"'", function(err, rows, fields) {
+    connection.query("SELECT * from user WHERE username='"+username+"' and deleted=0", function(err, rows, fields) {
       if (err) throw err;
    
     //  console.log(rows)
@@ -109,7 +109,7 @@ router.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
 console.log(req.user)
-    res.redirect("/izin_pemanfaatan_ruang")}
+    res.redirect("/")}
   );
 
 

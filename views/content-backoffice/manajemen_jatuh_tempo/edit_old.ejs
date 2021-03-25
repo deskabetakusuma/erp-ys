@@ -1,0 +1,317 @@
+<% include ../../template-backoffice/header.ejs %>
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Edit Data Siswa</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a></li>
+        <li><a href="/manajemen_master/siswa">Data</a></li>
+        <li class="active">Edit Data</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+ 
+            <div class="tab tab-light clearfix"> 
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SISWA</span></a></li>
+                  <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA SPP</span></a></li>
+                  <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA OPERASIONAL</span></a></li>
+                  <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA GEDUNG & SERAGAM</span></a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content" style="padding-left: 0;">
+                <div role="tabpanel" class="tab-pane fade active in" id="tab2-1">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Sekolah</label>
+                        <div class="col-sm-10">
+                          <%= data_siswa[0].sekolah%>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Kelas</label>
+                        <div class="col-sm-10">
+                          <%= data_siswa[0].kelas%>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Tahun Ajaran</label>
+                        <div class="col-sm-10">
+                          <%= data_siswa[0].tahun_ajaran%>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Nama</label>
+                        <div class="col-sm-10">
+                          <%= data_siswa[0].nama%>
+                        </div>
+                      </div>
+
+
+                      
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-2">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <div class="panel bg-aero">
+                        <div class="panel-header ui-sortable-handle">
+                          <h3>Input jatuh tempo dan nominal otomatis</h3>
+                        </div>
+                        <div class="panel-content table-no-border">
+                          <table class="table table-bordered">
+                            <tbody>
+                              <tr>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control tgl" name="" id="tanggale" placeholder="Tanggal Jatuh Tempo"></td>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="nominale" placeholder="Nominal Pembayaran"></td>
+                                <td style="padding: 0 10px;margin: 0;"><button class="btn btn-primary btn-embossed" id="proses">Proses</button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <form id="formSpp">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th style="width: 20px;">Pembayaran</th>
+                            <th>Tanggal Jatuh Tempo</th>
+                            <th>Nominal Pembayaran</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                       
+                          <% 
+                          let a =0;
+                           for(let i =0; i < tagihan.length; i++){
+                           
+                            if(tagihan[i].jenis_tagihan=='spp'){
+                              a++
+                            %>
+                          <tr>
+                            <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
+                            <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
+                            <td style="text-align: center;"><%= a%></td>
+                            <td><input type="text" class="form-control tgl" id="tempo_<%=a%>" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control nom" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
+                          </tr>
+                          <%}}%>
+                         
+                        </tbody>
+                      </table>
+                      <button>Update</button>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-3">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <form id="formOperasional">
+                      <table class="table table-bordered" id="operasional">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">Tanggal Pembayaran</th>
+                            <th style="text-align: center;">Nominal Pembayaran</th>
+                            <th style="text-align: center;width: 100px;">Option</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for(let i =0; i < tagihan.length; i++){
+                            if(tagihan[i].jenis_tagihan=='operasional'){
+                            %>
+                          <tr>
+                            <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
+                            <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
+                          
+                            <td><input type="text" class="form-control tgl" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
+                            <td><center><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></center></td>
+
+                          </tr>
+                          <%}}%>
+                         
+                        </tbody>
+                      </table>
+                      <span class="btn btn-primary tambah-operasional">Tambah Pembayaran</span>
+              
+                      <button>Update</button>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+    
+                <div role="tabpanel" class="tab-pane fade" id="tab2-4">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <form id="formGesam">
+                      <table class="table table-bordered" id="gesam">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">Tanggal Pembayaran</th>
+                            <th style="text-align: center;">Nominal Pembayaran</th>
+                            <th style="text-align: center;width: 100px;">Option</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for(let i =0; i < tagihan.length; i++){
+                            if(tagihan[i].jenis_tagihan=='gedung'){
+                            %>
+                          <tr>
+                            <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
+                            <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
+                          
+                            <td><input type="text" class="form-control tgl" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
+                            <td><input type="text" class="form-control" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
+                            <td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td>
+                          </tr>
+                          <%}}%>
+                         
+                        </tbody>
+                      </table>
+                      <span class="btn btn-primary tambah-gesam">Tambah Pembayaran</span>
+                      <button>Update</button>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+    
+                
+              </div>
+            </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+<script src="/plugins/moment/moment.js"></script>
+<% include ../../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+moment.addRealMonth = function addRealMonth(d) {
+  var fm = moment(d).add(1, 'M');
+  var fmEnd = moment(fm).endOf('month');
+  return d.date() != fm.date() && fm.isSame(fmEnd.format('YYYY-MM-DD')) ? fm.add(1, 'd') : fm;  
+}
+
+$("#proses").click(function(){
+  
+  // console.log(cicil);
+  var mont=$("#tanggale").val();
+  var nominal=$("#nominale").val();
+  $(".nom").val(nominal);
+  for(var i=1; i<=12; i++){
+    
+    $("#tempo_"+i+"").val(mont);
+    
+    var nextMonth = moment.addRealMonth(moment(mont));
+    
+    mont = nextMonth.format('YYYY-MM-DD')
+  }
+
+  
+
+})
+
+  $(".tambah-operasional").click(function(){ 
+    $("#operasional").append('<tr><td><input type="text" class="form-control tgl" name="jatuh_tempo[]" id="" placeholder="Tanggal Pembayaran"></td><td><input type="text" class="form-control" name="nominal_tagihan[]" id="" placeholder="Nominal Pembayaran"></td><td><center><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></center></td></tr>');
+    $('#operasional').find(".tgl").datepicker({
+              format: 'yyyy-mm-dd',
+              orientation: "auto top",
+              autoclose: true,
+              todayHighlight:true,
+    });
+  });
+  $("#operasional").on('click','.hapus-operasional',function(){
+    $(this).parent().parent().parent().remove();
+  });
+
+  $(".tambah-gesam").click(function(){ 
+    $("#gesam").append('<tr><td><input type="text" class="form-control tgl" name="jatuh_tempo[]" id="" placeholder="Tanggal Pembayaran"></td><td><input type="text" class="form-control" name="nominal_tagihan[]" id="" placeholder="Nominal Pembayaran"></td><td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td></tr>');
+    $('#gesam').find(".tgl").datepicker({
+              format: 'yyyy-mm-dd',
+              orientation: "auto top",
+              autoclose: true,
+              todayHighlight:true,
+    });
+  });
+  $("#gesam").on('click','.hapus-gesam',function(){
+    $(this).parent().parent().parent().remove();
+  });
+
+  $("#formSpp").submit(function(e){
+    e.preventDefault();
+    var form = $(this);
+   
+    
+    $.ajax({
+           type: "POST",
+           url: "/manajemen_jatuh_tempo/submit_edit/spp/<%= tagihan[0].id_reserved%>",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
+  })
+
+  $("#formOperasional").submit(function(e){
+    e.preventDefault();
+    var form = $(this);
+   
+    
+    $.ajax({
+           type: "POST",
+           url: "/manajemen_jatuh_tempo/submit_edit/operasional/<%= tagihan[0].id_reserved%>",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
+  })
+
+  $("#formGesam").submit(function(e){
+    e.preventDefault();
+    var form = $(this);
+   
+    
+    $.ajax({
+           type: "POST",
+           url: "/manajemen_jatuh_tempo/submit_edit/gedung/<%= tagihan[0].id_reserved%>",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
+  })
+</script>

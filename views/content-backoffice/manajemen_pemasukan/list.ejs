@@ -1,9 +1,9 @@
-  <% include ../../template-backoffice/header.ejs %>
+<% include ../../template-backoffice/header.ejs %>
 
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
-    <h2><strong>Data Pembayaran</strong></h2>
+    <h2><strong>Data</strong></h2>
     <div class="breadcrumb-wrapper">
       <ol class="breadcrumb">
         <li><a href="/backoffice">Dashboard</a>
@@ -16,38 +16,32 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-header header-line">
-           <a class="btn btn-primary btn-embossed" href="/manajemen_pembayaran/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
+           <a class="btn btn-primary btn-embossed" href="/manajemen_basic/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
         </div>
         <div class="panel-content pagination2">
-          <div class="row">
-            <div class="col-md-12 col-lg-12">
-              <table class="table table-bordered table-striped table-hover" id="data">
-                <thead>
-                  <tr>
-                    <th class="header">No.</th>
-                    <th class="header">Sekolah</th>
-                    <th class="header">Siswa</th>
-                    <th class="header">Tanggal Pembayaran</th>
-                    <th class="header">kategori</th>
-                    <th class="header">Nominal</th>
-                  </tr>
-                </thead>
-                
-                <tbody>
-                  <% for(var i=0; i<data.length; i++){ %>
-                  <tr>
-                    <td><%= i+1%></td>
-                    <td><%= data[i].sekolah%></td>
-                    <td><%= data[i].nama%></td>
-                    <td><%= data[i].tgl2%></td>
-                    <td><%= data[i].jenis%></td>
-                    <td><%= data[i].nominal%></td>
-                  </tr>
-                  <%}%>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <table class="table table-bordered table-striped table-hover" id="data">
+            <thead>
+              <tr>
+                <th class="header">No.</th>
+                <th class="header">Option</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+            <tr>
+              <td>-</td>
+              <td>
+                <center>
+                <ul class="list-inline">
+                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/manajemen_basic/edit/1" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+                  <li class="separator">|</li>
+                  <li><a class="btn btn-danger btn-embossed btn-sm" href="#" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+                </ul>
+                </center>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>  
@@ -84,12 +78,9 @@
             "sLast":     "Terakhir"
           }
       },
-      // "columnDefs": [
-      //     { "width": "100px", "targets": 2}
-      // ],
+      "columnDefs": [
+          { "width": "100px", "targets": 1}
+      ],
     });
-  
-
-  
   });
 </script>

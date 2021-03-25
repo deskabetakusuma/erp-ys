@@ -11,6 +11,7 @@ var express = require('express')
   , cookieParser = require('cookie-parser')
   , flash=require("connect-flash")
   , LocalStrategy = require('passport-local').Strategy;
+  var deasync = require('deasync');
 
 var login = require('./isine/login').router;
 var peta = require('./isine/topojson');
@@ -28,6 +29,8 @@ var manajemen_pemasukan = require('./isine/manajemen_pemasukan');
 var manajemen_pengeluaran = require('./isine/manajemen_pengeluaran');
 var manajemen_jurnal = require('./isine/manajemen_jurnal');
 var manajemen_pembayaran = require('./isine/manajemen_pembayaran');
+var manajemen_transaksi = require('./isine/manajemen_transaksi');
+var manajemen_permintaan = require('./isine/manajemen_permintaan');
 
 
 var app = express();
@@ -109,20 +112,199 @@ app.use('/manajemen_pemasukan', manajemen_pemasukan);
 app.use('/manajemen_pengeluaran', manajemen_pengeluaran);
 app.use('/manajemen_jurnal', manajemen_jurnal);
 app.use('/manajemen_pembayaran', manajemen_pembayaran);
+app.use('/manajemen_transaksi', manajemen_transaksi);
+app.use('/manajemen_permintaan', manajemen_permintaan);
 
 
-app.get('/', cek_login, function (req, res) {
-  console.log(req.user)
-  res.render('content-backoffice/index');
-});
+// app.get('/', cek_login, function (req, res) {
+//   console.log(req.user)
+//   res.render('content-backoffice/index');
+// });
 
 
 app.get('/backoffice', cek_login, function (req, res) {
-  console.log(req.user)
-  res.render('content-backoffice/index');
+  var objek=[];
+  var done=false;
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, data, fields) {
+    objek=data;
+  done=true;
+  })
+  deasync.loopWhile(function(){return !done;});
+  for(var i=0; i<objek.length;i++){
+    objek[i].pemasukan_debit=0;
+    objek[i].pemasukan_credit=0;
+    objek[i].pengeluaran_debit=0;
+    objek[i].pengeluaran_credit=0;
+    objek[i].nunggak=0;
+    objek[i].nunggak_spp=0;
+    objek[i].nunggak_seragam=0;
+    objek[i].nunggak_gedung=0;
+    objek[i].nunggak_kegiatan=0;
+    objek[i].nomnunggak=0;
+    objek[i].nomnunggak_spp=0;
+    objek[i].nomnunggak_seragam=0;
+    objek[i].nomnunggak_gedung=0;
+    objek[i].nomnunggak_kegiatan=0;
+    objek[i].jml_siswa=0;
+    done=false;
+    console.log("SELECT a.is_pemasukan, sum(b.debit) as debit, sum(b.credit) as credit from jurnal a join subjurnal b on a.id=b.id_jurnal where a.approval=1 and a.id_objek='"+objek[i].nama+"' group by a.is_pemasukan")
+    connection.query("SELECT a.is_pemasukan, sum(b.debit) as debit, sum(b.credit) as credit from jurnal a join subjurnal b on a.id=b.id_jurnal where a.approval=1 and a.id_objek='"+objek[i].nama+"' group by a.is_pemasukan", function(err, data, fields) {
+      for(var j=0;j<data.length;j++){
+        if(data[j].debit!=null && data[j].is_pemasukan==1){
+          objek[i].pemasukan_debit=data[j].debit;
+        }
+        if(data[j].credit!=null && data[j].is_pemasukan==1){
+        objek[i].pemasukan_credit=data[j].credit;
+        }
+        if(data[j].debit!=null && data[j].is_pemasukan==0){
+          objek[i].pengeluaran_debit=data[j].debit;
+        }
+        if(data[j].credit!=null && data[j].is_pemasukan==0){
+        objek[i].pengeluaran_credit=data[j].credit;
+        }
+      }
+      
+      
+    done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+
+
+      done=false;
+      connection.query("SELECT a.id, b.spp as bayar_spp, b.dana_kegiatan as bayar_kegiatan, b.seragam as bayar_seragam, b.gedung as bayar_gedung, c.t_spp as tagihan_spp, c.t_kegiatan as tagihan_kegiatan, c.t_seragam as tagihan_seragam, c.t_gedung as tagihan_gedung from data_siswa a left join (select id_siswa, SUM(CASE WHEN jenis ='SPP' THEN nominal ELSE 0 END) as spp, SUM(CASE WHEN jenis ='Dana Kegiatan' THEN nominal ELSE 0 END) as dana_kegiatan, SUM(CASE WHEN jenis ='Seragam' THEN nominal ELSE 0 END) as seragam, SUM(CASE WHEN jenis ='Sumbangan Gedung' THEN nominal ELSE 0 END) as gedung from pembayaran group by id_siswa) b on a.id = b.id_siswa left join (select id_siswa, SUM(CASE WHEN jenis_tagihan ='SPP' THEN nominal_tagihan ELSE 0 END) as t_spp, SUM(CASE WHEN jenis_tagihan ='Dana Kegiatan' THEN nominal_tagihan ELSE 0 END) as t_kegiatan, SUM(CASE WHEN jenis_tagihan ='Seragam' THEN nominal_tagihan ELSE 0 END) as t_seragam, SUM(CASE WHEN jenis_tagihan ='Sumbangan Gedung' THEN nominal_tagihan ELSE 0 END) as t_gedung from tagihan where year(jatuh_tempo) * 100 + month(jatuh_tempo)<= year(now()) * 100 + month(now()) group by id_siswa) c on a.id = c.id_siswa where a.deleted=0 and a.status='Aktif' and a.sekolah='"+objek[i].nama+"'", function(err, data, fields) {
+        //objek[i].data_siswa=data;
+        objek[i].jml_siswa=data.length;
+        for(var k=0;k<data.length;k++){
+          if(data[k].bayar_spp<data[k].tagihan_spp || data[k].bayar_kegiatan<data[k].tagihan_kegiatan || data[k].bayar_seragam<data[k].tagihan_seragam || data[k].bayar_gedung<data[k].tagihan_gedung){
+            objek[i].nunggak+=1;
+          }
+          if(data[k].bayar_spp<data[k].tagihan_spp){
+            objek[i].nunggak_spp+=1;
+            objek[i].nomnunggak_spp+=data[k].bayar_spp-data[k].tagihan_spp;
+            objek[i].nomnunggak+=data[k].bayar_spp-data[k].tagihan_spp;
+          }
+          if(data[k].bayar_kegiatan<data[k].tagihan_kegiatan){
+            objek[i].nunggak_kegiatan+=1;
+            objek[i].nomnunggak_kegiatan+=data[k].bayar_kegiatan-data[k].tagihan_kegiatan;
+            objek[i].nomnunggak+=data[k].bayar_kegiatan-data[k].tagihan_kegiatan;
+          }
+          if(data[k].bayar_seragam<data[k].tagihan_seragam){
+            objek[i].nunggak_seragam+=1;
+            objek[i].nomnunggak_seragam+=data[k].bayar_seragam-data[k].tagihan_seragam;
+            objek[i].nomnunggak+=data[k].bayar_seragam-data[k].tagihan_seragam;
+          }
+          if(data[k].bayar_gedung<data[k].tagihan_gedung){
+            objek[i].nunggak_gedung+=1;
+            objek[i].nomnunggak_gedung+=data[k].bayar_gedung-data[k].tagihan_gedung;
+            objek[i].nomnunggak+=data[k].bayar_gedung-data[k].tagihan_gedung;
+          }
+          
+        }
+      done=true;
+      })
+      deasync.loopWhile(function(){return !done;});
+      
+  }
+  //res.json(objek)
+  res.render('content-backoffice/index',{data:objek});
 });
 
 
+app.get('/get_dashboard', function (req, res) {
+  var q="";
+  if(req.query.sekolah){
+    q+=" and nama='"+req.query.sekolah+"'"
+  }
+  var q_tgl="";
+  if(req.query.start){
+    q_tgl=" and (a.tgl between '"+req.query.start+"' and '"+req.query.end+"')";
+  }
+ 
+  var objek=[];
+  var done=false;
+  connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1"+q, function(err, data, fields) {
+    objek=data;
+  done=true;
+  })
+  deasync.loopWhile(function(){return !done;});
+  for(var i=0; i<objek.length;i++){
+    objek[i].pemasukan_debit=0;
+    objek[i].pemasukan_credit=0;
+    objek[i].pengeluaran_debit=0;
+    objek[i].pengeluaran_credit=0;
+    objek[i].nunggak=0;
+    objek[i].nunggak_spp=0;
+    objek[i].nunggak_seragam=0;
+    objek[i].nunggak_gedung=0;
+    objek[i].nunggak_kegiatan=0;
+    objek[i].nomnunggak=0;
+    objek[i].nomnunggak_spp=0;
+    objek[i].nomnunggak_seragam=0;
+    objek[i].nomnunggak_gedung=0;
+    objek[i].nomnunggak_kegiatan=0;
+    objek[i].jml_siswa=0;
+    done=false;
+    console.log("SELECT a.is_pemasukan, sum(b.debit) as debit, sum(b.credit) as credit from jurnal a join subjurnal b on a.id=b.id_jurnal where a.approval=1 and a.id_objek='"+objek[i].nama+"'"+q_tgl+" group by a.is_pemasukan")
+    connection.query("SELECT a.is_pemasukan, sum(b.debit) as debit, sum(b.credit) as credit from jurnal a join subjurnal b on a.id=b.id_jurnal where a.approval=1 and a.id_objek='"+objek[i].nama+"'"+q_tgl+" group by a.is_pemasukan", function(err, data, fields) {
+      for(var j=0;j<data.length;j++){
+        if(data[j].debit!=null && data[j].is_pemasukan==1){
+          objek[i].pemasukan_debit=data[j].debit;
+        }
+        if(data[j].credit!=null && data[j].is_pemasukan==1){
+        objek[i].pemasukan_credit=data[j].credit;
+        }
+        if(data[j].debit!=null && data[j].is_pemasukan==0){
+          objek[i].pengeluaran_debit=data[j].debit;
+        }
+        if(data[j].credit!=null && data[j].is_pemasukan==0){
+        objek[i].pengeluaran_credit=data[j].credit;
+        }
+      }
+      
+      
+    done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+
+
+      done=false;
+      connection.query("SELECT a.id, b.spp as bayar_spp, b.dana_kegiatan as bayar_kegiatan, b.seragam as bayar_seragam, b.gedung as bayar_gedung, c.t_spp as tagihan_spp, c.t_kegiatan as tagihan_kegiatan, c.t_seragam as tagihan_seragam, c.t_gedung as tagihan_gedung from data_siswa a left join (select id_siswa, SUM(CASE WHEN jenis ='SPP' THEN nominal ELSE 0 END) as spp, SUM(CASE WHEN jenis ='Dana Kegiatan' THEN nominal ELSE 0 END) as dana_kegiatan, SUM(CASE WHEN jenis ='Seragam' THEN nominal ELSE 0 END) as seragam, SUM(CASE WHEN jenis ='Sumbangan Gedung' THEN nominal ELSE 0 END) as gedung from pembayaran group by id_siswa) b on a.id = b.id_siswa left join (select id_siswa, SUM(CASE WHEN jenis_tagihan ='SPP' THEN nominal_tagihan ELSE 0 END) as t_spp, SUM(CASE WHEN jenis_tagihan ='Dana Kegiatan' THEN nominal_tagihan ELSE 0 END) as t_kegiatan, SUM(CASE WHEN jenis_tagihan ='Seragam' THEN nominal_tagihan ELSE 0 END) as t_seragam, SUM(CASE WHEN jenis_tagihan ='Sumbangan Gedung' THEN nominal_tagihan ELSE 0 END) as t_gedung from tagihan where year(jatuh_tempo) * 100 + month(jatuh_tempo)<= year(now()) * 100 + month(now()) group by id_siswa) c on a.id = c.id_siswa where a.deleted=0 and a.status='Aktif' and a.sekolah='"+objek[i].nama+"'", function(err, data, fields) {
+        //objek[i].data_siswa=data;
+        objek[i].jml_siswa=data.length;
+        for(var k=0;k<data.length;k++){
+          if(data[k].bayar_spp<data[k].tagihan_spp || data[k].bayar_kegiatan<data[k].tagihan_kegiatan || data[k].bayar_seragam<data[k].tagihan_seragam || data[k].bayar_gedung<data[k].tagihan_gedung){
+            objek[i].nunggak+=1;
+          }
+          if(data[k].bayar_spp<data[k].tagihan_spp){
+            objek[i].nunggak_spp+=1;
+            objek[i].nomnunggak_spp+=data[k].bayar_spp-data[k].tagihan_spp;
+            objek[i].nomnunggak+=data[k].bayar_spp-data[k].tagihan_spp;
+          }
+          if(data[k].bayar_kegiatan<data[k].tagihan_kegiatan){
+            objek[i].nunggak_kegiatan+=1;
+            objek[i].nomnunggak_kegiatan+=data[k].bayar_kegiatan-data[k].tagihan_kegiatan;
+            objek[i].nomnunggak+=data[k].bayar_kegiatan-data[k].tagihan_kegiatan;
+          }
+          if(data[k].bayar_seragam<data[k].tagihan_seragam){
+            objek[i].nunggak_seragam+=1;
+            objek[i].nomnunggak_seragam+=data[k].bayar_seragam-data[k].tagihan_seragam;
+            objek[i].nomnunggak+=data[k].bayar_seragam-data[k].tagihan_seragam;
+          }
+          if(data[k].bayar_gedung<data[k].tagihan_gedung){
+            objek[i].nunggak_gedung+=1;
+            objek[i].nomnunggak_gedung+=data[k].bayar_gedung-data[k].tagihan_gedung;
+            objek[i].nomnunggak+=data[k].bayar_gedung-data[k].tagihan_gedung;
+          }
+          
+        }
+      done=true;
+      })
+      deasync.loopWhile(function(){return !done;});
+      
+  }
+  res.json(objek)
+  // res.render('content-backoffice/index',{data:objek});
+});
 // app.get('/4E26CD6CB47148CCFB9334CB15B95495.txt', function (req, res) {
 //   console.log(req.user)
 //   //res.render('7ECA9DC7A2167A6EB33B60F1DA8B85E1.txt');

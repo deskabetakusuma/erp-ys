@@ -108,21 +108,109 @@ router.get('/insert', cek_login, function(req, res) {
 })
 });
 
-router.get('/edit/:id', cek_login, function(req, res) {
-    connection.query("SELECT a.*, b.* from data_siswa a join reserved b on a.id = b.id_siswa where b.id="+req.params.id, function(err, rows, fields) {
-      connection.query("SELECT *, DATE_FORMAT(jatuh_tempo, '%Y-%m-%d') as tgl_tampil from tagihan where id_reserved="+req.params.id, function(err, tagihan, fields) {
-        res.render('content-backoffice/manajemen_jatuh_tempo/edit',{data_siswa:rows, tagihan}); 
-        })
-      
+router.get('/edit/:id', function(req, res) {
+  var done=false;
+  var data_siswa=[];
+  var tagihane=[];
+  var reserved=[];
+  var data_tagihan=[];
+  var tot_harus_dibayar=[];
+  var d = new Date();
+  var y= d.getFullYear();
+  var m= ("0"+(new Date().getMonth()+1)).slice(-2);
+  var skrg=y+m;
+  var totat_spp=0;
+  var totat_danakegiatan=0;
+  var totat_seragam=0;
+  var totat_gedung=0;
+
+  var data_pembayaran=[];
+  
+  
+    connection.query("SELECT a.*, b.*, a.id as id_siswa from data_siswa a join reserved b on a.id = b.id_siswa where b.id="+req.params.id, function(err, rows, fields) {
+      data_siswa=rows;
+      done=true;
     })
- 
+    deasync.loopWhile(function(){return !done;});
+
+    done=false;
+      connection.query("SELECT * from reserved where deleted=0 and id_siswa="+data_siswa[0].id_siswa, function(err, reserv, fields) {
+        reserved=reserv;
+        done=true;
+      })
+      deasync.loopWhile(function(){return !done;});
+
+    done=false;
+      connection.query("SELECT sum(if(jenis = 'SPP',nominal,0)) as totpem_spp, sum(if(jenis = 'Sumbangan Gedung',nominal,0)) as totpem_gedung, sum(if(jenis = 'Seragam',nominal,0)) as totpem_seragam, sum(if(jenis = 'Dana Kegiatan',nominal,0)) as totpem_danakegiatan from pembayaran where id_siswa="+data_siswa[0].id_siswa, function(err, yyy, fields) {
+        data_pembayaran=yyy;
+        done=true;
+      })
+      deasync.loopWhile(function(){return !done;});
+
+      for(var i=0; i<reserved.length; i++){
+        
+        done=false;
+        connection.query("SELECT *, DATE_FORMAT(jatuh_tempo, '%Y-%m-%d') as tgl_tampil, DATE_FORMAT(jatuh_tempo,'%Y%m') as tglbanding from tagihan where id_reserved="+reserved[i].id, function(err, tagihan, fields) {
+          
+          if(req.params.id==reserved[i].id){
+            tagihane=tagihan;
+           data_tagihan= data_tagihan.concat(tagihan);
+          }else{
+            data_tagihan= data_tagihan.concat(tagihan);
+          }
+          
+          done=true;
+        })
+        deasync.loopWhile(function(){return !done;});
+      }
+
+      for(var i=0; i<data_tagihan.length; i++){
+        if(data_tagihan[i].jenis_tagihan=="SPP" && data_tagihan[i].tglbanding<=skrg){
+            
+            totat_spp+=parseInt(data_tagihan[i].nominal_tagihan);
+
+          }
+          if(data_tagihan[i].jenis_tagihan=="Dana Kegiatan" && data_tagihan[i].tglbanding<=skrg){
+            
+            totat_danakegiatan+=parseInt(data_tagihan[i].nominal_tagihan);
+
+          }
+          if(data_tagihan[i].jenis_tagihan=="Seragam" && data_tagihan[i].tglbanding<=skrg){
+            
+            totat_seragam+=parseInt(data_tagihan[i].nominal_tagihan);
+
+          }
+          if(data_tagihan[i].jenis_tagihan=="Sumbangan Gedung" && data_tagihan[i].tglbanding<=skrg){
+            
+            totat_gedung+=parseInt(data_tagihan[i].nominal_tagihan);
+
+          }
+     }
+      //res.json({data_siswa, tagihan:tagihane, data_tagihan, skrg, totat_spp, totat_danakegiatan, totat_seragam, totat_gedung, data_pembayaran});
+      res.render('content-backoffice/manajemen_jatuh_tempo/edit',{data_siswa, tagihan:tagihane, data_tagihan, skrg, totat_spp, totat_danakegiatan, totat_seragam, totat_gedung, data_pembayaran}); 
 
 });
-router.post('/submit_edit/:tipe/:id_reserved', function(req, res) {
+
+router.post('/submit_edit/:tipe/:id_reserved/:id_siswa', function(req, res) {
   console.log(req.body)
   connection.query(`delete from tagihan where jenis_tagihan='${req.params.tipe}' and id_reserved=${req.params.id_reserved};`, function(err, aa, fields) {
     for(var i=0;i<req.body.jatuh_tempo.length;i++){
-      connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo) VALUES ('"+req.params.id_reserved+"', '"+req.params.tipe+"', '"+req.body.nominal_tagihan[i]+"','"+req.body.jatuh_tempo[i]+"');", function(err, aa, fields) {
+      connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo, id_siswa) VALUES ('"+req.params.id_reserved+"', '"+req.params.tipe+"', '"+req.body.nominal_tagihan[i]+"','"+req.body.jatuh_tempo[i]+"', '"+req.params.id_siswa+"');", function(err, aa, fields) {
+       
+    })
+    }
+    res.sendStatus(200)
+  })
+    
+
+
+})
+
+router.post('/submit_edit_tab3/:id_reserved/:id_siswa', function(req, res) {
+  console.log(req.body)
+  connection.query(`delete from tagihan where (jenis_tagihan="Seragam" or jenis_tagihan="Sumbangan Gedung") and id_reserved=${req.params.id_reserved};`, function(err, aa, fields) {
+    for(var i=0;i<req.body.jatuh_tempo.length;i++){
+      connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo, id_siswa) VALUES ('"+req.params.id_reserved+"', '"+req.body.jenis[i]+"', '"+req.body.nominal_tagihan[i]+"','"+req.body.jatuh_tempo[i]+"', '"+req.params.id_siswa+"');", function(err, aa, fields) {
        
     })
     }
@@ -142,6 +230,7 @@ router.post('/submit_insert', function(req, res) {
  var tempo_op=[];
  var nominal_op=[];
  var tempo_gedung=[];
+ var jenis=[];
  var nominal_gedung=[];
  if(req.body.tempo_op){
 tempo_op=req.body.tempo_op;
@@ -153,8 +242,10 @@ console.log(tempo_op);
  }
  if(req.body.tempo_gedung){
 tempo_gedung=req.body.tempo_gedung;
+jenis=req.body.jenis;
 nominal_gedung=req.body.nominal_gedung;
 delete post.tempo_gedung;
+delete post.jenis;
 delete post.nominal_gedung;
 console.log('ini tempo gedung');
 console.log(tempo_gedung);
@@ -174,17 +265,17 @@ sql_enak.insert(post).into("reserved").then(function (id) {
 })
 .finally(function() {
   for(var i=0;i<tempo_spp.length;i++){
-    connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo) VALUES ('"+idne+"', 'spp', '"+nominal_spp[i]+"','"+tempo_spp[i]+"');", function(err, aa, fields) {
+    connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo, id_siswa) VALUES ('"+idne+"', 'SPP', '"+nominal_spp[i]+"','"+tempo_spp[i]+"','"+req.body.id_siswa+"');", function(err, aa, fields) {
       console.log("tagihan spp");
   })
   }
   for(var i=0;i<tempo_op.length;i++){
-    connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo) VALUES ('"+idne+"', 'operasional', '"+nominal_op[i]+"','"+tempo_op[i]+"');", function(err, aa, fields) {
+    connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo, id_siswa) VALUES ('"+idne+"', 'Dana Kegiatan', '"+nominal_op[i]+"','"+tempo_op[i]+"','"+req.body.id_siswa+"');", function(err, aa, fields) {
       console.log("tagihan op");
   })
   }
   for(var i=0;i<tempo_gedung.length;i++){
-    connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo) VALUES ('"+idne+"', 'gedung', '"+nominal_gedung[i]+"','"+tempo_gedung[i]+"');", function(err, aa, fields) {
+    connection.query("INSERT INTO tagihan (id_reserved, jenis_tagihan, nominal_tagihan, jatuh_tempo, id_siswa) VALUES ('"+idne+"', '"+jenis[i]+"', '"+nominal_gedung[i]+"','"+tempo_gedung[i]+"','"+req.body.id_siswa+"');", function(err, aa, fields) {
       console.log("tagihan gedung");
   })
   }

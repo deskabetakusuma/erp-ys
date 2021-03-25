@@ -1,4 +1,9 @@
 <% include ../../template-backoffice/header.ejs %>
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -13,196 +18,231 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
       <div class="panel">
         <div class="panel-content">
- 
-            <div class="tab tab-light clearfix"> 
-              <!-- Nav tabs -->
-              <ul class="nav nav-tabs" role="tablist">
-                  <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SISWA</span></a></li>
-                  <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA SPP</span></a></li>
-                  <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA OPERASIONAL</span></a></li>
-                  <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA GEDUNG & SERAGAM</span></a></li>
-              </ul>
-              <!-- Tab panes -->
-              <div class="tab-content" style="padding-left: 0;">
-                <div role="tabpanel" class="tab-pane fade active in" id="tab2-1">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                      <div class="form-group">
-                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Sekolah</label>
-                        <div class="col-sm-10">
-                          <%= data_siswa[0].sekolah%>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Kelas</label>
-                        <div class="col-sm-10">
-                          <%= data_siswa[0].kelas%>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Tahun Ajaran</label>
-                        <div class="col-sm-10">
-                          <%= data_siswa[0].tahun_ajaran%>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="" class="col-sm-2 control-label" style="text-align: left;margin: 0;padding: 0;">Nama</label>
-                        <div class="col-sm-10">
-                          <%= data_siswa[0].nama%>
-                        </div>
-                      </div>
-
-
-                      
-                    </div>
-                  </div>
-                </div>
-    
-                <div role="tabpanel" class="tab-pane fade" id="tab2-2">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                      <div class="panel bg-aero">
-                        <div class="panel-header ui-sortable-handle">
-                          <h3>Input jatuh tempo dan nominal otomatis</h3>
-                        </div>
-                        <div class="panel-content table-no-border">
-                          <table class="table table-bordered">
-                            <tbody>
-                              <tr>
-                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control tgl" name="" id="tanggale" placeholder="Tanggal Jatuh Tempo"></td>
-                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="nominale" placeholder="Nominal Pembayaran"></td>
-                                <td style="padding: 0 10px;margin: 0;"><button class="btn btn-primary btn-embossed" id="proses">Proses</button></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                      <form id="formSpp">
-                      <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th style="width: 20px;">Pembayaran</th>
-                            <th>Tanggal Jatuh Tempo</th>
-                            <th>Nominal Pembayaran</th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                       
-                          <% 
-                          let a =0;
-                           for(let i =0; i < tagihan.length; i++){
-                           
-                            if(tagihan[i].jenis_tagihan=='spp'){
-                              a++
-                            %>
-                          <tr>
-                            <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
-                            <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
-                            <td style="text-align: center;"><%= a%></td>
-                            <td><input type="text" class="form-control tgl" id="tempo_<%=a%>" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
-                            <td><input type="text" class="form-control nom" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
-                          </tr>
-                          <%}}%>
-                         
-                        </tbody>
-                      </table>
-                      <button>Update</button>
-                    </form>
-                    </div>
-                  </div>
-                </div>
-    
-                <div role="tabpanel" class="tab-pane fade" id="tab2-3">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                      <form id="formOperasional">
-                      <table class="table table-bordered" id="operasional">
-                        <thead>
-                          <tr>
-                            <th style="text-align: center;">Tanggal Pembayaran</th>
-                            <th style="text-align: center;">Nominal Pembayaran</th>
-                            <th style="text-align: center;width: 100px;">Option</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <% for(let i =0; i < tagihan.length; i++){
-                            if(tagihan[i].jenis_tagihan=='operasional'){
-                            %>
-                          <tr>
-                            <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
-                            <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
-                          
-                            <td><input type="text" class="form-control tgl" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
-                            <td><input type="text" class="form-control" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
-                            <td><center><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></center></td>
-
-                          </tr>
-                          <%}}%>
-                         
-                        </tbody>
-                      </table>
-                      <span class="btn btn-primary tambah-operasional">Tambah Pembayaran</span>
-              
-                      <button>Update</button>
-                    </form>
-                    </div>
-                  </div>
-                </div>
-    
-                <div role="tabpanel" class="tab-pane fade" id="tab2-4">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                      <form id="formGesam">
-                      <table class="table table-bordered" id="gesam">
-                        <thead>
-                          <tr>
-                            <th style="text-align: center;">Tanggal Pembayaran</th>
-                            <th style="text-align: center;">Nominal Pembayaran</th>
-                            <th style="text-align: center;width: 100px;">Option</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <% for(let i =0; i < tagihan.length; i++){
-                            if(tagihan[i].jenis_tagihan=='gedung'){
-                            %>
-                          <tr>
-                            <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
-                            <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
-                          
-                            <td><input type="text" class="form-control tgl" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
-                            <td><input type="text" class="form-control" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
-                            <td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td>
-                          </tr>
-                          <%}}%>
-                         
-                        </tbody>
-                      </table>
-                      <span class="btn btn-primary tambah-gesam">Tambah Pembayaran</span>
-                      <button>Update</button>
-                    </form>
-                    </div>
-                  </div>
-                </div>
-    
-                
-              </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <center>
+                <img src="https://via.placeholder.com/160" alt="" style="border-radius: 100%;">
+                <hr>
+                <h3 style="margin: 5px;"><strong><%= data_siswa[0].nama%></strong></h3>
+                <h5 style="margin: 5px;"><strong><%= data_siswa[0].kelas%></strong></h5>
+                <h5 style="margin: 5px;"><strong><%= data_siswa[0].sekolah%></strong></h5>
+                <h5 style="margin: 5px;"><strong><%= data_siswa[0].tahun_ajaran%></strong></h5>
+              </center>
             </div>
-         
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+      <div class="row">
+        <div class="col-md-6 col-lg-6">
+          <div class="panel bg-primary">
+            <div class="panel-content">
+              <h2 style="margin-top: 0;"><strong>SPP </strong></h2>
+              <h5>Kekurangan pembayaran sampai dengan bulan ini sebesar</h5>
+              <h1 style="text-align: right;"><strong>Rp <%= numberWithCommas(data_pembayaran[0].totpem_spp-totat_spp)%>,-</strong></h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="panel bg-red">
+            <div class="panel-content">
+              <h2 style="margin-top: 0;"><strong>DANA KEGIATAN </strong></h2>
+              <h5>Kekurangan pembayaran sampai dengan bulan ini sebesar</h5>
+              <h1 style="text-align: right;"><strong>Rp <%= numberWithCommas(data_pembayaran[0].totpem_danakegiatan-totat_danakegiatan)%>,-</strong></h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="panel bg-orange">
+            <div class="panel-content">
+              <h2 style="margin-top: 0;"><strong>SUMBANGAN GEDUNG </strong></h2>
+              <h5>Kekurangan pembayaran sampai dengan bulan ini sebesar</h5>
+              <h1 style="text-align: right;"><strong>Rp <%= numberWithCommas(data_pembayaran[0].totpem_gedung-totat_gedung)%>,-</strong></h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="panel bg-purple">
+            <div class="panel-content">
+              <h2 style="margin-top: 0;"><strong>SERAGAM </strong></h2>
+              <h5>Kekurangan pembayaran sampai dengan bulan ini sebesar</h5>
+              <h1 style="text-align: right;"><strong>Rp <%= numberWithCommas(data_pembayaran[0].totpem_seragam-totat_seragam)%>,-</strong></h1>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="tab tab-light clearfix" style="margin-top: 30px;"> 
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 10px 15px;"><span class="font-custom" style="font-size: 16px;">PEMBAYARAN SPP</span></a></li>
+        <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 10px 15px;"><span class="font-custom" style="font-size: 16px;">PEMBAYARAN OPERASIONAL</span></a></li>
+        <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 10px 15px;"><span class="font-custom" style="font-size: 16px;">PEMBAYARAN GEDUNG & SERAGAM</span></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      
+
+      <div role="tabpanel" class="tab-pane fade active in" id="tab2-2">
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <div class="panel bg-aero">
+              <div class="panel-header ui-sortable-handle">
+                <h3>Input jatuh tempo dan nominal otomatis</h3>
+              </div>
+              <div class="panel-content table-no-border">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control tgl" name="" id="tanggale" placeholder="Tanggal Jatuh Tempo"></td>
+                      <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="nominale" placeholder="Nominal Pembayaran"></td>
+                      <td style="padding: 0 10px;margin: 0;"><button class="btn btn-primary btn-embossed" id="proses">Proses</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <form id="formSpp">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="width: 20px;">Pembayaran</th>
+                  <th>Tanggal Jatuh Tempo</th>
+                  <th>Nominal Pembayaran</th>
+                </tr>
+              </thead>
+
+              <tbody>
+             
+                <% 
+                let a =0;
+                 for(let i =0; i < tagihan.length; i++){
+                 
+                  if(tagihan[i].jenis_tagihan=='SPP'){
+                    a++
+                  %>
+                <tr>
+                  <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
+                  <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
+                  <td style="text-align: center;"><%= a%></td>
+                  <td><input type="text" class="form-control tgl" id="tempo_<%=a%>" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
+                  <td><input type="text" class="form-control nom" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
+                </tr>
+                <%}}%>
+               
+              </tbody>
+            </table>
+
+            <button class="btn btn-primary btn-embossed">Update</button>
+          </form>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="tab2-3">
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <form id="formOperasional">
+            <table class="table table-bordered" id="operasional">
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Tanggal Pembayaran</th>
+                  <th style="text-align: center;">Nominal Pembayaran</th>
+                  <th style="text-align: center;width: 100px;">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(let i =0; i < tagihan.length; i++){
+                  if(tagihan[i].jenis_tagihan=='Dana Kegiatan'){
+                  %>
+                <tr>
+                  <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
+                  <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
+                
+                  <td><input type="text" class="form-control tgl" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
+                  <td><input type="text" class="form-control" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
+                  <td><center><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></center></td>
+
+                </tr>
+                <%}}%>
+               
+              </tbody>
+            </table>
+
+            <ul class="list-inline" style="margin-bottom: 0;">
+              <li><span class="btn btn-warning btn-embossed tambah-operasional">Tambah Pembayaran</span></li>
+              <li>|</li>
+              <li><button class="btn btn-primary btn-embossed">Update</button></li>
+            </ul>
+            
+    
+            
+          </form>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="tab2-4">
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <form id="formGesam">
+            <table class="table table-bordered" id="gesam">
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Tanggal Pembayaran</th>
+                  <th style="text-align: center;">Nominal Pembayaran</th>
+                  <th style="text-align: center;">Jenis</th>
+                  <th style="text-align: center;width: 100px;">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(let i =0; i < tagihan.length; i++){
+                  if(tagihan[i].jenis_tagihan=='Sumbangan Gedung' || tagihan[i].jenis_tagihan=='Seragam'){
+                  %>
+                <tr>
+                  <input type="hidden" class="form-control tgl" name="id[]"  value="<%= tagihan[i].id%>">
+                  <input type="hidden" class="form-control tgl" name="id_reserved[]"  value="<%= tagihan[i].id_reserved%>">
+                
+                  <td><input type="text" class="form-control tgl" name="jatuh_tempo[]"  value="<%= tagihan[i].tgl_tampil%>" placeholder="Tanggal Jatuh Tempo"></td>
+                  <td><input type="text" class="form-control" name="nominal_tagihan[]" value="<%= tagihan[i].nominal_tagihan%>" placeholder="Nominal Pembayaran"></td>
+                  <td><select class="form-control" name="jenis[]"><option <%if(tagihan[i].jenis_tagihan=='Sumbangan Gedung'){%>selected<%}%>>Sumbangan Gedung</option><option <%if(tagihan[i].jenis_tagihan=='Seragam'){%>selected<%}%>>Seragam</option></select></td>
+                  <td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td>
+                </tr>
+                <%}}%>
+               
+              </tbody>
+            </table>
+
+            <ul class="list-inline" style="margin-bottom: 0;">
+              <li><span class="btn btn-warning btn-embossed tambah-gesam" style="margin-right: 0;">Tambah Pembayaran</span></li>
+              <li>|</li>
+              <li><button class="btn btn-primary btn-embossed">Update</button></li>
+            </ul>
+            
+            
+          </form>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  
   <div class="footer">
     <div class="copyright">
       <p class="pull-left sm-pull-reset">
@@ -255,7 +295,7 @@ $("#proses").click(function(){
   });
 
   $(".tambah-gesam").click(function(){ 
-    $("#gesam").append('<tr><td><input type="text" class="form-control tgl" name="jatuh_tempo[]" id="" placeholder="Tanggal Pembayaran"></td><td><input type="text" class="form-control" name="nominal_tagihan[]" id="" placeholder="Nominal Pembayaran"></td><td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td></tr>');
+    $("#gesam").append('<tr><td><input type="text" class="form-control tgl" name="jatuh_tempo[]" id="" placeholder="Tanggal Pembayaran"></td><td><input type="text" class="form-control" name="nominal_tagihan[]" id="" placeholder="Nominal Pembayaran"></td><td><select class="form-control" name="jenis[]"><option>Sumbangan Gedung</option><option>Seragam</option></select></td><td><center><button class="btn btn-danger btn-embossed hapus-gesam">Hapus</button></center></td></tr>');
     $('#gesam').find(".tgl").datepicker({
               format: 'yyyy-mm-dd',
               orientation: "auto top",
@@ -274,11 +314,12 @@ $("#proses").click(function(){
     
     $.ajax({
            type: "POST",
-           url: "/manajemen_jatuh_tempo/submit_edit/spp/<%= tagihan[0].id_reserved%>",
+           url: "/manajemen_jatuh_tempo/submit_edit/SPP/<%= tagihan[0].id_reserved%>/<%= data_siswa[0].id_siswa%>",
            data: form.serialize(), // serializes the form's elements.
            success: function(data)
            {
                alert(data); // show response from the php script.
+               location.reload();
            }
          });
   })
@@ -290,11 +331,12 @@ $("#proses").click(function(){
     
     $.ajax({
            type: "POST",
-           url: "/manajemen_jatuh_tempo/submit_edit/operasional/<%= tagihan[0].id_reserved%>",
+           url: "/manajemen_jatuh_tempo/submit_edit/Dana Kegiatan/<%= tagihan[0].id_reserved%>/<%= data_siswa[0].id_siswa%>",
            data: form.serialize(), // serializes the form's elements.
            success: function(data)
            {
                alert(data); // show response from the php script.
+               location.reload();
            }
          });
   })
@@ -306,11 +348,12 @@ $("#proses").click(function(){
     
     $.ajax({
            type: "POST",
-           url: "/manajemen_jatuh_tempo/submit_edit/gedung/<%= tagihan[0].id_reserved%>",
+           url: "/manajemen_jatuh_tempo/submit_edit_tab3/<%= tagihan[0].id_reserved%>/<%= data_siswa[0].id_siswa%>",
            data: form.serialize(), // serializes the form's elements.
            success: function(data)
            {
                alert(data); // show response from the php script.
+               location.reload();
            }
          });
   })

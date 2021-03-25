@@ -1,21 +1,21 @@
 <% include ../../template-backoffice/header.ejs %>
+
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
-    <h2><strong>Tambah Data Pemasukan</strong></h2>
+    <h2><strong>Detail Pengajuan Approval (Pengeluaran)</strong></h2>
     <div class="breadcrumb-wrapper">
       <ol class="breadcrumb">
-        <li><a href="/backoffice">Dashboard</a></li>
-        <!-- <li><a href="/man">Data</a></li> -->
-        <li class="active">Tambah Data</li>
+        <li><a href="/backoffice">Dashboard</a>
+        </li>
+        <li class="active">Data</li>
       </ol>
     </div>
   </div>
-
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
-        <div class="panel-content">
+        <div class="panel-content ">
           <form role="form" id="forme" class="form-horizontal">
             <div class="row">
               <div class="col-md-6 col-lg-6">
@@ -24,9 +24,7 @@
                   <div class="col-sm-9">
                     <select class="form-control" name="kode_akun" data-search="true">
                       <option value="">-- Pilih --</option>
-                            <% for(var i=0; i<akun.length; i++){ %>
-                              <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
-                              <%}%>
+                            
                     </select>
                   </div>
                 </div>
@@ -36,9 +34,7 @@
                   <div class="col-sm-9">
                     <select class="form-control" name="id_objek" data-search="true">
                       <option value="">-- Pilih --</option>
-                      <% for(var i=0; i<objek.length; i++){ %>
-                        <option><%= objek[i].nama%></option>
-                        <%}%>
+                      
                     </select>
                   </div>
                 </div>
@@ -86,34 +82,46 @@
 
             <div class="row">
               <div class="col-md-12 col-lg-12" style="margin-left: 0;">
-                <table class="table table-bordered" id="tipe-perumahan">
+                <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 200px;">Akun</th>
                       
                       <th>Jumlah</th>
                       <th>Catatan</th>
-                      <th>Option</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    
+                    <tr>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+
+                    <tr>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+
+                    <tr>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
 
               <div class="col-md-12 col-lg-12" style="margin-left: 0;">
-                <span class="btn btn-primary btn-embossed tambah-tipe">Tambah</span>
+                <button type="button" class="btn btn-primary btn-embossed" onclick="simpan()">Simpan</button>
               </div>
             </div>
           </form>
-          <div class="row">
-            <button type="button" class="btn btn-primary btn-embossed" onclick="simpan()">Simpan</button>
-          </div>
         </div>
       </div>
-    </div>
+    </div>  
   </div>
   <div class="footer">
     <div class="copyright">
@@ -127,66 +135,29 @@
 <!-- END PAGE CONTENT -->
 
 <% include ../../template-backoffice/footer.ejs %>
+
 <script type="text/javascript">
-$('body').on('DOMNodeInserted', 'select', function () {
-    $(this).select2();
-});
-          $(".tambah-tipe").click(function(){
-            $("#tipe-perumahan").append(`<tr><td>
-              <select class="form-control select2" name="sub_kode[]" >
-                <option value="">-- Pilih --</option>
-                <% for(var i=0; i<akun.length; i++){ %>
-                              <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
-                              <%}%>
-                </select></td>
-                
-                <td><input type="number" class="form-control jml" name="jumlah[]" onblur="findTotal()"></td>
-                <td><input type="text" class="form-control" name="catatan[]"></td>
-                <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>`);
-          });
-          $("#tipe-perumahan").on('click','.hapus-tipe',function(){
-            $(this).parent().parent().remove();
-          });
-
-          setTimeout(function(){
-$('.select2').select2();
-}, 100);
-          var today = new Date();
-          var dd = String(today.getDate()).padStart(2, '0');
-          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-          var yyyy = today.getFullYear();
-
-          today = yyyy + '-' + mm + '-' + dd;
-          
-
-          $('#tgl1').val(today);
-
-
-function findTotal(){
-    var arr = document.getElementsByName('jumlah[]');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('nominal').value = tot;
-}
-
-function simpan(){
-  
-  
-$.ajax({
-  type: 'POST',
-  url: '/manajemen_pemasukan/submit',
-  data: $('#forme').serialize(),
-  success: function(data){
-    console.log(data)
-    
-      alert(data);
-      location.reload();
-    
-  }
-});
-
-}
+  $(document).ready(function() {
+    $('#data').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      "columnDefs": [
+          { "width": "100px", "targets": 4}
+      ],
+    });
+  });
 </script>

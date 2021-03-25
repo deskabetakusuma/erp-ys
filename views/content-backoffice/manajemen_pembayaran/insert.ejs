@@ -16,57 +16,108 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-content">
-          <form role="form" action="#" method="POST" class="form-horizontal">
-            <div class="form-group">
-              <label for="" class="col-sm-2 control-label" style="text-align: left;">Sekolah</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="" id="" data-search="true">
-                  <option value="">-- Pilih --</option>
-                </select>
+          <form role="form" id="forme" class="form-horizontal">
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">Akun</label>
+                  <div class="col-sm-9">
+                    <select class="form-control" name="kode_akun" data-search="true">
+                      <option value="">-- Pilih --</option>
+                      <% for(var i=0; i<akun.length; i++){ %>
+                        <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
+                        <%}%>
+                      
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">Sekolah</label>
+                  <div class="col-sm-9">
+                    <select class="form-control" name="id_objek" id="sekolah" data-search="true" required>
+                      <option value="">-- Pilih --</option>
+                      <% for(var i=0; i<objek.length; i++){ %>
+                        <option><%= objek[i].nama%></option>
+                        <%}%>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">Siswa</label>
+                  <div class="col-sm-9">
+                    <select class="form-control" name="id_siswa" id="id_siswa" data-search="true" required>
+                      <option value="">-- Pilih Sekolah Dulu --</option>
+                      
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">Keterangan</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="keterangan">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">No. Nota (No id)</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="no_id">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">Tanggal</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control tgl" name="tgl" id="tgl1">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label" style="text-align: left;">Nominal</label>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" name="nominal" id="nominal">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12 col-lg-12" style="margin-left: 0;">
+                <hr>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="" class="col-sm-2 control-label" style="text-align: left;">Siswa</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="" id="" data-search="true">
-                  <option value="">-- Pilih --</option>
-                </select>
-              </div>
-            </div>
 
-            <div class="form-group">
-              <label for="" class="col-sm-2 control-label" style="text-align: left;">Tanggal Pembayaran</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control tgl" name="" id="">
-              </div>
-            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12" style="margin-left: 0;">
+                <table class="table table-bordered" id="tipe-perumahan">
+                  <thead>
+                    <tr>
+                      <th>Jenis</th>
+                      <th style="width: 200px;">Akun</th>
+                      <th>Nominal</th>
+                      <th>Option</th>
+                    </tr>
+                  </thead>
 
-            <div class="form-group">
-              <label for="" class="col-sm-2 control-label" style="text-align: left;">Kategori Pembayaran</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="" id="">
-                  <option value="">-- Pilih --</option>
-                  <option>SPP</option>
-                  <option>Operasional</option>
-                  <option>Pembangunan & Seragam</option>
-                </select>
+                  <tbody>
+                    
+                  </tbody>
+                </table>
               </div>
-            </div>
 
-            <div class="form-group">
-              <label for="" class="col-sm-2 control-label" style="text-align: left;">Nominal Pembayaran</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" name="" id="">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary btn-embossed">Simpan</button>
+              <div class="col-md-12 col-lg-12" style="margin-left: 0;">
+                <span class="btn btn-primary btn-embossed tambah-tipe">Tambah</span>
               </div>
             </div>
           </form>
+          <div class="row">
+            <button type="button" class="btn btn-primary btn-embossed" onclick="simpan()">Simpan</button>
+          </div>
         </div>
       </div>
     </div>
@@ -84,5 +135,86 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
+          $(".tambah-tipe").click(function(){
+            $("#tipe-perumahan").append(`<tr>
+              <td><select class="form-control" name="jenis[]"><option value="">-- Pilih --</option><option>Formulir Pendaftaran</option><option>Sumbangan Gedung</option><option>Dana Kegiatan</option><option>Seragam</option><option>SPP</option><option>Lain-lain</option></select></td>
+              <td><select class="form-control" name="sub_kode[]">
+                <option value="">-- Pilih --</option>
+                <% for(var i=0; i<akun.length; i++){ %>
+                  <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
+                              <%}%>
+                </select></td>
+                 <td><input type="number" class="form-control jml" name="jumlah[]" onblur="findTotal()"></td>
+                 <td><button class="btn btn-danger btn-sm hapus-tipe btn-embossed">Hapus</button></td></tr>`);
+          });
+          $("#tipe-perumahan").on('click','.hapus-tipe',function(){
+            $(this).parent().parent().remove();
+          });
 
+          var today = new Date();
+          var dd = String(today.getDate()).padStart(2, '0');
+          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+          var yyyy = today.getFullYear();
+
+          today = yyyy + '-' + mm + '-' + dd;
+          
+
+          $('#tgl1').val(today);
+
+          function findTotal(){
+    var arr = document.getElementsByName('jumlah[]');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('nominal').value = tot;
+}
+
+function simpan(){
+  
+  
+  $.ajax({
+    type: 'POST',
+    url: '/manajemen_pembayaran/submit',
+    data: $('#forme').serialize(),
+    success: function(data){
+      console.log(data)
+      
+      window.open("/manajemen_pembayaran/invoice/"+data);
+      location.href = "/manajemen_pembayaran";
+      
+    }
+  });
+  
+  }
+
+
+
+
+  $('#sekolah').change(function(){
+   
+
+
+                            $("#id_siswa").empty();
+        $('#id_siswa').select2('val', null);
+
+                     $.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_siswa/get_siswa/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#id_siswa').append('<option value="'+item.id+'">'+item.nama+'</option>')
+                              })
+                             
+                              }
+                            });  
+                    
+                    
+                })
 </script>

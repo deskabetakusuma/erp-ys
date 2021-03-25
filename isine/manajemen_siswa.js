@@ -58,6 +58,10 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 //start-------------------------------------
+router.get('/detail/:id', cek_login, function(req, res) {
+  res.render('content-backoffice/manajemen_siswa/detail'); 
+});
+
 router.get('/', cek_login, function(req, res) {
     connection.query("SELECT *, DATE_FORMAT(tanggal_lahir,'%d %M %Y') as tanggal_lahir2 from data_siswa where deleted=0", function(err, data, fields) {
   res.render('content-backoffice/manajemen_siswa/list',{data}); 

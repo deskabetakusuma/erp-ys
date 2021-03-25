@@ -3,7 +3,7 @@
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
-    <h2><strong>Data Jatuh Tempo</strong></h2>
+    <h2><strong>Data Piutang Siswa</strong></h2>
     <div class="breadcrumb-wrapper">
       <ol class="breadcrumb">
         <li><a href="/backoffice">Dashboard</a>
@@ -93,7 +93,7 @@
                { "data": null, render: function(data){
                 if(data.jmlReserved){
 
-                  return `<a href="#" class="reserved" id_reserved="${data.id}">Detail</a>`;
+                  return `<center><a href="#" class="reserved btn btn-primary btn-embossed" id_reserved="${data.id}">Detail</a></center>`;
                 }else{
                   return ``;
                 }
@@ -161,11 +161,11 @@
                         trigger: 'manual',
                         placement: 'left',
                         "content": function () {
-                          let text ="<ul class='list-unstyled'>";
+                          let text ="<table class='table table-bordered'><thead><tr><th style='width:120px;text-align:center'>Kelas (Tahun Ajaran)</th><th style='text-align:center'>Option</th></tr></thead>";
                   data.data.forEach(function(item){
-                    text+=`<li><a href="/manajemen_jatuh_tempo/edit/${item.id}">${item.kelas} : ${item.tahun_ajaran}</a>  <a href="/manajemen_jatuh_tempo/delete/${item.id}">[HAPUS]</a></li>`
+                    text+=`<tr><td>${item.kelas} (${item.tahun_ajaran})</td>  <td><ul class="list-inline"><li><a href="/manajemen_jatuh_tempo/edit/${item.id}" class="btn btn-warning btn-sm btn-embossed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li><li><a href="/manajemen_jatuh_tempo/delete/${item.id}" class="btn btn-danger btn-sm btn-embossed"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li></ul></td></tr>`
                   })
-                  text+="</ul>"
+                  text+="</table>"
                  return text;
                         }
                     })

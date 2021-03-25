@@ -3,7 +3,7 @@
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
-    <h2><strong>Tambah Data Siswa</strong></h2>
+    <h2><strong>Tambah Data Piutang Siswa</strong></h2>
     <div class="breadcrumb-wrapper">
       <ol class="breadcrumb">
         <li><a href="/backoffice">Dashboard</a></li>
@@ -23,9 +23,9 @@
               <!-- Nav tabs -->
               <ul class="nav nav-tabs" role="tablist">
                   <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SISWA</span></a></li>
-                  <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA SPP</span></a></li>
-                  <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA OPERASIONAL</span></a></li>
-                  <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">BIAYA GEDUNG & SERAGAM</span></a></li>
+                  <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SPP</span></a></li>
+                  <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">DANA KEGIATAN</span></a></li>
+                  <li><a href="#tab2-4" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">GEDUNG & SERAGAM</span></a></li>
                   <li><a href="#tab2-5" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 16px;">SIMPAN DATA</span></a></li>
               </ul>
               <!-- Tab panes -->
@@ -217,6 +217,7 @@
                           <tr>
                             <th style="text-align: center;">Tanggal Jatuh Tempo</th>
                             <th style="text-align: center;">Nominal Tagihan</th>
+                            <th style="text-align: center;">Kategori</th>
                             <th style="text-align: center;width: 100px;">Option</th>
                           </tr>
                         </thead>
@@ -339,7 +340,7 @@ $('#sekolah').change(function(){
   });
 
   $(".tambah-gedung-seragam").click(function(){
-    $("#gedung-seragam").append('<tr><td><input type="text" class="form-control tgl" name="tempo_gedung[]" id="" placeholder="Tanggal Pembayaran" required></td><td><input type="text" class="form-control" name="nominal_gedung[]" id="" placeholder="Nominal Pembayaran"></td><td><button class="btn btn-danger btn-embossed hapus-gedung-seragam">Hapus</button></td></tr>');
+    $("#gedung-seragam").append('<tr><td><input type="text" class="form-control tgl" name="tempo_gedung[]" id="" placeholder="Tanggal Pembayaran" required></td><td><input type="text" class="form-control" name="nominal_gedung[]" id="" placeholder="Nominal Pembayaran"></td><td><select class="form-control" name="jenis[]"><option>Sumbangan Gedung</option><option>Seragam</option></select></td><td><button class="btn btn-danger btn-embossed hapus-gedung-seragam">Hapus</button></td></tr>');
     $('#gedung-seragam').find(".tgl").datepicker({
               format: 'yyyy-mm-dd',
               orientation: "auto top",

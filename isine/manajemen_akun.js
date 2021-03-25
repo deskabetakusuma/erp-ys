@@ -71,31 +71,47 @@ router.get('/aset', cek_login, function(req, res) {
 
 // hutang
 router.get('/hutang', cek_login, function(req, res) {
-  connection.query("select * from akun where LEFT(kode, 1)=2 and deleted=0", function(err, rows, fields) {
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
+  from akun a
+    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=2 and a.deleted=0`, function(err, rows, fields) {
   res.render('content-backoffice/manajemen_hutang/list',{data:rows}); 
+  //res.json(rows)
   })
 });
 
 
 // modal
 router.get('/modal', cek_login, function(req, res) {
-  connection.query("select * from akun where LEFT(kode, 1)=3 and deleted=0", function(err, rows, fields) {
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
+  from akun a
+    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=3 and a.deleted=0`, function(err, rows, fields) {
   res.render('content-backoffice/manajemen_modal/list',{data:rows}); 
+  //res.json(rows)
   })
 });
 
 
 // pendapatan
 router.get('/pendapatan', cek_login, function(req, res) {
-  connection.query("select * from akun where LEFT(kode, 1)=4 and deleted=0", function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_pendapatan/list',{data:rows});
-  }) 
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
+  from akun a
+    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=4 and a.deleted=0`, function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_pendapatan/list',{data:rows}); 
+  //res.json(rows)
+  })
 });
 
 // beban
 router.get('/beban', cek_login, function(req, res) {
-  connection.query("select * from akun where LEFT(kode, 1)=6 and deleted=0", function(err, rows, fields) {
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
+  from akun a
+    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=6 and a.deleted=0`, function(err, rows, fields) {
   res.render('content-backoffice/manajemen_beban/list',{data:rows}); 
+  //res.json(rows)
   })
 });
 

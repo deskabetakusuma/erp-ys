@@ -1,5 +1,9 @@
 <% include ../template-backoffice/header.ejs %>
-
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -10,11 +14,192 @@
       </ol>
     </div> -->
   </div>
+<%for(var i=0;i<data.length;i++){%>
   <div class="row">
-    <div class="col-lg-12">
-      <!-- HERE COMES YOUR CONTENT -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">      
+      <div class="panel">
+        <div class="panel-header bg-primary">
+          <h3 style="margin-top: 0;font-size: 22px;text-align:center"><strong><%= data[i].nama%></strong></h3>
+        </div>
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="panel bg-primary">
+                <div class="panel-header">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                      <h3 style="color: #fff;margin-top: 0;font-size: 18px;margin-bottom: 0;"><strong>TOTAL PEMASUKAN </strong></h3>
+                      <h3 style="color: #fff;margin-top: 0;font-size: 18px;margin-bottom: 0;"><strong><%= data[i].nama%> </strong></h3>
+                    </div>
+        
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                      <button type="button" class="btn btn-sm btn-icon btn-rounded btn-danger btn-embossed pull-right" data-toggle="collapse" data-target="#collapseExample<%= i%>" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+        
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="collapse" id="collapseExample<%= i%>">
+                        <div class="well" style="padding:10px;background-color: #c75757;">
+                          <div class="row">
+                            <div class="col-md-5" style="padding-right: 0;">
+                              <input type="text" class="form-control tgl" name="" id="iawal<%= i%>" style="margin-bottom: 0;" placeholder="Tanggal Awal">
+                            </div>
+                            <div class="col-md-5" style="padding-right: 0;">
+                              <input type="text" class="form-control tgl" name="" id="iakhir<%= i%>" style="margin-bottom: 0;" placeholder="Tanggal Akhir">
+                            </div>
+        
+                            <div class="col-md-2">
+                              <button class="btn btn-primary btn-embossed btn-block btn-icon" style="margin-bottom: 0;" onclick="pemasukan(<%= i%>,'<%= data[i].nama%>')"><i class="fa fa-search"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <h2 style="color: #fff;text-align: right;font-size: 36px;"><strong>Rp <span id="respemasukan<%= i%>"><%= numberWithCommas( data[i].pemasukan_debit)%></span>,-</strong></h2>
+                      <hr>
+                      <a href="#" class="btn btn-danger btn-embossed" onclick="detil_pemasukan('<%= data[i].nama%>', <%= i%>)">Selengkapnya</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="panel bg-primary">
+                <div class="panel-header">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                      <h3 style="color: #fff;margin-top: 0;font-size: 18px;margin-bottom: 0;"><strong>TOTAL PENGELUARAN </strong></h3>
+                      <h3 style="color: #fff;margin-top: 0;font-size: 18px;margin-bottom: 0;"><strong><%= data[i].nama%> </strong></h3>
+                    </div>
+        
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                      <button type="button" class="btn btn-sm btn-icon btn-rounded btn-danger btn-embossed pull-right" data-toggle="collapse" data-target="#collapseExample2<%= i%>" aria-expanded="false" aria-controls="collapseExample2"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+        
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="collapse" id="collapseExample2<%= i%>">
+                        <div class="well" style="padding:10px;background-color: #c75757;">
+                          <div class="row">
+                            <div class="col-md-5" style="padding-right: 0;">
+                              <input type="text" class="form-control tgl" name="" id="oawal<%= i%>" style="margin-bottom: 0;" placeholder="Tanggal Awal">
+                            </div>
+                            <div class="col-md-5" style="padding-right: 0;">
+                              <input type="text" class="form-control tgl" name="" id="oakhir<%= i%>" style="margin-bottom: 0;" placeholder="Tanggal Akhir">
+                            </div>
+        
+                            <div class="col-md-2">
+                              <button class="btn btn-primary btn-embossed btn-block btn-icon" style="margin-bottom: 0;" onclick="pengeluaran(<%= i%>,'<%= data[i].nama%>')"><i class="fa fa-search"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <h2 style="color: #fff;text-align: right;font-size: 36px;"><strong>Rp <span id="respengeluaran<%= i%>"><%= numberWithCommas( data[i].pengeluaran_debit)%></span>,-</strong></h2>
+                      <hr>
+                      <a href="#" class="btn btn-danger btn-embossed" onclick="detil_pengeluaran('<%= data[i].nama%>', <%= i%>)">Selengkapnya</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="panel bg-orange">
+                <div class="panel-header table-no-border">
+                  <h3 style="color: #fff;margin-top: 0;"><strong>Jumlah Siswa Yang Mengalami Tunggakan</strong></h3>
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td style="width: 180px;padding: 0px ;">SPP</td>
+                        <td style="width: 15px;padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%=  data[i].nunggak_spp%> </td>
+                      </tr>
+        
+                      <tr>
+                        <td style="padding: 0px;">Dana Kegiatan</td>
+                        <td style="padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= data[i].nunggak_kegiatan%> </td>
+                      </tr>
+        
+                      <tr>
+                        <td style="padding: 0px;">Sumbangan Gedung</td>
+                        <td style="padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= data[i].nunggak_gedung%> </td>
+                      </tr>
+        
+                      <tr>
+                        <td style="padding: 0px;">Seragam</td>
+                        <td style="padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= data[i].nunggak_seragam%> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <h1 style="color: #fff;text-align: right;font-size: 36px;"><strong><%= data[i].nunggak%></strong></h1>
+                  <h4 style="color: #fff;text-align: right;">dari jumlah siswa <strong><%= data[i].jml_siswa%></strong> </h4>
+                  <hr>
+                  <a href="/manajemen_jatuh_tempo" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="panel bg-orange">
+                <div class="panel-header table-no-border">
+                  <h3 style="color: #fff;margin-top: 0;"><strong>Jumlah Nominal Tertunggak</strong></h3>
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td style="width: 180px;padding: 0px ;">SPP</td>
+                        <td style="width: 15px;padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= numberWithCommas( data[i].nomnunggak_spp)%> ,-</td>
+                      </tr>
+        
+                      <tr>
+                        <td style="padding: 0px;">Dana Kegiatan</td>
+                        <td style="padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= numberWithCommas( data[i].nomnunggak_kegiatan)%> ,-</td>
+                      </tr>
+        
+                      <tr>
+                        <td style="padding: 0px;">Sumbangan Gedung</td>
+                        <td style="padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= numberWithCommas( data[i].nomnunggak_gedung)%> ,-</td>
+                      </tr>
+        
+                      <tr>
+                        <td style="padding: 0px;">Seragam</td>
+                        <td style="padding: 0px;">:</td>
+                        <td style="padding: 0px;text-align: right;"><%= numberWithCommas( data[i].nomnunggak_seragam)%> ,-</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <h1 style="color: #fff;text-align: right;font-size: 36px;"><strong>Rp <%= numberWithCommas( data[i].nomnunggak)%>,-</strong></h1>
+                  <hr>
+                  <a href="/manajemen_jatuh_tempo" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  
+  <%}%>
   <div class="footer">
     <div class="copyright">
       <p class="pull-left sm-pull-reset">
@@ -27,3 +212,60 @@
 <!-- END PAGE CONTENT -->
 
 <% include ../template-backoffice/footer.ejs %>
+<script type="text/javascript">
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+  function pemasukan(index, sekolah){
+    if($("#iawal"+index).val()=="" || $("#iakhir"+index).val()==""){
+      alert("Salah Satu Tanggal Tidak Boleh Kosong !");
+    }else{
+      $.get("/get_dashboard?sekolah="+sekolah+"&start="+$("#iawal"+index).val()+"&end="+$("#iakhir"+index).val(), function(data){
+      console.log(data);
+      $("#respemasukan"+index).html(numberWithCommas(data[0].pemasukan_debit))
+    });
+    }
+    console.log(index)
+    console.log(sekolah)
+    
+  }
+
+  function pengeluaran(index, sekolah){
+    if($("#oawal"+index).val()=="" || $("#oakhir"+index).val()==""){
+      alert("Salah Satu Tanggal Tidak Boleh Kosong !");
+    }else{
+      $.get("/get_dashboard?sekolah="+sekolah+"&start="+$("#oawal"+index).val()+"&end="+$("#oakhir"+index).val(), function(data){
+      console.log(data);
+      $("#respengeluaran"+index).html(numberWithCommas(data[0].pengeluaran_debit))
+    });
+    }
+    console.log(index)
+    console.log(sekolah)
+    
+  }
+
+  function detil_pemasukan(sekolah, index){
+    var q="";
+    if(($("#iawal"+index).val()=="" && $("#iakhir"+index).val()=="") || ($("#iawal"+index).val()!="" && $("#iakhir"+index).val()!="")){
+      if($("#iawal"+index).val()!="" && $("#iakhir"+index).val()!=""){
+        q="?start="+$("#iawal"+index).val()+"&end="+$("#iakhir"+index).val()
+      }
+      window.open("/manajemen_transaksi/masuk/"+sekolah+""+q);
+    }else{
+      alert("Tanggal harus diisi semua atau dikosongin semua!");
+    }
+  }
+
+  function detil_pengeluaran(sekolah, index){
+    var q="";
+    if(($("#oawal"+index).val()=="" && $("#oakhir"+index).val()=="") || ($("#oawal"+index).val()!="" && $("#oakhir"+index).val()!="")){
+      if($("#oawal"+index).val()!="" && $("#oakhir"+index).val()!=""){
+        q="?start="+$("#oawal"+index).val()+"&end="+$("#oakhir"+index).val()
+      }
+      window.open("/manajemen_transaksi/keluar/"+sekolah+""+q);
+    }else{
+      alert("Tanggal harus diisi semua atau dikosongin semua!");
+    }
+  }
+</script>

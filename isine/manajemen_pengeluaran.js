@@ -90,6 +90,12 @@ if(req.body.catatan){
   catatan=req.body.catatan;
 }
 
+if(req.user[0].is_admin=1){
+  post['approval']=1;
+}else{
+  post['approval']=0;
+}
+
 post['is_pemasukan']=0;
 post['id_user']=req.user[0].id_user;
 delete post.sub_kode;

@@ -1,0 +1,330 @@
+<!--  BACKUP ASLI SERVER BENAR -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>Inovice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        body {
+            background: rgb(204,204,204); 
+            font-size:12pt;
+            line-height:1.5em;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        page {
+            background: white;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 5mm;
+            box-shadow: 0 0 5mm rgba(0,0,0,0.5);
+            /*border:2px solid black;*/
+        }
+
+        page[size="A4"] {
+            width: 210mm;
+            /* height: 310mm;   */
+            /*border:1px solid black;*/
+            /*background-color: red;*/
+            /* float: left; */
+        }
+
+        @page {
+            size: A4 portrait;
+            margin:15mm 15mm;
+            background-color: red;
+        }
+        
+        /* span{
+            color:red !important;
+        } */
+        @media print {
+            body, page {
+            margin: 0;
+            box-shadow: none;
+            }
+
+            #btn-print{
+            display: none !important;
+            }
+        }
+
+        .m-t-0{
+            margin-top: 0;
+        }
+
+        .m-b-0{
+            margin-bottom: 0;
+        }
+
+        /* table { page-break-inside:auto } */
+        /* tr    { page-break-inside:avoid; page-break-after:auto} */
+        .border {border: 0.5mm solid black !important}
+
+
+        h4{
+            margin-top: 0px;
+            margin-bottom: 0px;
+            font-weight: normal;
+        }
+
+        /* span{
+            color: red;
+        } */
+
+        .button {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 6px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .button:hover{
+            background-color: #fff;
+            color: black;
+        }
+      /* div{
+        page-break-inside: avoid;
+      } */
+      /*table { page-break-inside:auto }*/
+      /*tr    { page-break-inside:avoid; page-break-after:auto }
+      thead { display:table-header-group }
+      tfoot { page-break-inside:avoid; page-break-after:auto  }*/
+    </style>
+</head>
+
+<body style="position: relative;">
+    <button class="button"  id="btn-print">Cetak</button>
+    <page size="A4">
+        <div style="width: 100%;display: flex;">
+            <div style="width: 70%;background-color: ;"></div>
+            <div style="width: 30%;background-color: ;">
+                <h2 style="text-align: center;margin:0;"><strong>No. <%= data[0].no_id%></strong></h2>
+            </div>
+        </div>
+
+        <div style="margin-top: 10mm;">
+            <h2 style="text-align: center;margin:0;"><strong>TANDA BUKTI PEMBAYARAN</strong></h2>
+        </div>
+
+        <div style="margin-top: 10mm;">
+            <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse;width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 200px;">Telah diterima</td>
+                        <td style="width: 1px;">:</td>
+                        <td><%= data[0].nama%></td>
+                    </tr>
+
+                    <tr>
+                        <td>Uang Sebesar</td>
+                        <td>:</td>
+                        <% var jum=0; for(var i=0;i<data.length;i++){jum+=parseInt(data[i].nominal)}%>
+                        <td id="jumlah"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="vertical-align: top;">Guna Membayar</td>
+                        <td style="vertical-align: top;">:</td>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;width: 100%;">
+                                <tbody>
+                                    <% for(var i=0;i<data.length;i++){%>
+                                    <tr>
+                                        <td style="width: 7mm;"><%= i+1%></td>
+                                        <td><%= data[i].jenis%></td>
+                                        <td><%= data[i].nominal%></td>
+                                    </tr>
+                                    <%}%>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <!-- <td>.................................................................</td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div>
+            <table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse;width: 100%; margin-top: 10mm;">
+                <tbody>
+                    <tr>
+                        <td style="width: 70%;vertical-align: top;">
+                            <div><h4>Semarang, <%= data[0].tgl2%></h4></div>
+                            <div style="width: 40%;border:1px solid black;display: flex;justify-content: center;align-items: center;margin-top: 2.5mm;border-radius: 6px;">
+                                <span><h3 style="margin:5px">Rp</h3></span>
+                                <span><h3 style="margin:5px;"><%= jum%>,-</h3></span>
+                            </div>
+                        </td>
+                        <td style="width: 30%;">
+                            <div style="text-align: center;"><h4>Bag. Adm / Keuangan</h4></div>
+                            <div style="margin-top: 15mm;text-align: center;"><h4>(...........................................)</h4></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </page>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript">
+    $('#btn-print').click(function(){
+         window.print();
+    });
+
+    function terbilang(a){
+	var bilangan = ['','Satu','Dua','Tiga','Empat','Lima','Enam','Tujuh','Delapan','Sembilan','Sepuluh','Sebelas'];
+
+	// 1 - 11
+	if(a < 12){
+		var kalimat = bilangan[a];
+	}
+	// 12 - 19
+	else if(a < 20){
+		var kalimat = bilangan[a-10]+' Belas';
+	}
+	// 20 - 99
+	else if(a < 100){
+		var utama = a/10;
+		var depan = parseInt(String(utama).substr(0,1));
+		var belakang = a%10;
+		var kalimat = bilangan[depan]+' Puluh '+bilangan[belakang];
+	}
+	// 100 - 199
+	else if(a < 200){
+		var kalimat = 'Seratus '+ terbilang(a - 100);
+	}
+	// 200 - 999
+	else if(a < 1000){
+		var utama = a/100;
+		var depan = parseInt(String(utama).substr(0,1));
+		var belakang = a%100;
+		var kalimat = bilangan[depan] + ' Ratus '+ terbilang(belakang);
+	}
+	// 1,000 - 1,999
+	else if(a < 2000){
+		var kalimat = 'Seribu '+ terbilang(a - 1000);
+	}
+	// 2,000 - 9,999
+	else if(a < 10000){
+		var utama = a/1000;
+		var depan = parseInt(String(utama).substr(0,1));
+		var belakang = a%1000;
+		var kalimat = bilangan[depan] + ' Ribu '+ terbilang(belakang);
+	}
+	// 10,000 - 99,999
+	else if(a < 100000){
+		var utama = a/100;
+		var depan = parseInt(String(utama).substr(0,2));
+		var belakang = a%1000;
+		var kalimat = terbilang(depan) + ' Ribu '+ terbilang(belakang);
+	}
+	// 100,000 - 999,999
+	else if(a < 1000000){
+		var utama = a/1000;
+		var depan = parseInt(String(utama).substr(0,3));
+		var belakang = a%1000;
+		var kalimat = terbilang(depan) + ' Ribu '+ terbilang(belakang);
+	}
+	// 1,000,000 - 	99,999,999
+	else if(a < 100000000){
+		var utama = a/1000000;
+		var depan = parseInt(String(utama).substr(0,4));
+		var belakang = a%1000000;
+		var kalimat = terbilang(depan) + ' Juta '+ terbilang(belakang);
+	}
+	else if(a < 1000000000){
+		var utama = a/1000000;
+		var depan = parseInt(String(utama).substr(0,4));
+		var belakang = a%1000000;
+		var kalimat = terbilang(depan) + ' Juta '+ terbilang(belakang);
+	}
+	else if(a < 10000000000){
+		var utama = a/1000000000;
+		var depan = parseInt(String(utama).substr(0,1));
+		var belakang = a%1000000000;
+		var kalimat = terbilang(depan) + ' Milyar '+ terbilang(belakang);
+	}
+	else if(a < 100000000000){
+		var utama = a/1000000000;
+		var depan = parseInt(String(utama).substr(0,2));
+		var belakang = a%1000000000;
+		var kalimat = terbilang(depan) + ' Milyar '+ terbilang(belakang);
+	}
+	else if(a < 1000000000000){
+		var utama = a/1000000000;
+		var depan = parseInt(String(utama).substr(0,3));
+		var belakang = a%1000000000;
+		var kalimat = terbilang(depan) + ' Milyar '+ terbilang(belakang);
+	}
+	else if(a < 10000000000000){
+		var utama = a/10000000000;
+		var depan = parseInt(String(utama).substr(0,1));
+		var belakang = a%10000000000;
+		var kalimat = terbilang(depan) + ' Triliun '+ terbilang(belakang);
+	}
+	else if(a < 100000000000000){
+		var utama = a/1000000000000;
+		var depan = parseInt(String(utama).substr(0,2));
+		var belakang = a%1000000000000;
+		var kalimat = terbilang(depan) + ' Triliun '+ terbilang(belakang);
+	}
+
+	else if(a < 1000000000000000){
+		var utama = a/1000000000000;
+		var depan = parseInt(String(utama).substr(0,3));
+		var belakang = a%1000000000000;
+		var kalimat = terbilang(depan) + ' Triliun '+ terbilang(belakang);
+	}
+
+  else if(a < 10000000000000000){
+		var utama = a/1000000000000000;
+		var depan = parseInt(String(utama).substr(0,1));
+		var belakang = a%1000000000000000;
+		var kalimat = terbilang(depan) + ' Kuadriliun '+ terbilang(belakang);
+	}
+
+	var pisah = kalimat.split(' ');
+	var full = [];
+	for(var i=0;i<pisah.length;i++){
+	 if(pisah[i] != ""){full.push(pisah[i]);}
+	}
+	return full.join(' ');
+}
+
+$("#jumlah").html(terbilang("<%= jum%>")+" Rupiah")
+    </script>
+</body>
+</html>
