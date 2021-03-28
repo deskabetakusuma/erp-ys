@@ -58,28 +58,52 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 //start-------------------------------------
-router.get('/', function(req, res) {
-      connection.query("SELECT * from user where deleted=0 ", function(err, rows, fields) {
+router.get('/',cek_login, function(req, res) {
+  let tambahan=''
+  console.log(req.user[0].sekolah);
+  if(req.user[0].sekolah){
+    tambahan+=` and sekolah='${req.user[0].sekolah}'`
+  }
+      connection.query("SELECT * from user where deleted=0 "+tambahan, function(err, rows, fields) {
           if (err) throw err;
           numRows = rows.length;
-          console.log(rows);
-           res.render('content-backoffice/user/list',{data : rows});
+          // console.log(rows);
+           res.render('content-backoffice/user/list',{data : rows, user: req.user});
         })
  
 });
 
-router.get('/insert', cek_login, function(req, res) {
-    res.render('content-backoffice/user/insert');
+router.get('/verifikasi', function(req, res) {
+  res.json({user:req.user[0]});
+});
 
-       
+router.get('/insert', cek_login, function(req, res) {
+
+    connection.query("select * from sekolah where deleted=0", function(err, sekolah, fields) {
+      if (err) throw err;
+       res.render('content-backoffice/user/insert', {sekolah});
+      
+    })
 
 
 });
 
 router.get('/edit/:id', cek_login, function(req, res) {
-  connection.query("select * from user where id_user='"+req.params.id+"'", function(err, rows, fields) {
+  let tambahan=''
+  let tambahan2=''
+  console.log(req.user[0].sekolah);
+  if(req.user[0].sekolah){
+    tambahan+=` and sekolah='${req.user[0].sekolah}'`;
+    tambahan2+=` and nama='${req.user[0].sekolah}'`;
+  }
+  connection.query("select * from user where id_user='"+req.params.id+"'"+tambahan, function(err, rows, fields) {
     if (err) throw err;
-     res.render('content-backoffice/user/edit', {data : rows});
+    connection.query("select * from sekolah where deleted=0"+tambahan2, function(err, sekolah, fields) {
+      if (err) throw err;
+       res.render('content-backoffice/user/edit', {sekolah,data : rows});
+      
+    })
+    
     
   })
 
@@ -106,7 +130,7 @@ router.post('/submit_insert', upload.array(), function(req, res){
 
   // senjata
   console.log(req.body)
-  connection.query("insert into user (username, pwd, fullname, NIP, email, telp, is_admin) VALUES ('"+req.body.username+"', '"+sha1(req.body.pwd)+"', '"+req.body.fullname+"', '"+req.body.NIP+"', '"+req.body.email+"', '"+req.body.telp+"', '"+req.body.is_admin+"')", function(err, rows, fields) {
+  connection.query("insert into user (username, pwd, fullname, NIP, email, telp, is_admin, sekolah) VALUES ('"+req.body.username+"', '"+sha1(req.body.pwd)+"', '"+req.body.fullname+"', '"+req.body.NIP+"', '"+req.body.email+"', '"+req.body.telp+"', '"+req.body.is_admin+"', '"+req.body.sekolah+"')", function(err, rows, fields) {
     if (err) throw err;
     numRows = rows.affectedRows;
   })
@@ -120,11 +144,43 @@ router.post('/submit_edit', upload.array(),  function(req, res){
   
   // senjata
   //console.log(req.body)
-  connection.query("update user SET username='"+req.body.username+"', pwd='"+sha1(req.body.pwd)+"', fullname='"+req.body.fullname+"', NIP='"+req.body.NIP+"', email='"+req.body.email+"', telp='"+req.body.telp+"', is_admin='"+req.body.is_admin+"' WHERE id_user='"+req.body.id_user+"' ", function(err, rows, fields) {
+  // pwd='"+sha1(req.body.pwd)+"',
+  connection.query("update user SET username='"+req.body.username+"',  fullname='"+req.body.fullname+"', NIP='"+req.body.NIP+"', email='"+req.body.email+"', telp='"+req.body.telp+"', is_admin='"+req.body.is_admin+"', sekolah='"+req.body.sekolah+"' WHERE id_user='"+req.body.id_user+"' ", function(err, rows, fields) {
     if (err) throw err;
     numRows = rows.affectedRows;
   })
   res.redirect('/user/edit/'+req.body.id_user);
+})
+
+
+router.get('/edit_password/:id', cek_login, function(req, res) {
+  let tambahan=''
+  console.log(req.user[0].sekolah);
+  if(req.user[0].sekolah){
+    tambahan+=` and sekolah='${req.user[0].sekolah}'`
+  }
+  connection.query("select * from user where id_user='"+req.params.id+"'", function(err, rows, fields) {
+    if (err) throw err;
+     res.render('content-backoffice/user/edit_password', {data : rows});
+    
+  })
+
+
+});
+
+router.post('/submit_edit_password', upload.array(),  function(req, res){
+
+  // baca name-namenya dari form
+  // req.body.nameopo
+  
+  // senjata
+  //console.log(req.body)
+  // pwd='"+sha1(req.body.pwd)+"',
+  connection.query("update user SET pwd='"+sha1(req.body.pwd)+"' WHERE id_user='"+req.body.id_user+"' ", function(err, rows, fields) {
+    if (err) throw err;
+    numRows = rows.affectedRows;
+  })
+  res.redirect('/user');
 })
 
    

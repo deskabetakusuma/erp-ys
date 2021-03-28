@@ -23,28 +23,35 @@
             <thead>
               <tr>
                 <th class="header">No.</th>
+                <th class="header">Sumber</th>
                 <th class="header">No. Invoice</th>
                 <th class="header">Keterangan</th>
                 <th class="header">Nominal</th>
+                <th class="header">Status</th>
                 <th class="header">Option</th>
               </tr>
             </thead>
             
             <tbody>
+              <% for(let i =0; i< data.length; i++){%>
             <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
+              <td><%= i+1%></td>
+              <td><%= data[i].id_objek%></td>
+              <td><%= data[i].no_id%></td>
+              <td><%= data[i].keterangan%></td>
+              <td><%= data[i].nominal%></td>
+              <td><%= (data[i].approval==0)?'Belum Disetujui':(data[i].approval==1)?'Disetujui':'Ditolak'%></td>
+            
               <td>
                 <center>
                 <ul class="list-inline">
-                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/manajemen_permintaan/pemasukan/edit/1" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/manajemen_permintaan/pemasukan/edit/<%= data[i].id%>" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
                  
                 </ul>
                 </center>
               </td>
             </tr>
+            <%}%>
             </tbody>
           </table>
         </div>

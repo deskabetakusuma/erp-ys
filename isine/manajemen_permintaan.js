@@ -59,18 +59,157 @@ var upload = multer({ storage: storage })
 
 //start-------------------------------------
 router.get('/pemasukan', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_permintaan/pemasukan'); 
+  connection.query("select a.*, sum(b.credit) as nominal from jurnal a join subjurnal b on a.id= b.id_jurnal where a.is_pemasukan=1 and a.approval<>1 group by a.id order by a.approval asc, a.inserted desc", function(err, data, fields) {
+    if (err) throw err;
+     res.render('content-backoffice/manajemen_permintaan/pemasukan', {data});
+    
+  })
+
 });
 
 router.get('/pemasukan/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_permintaan/edit_pemasukan'); 
+  connection.query("SELECT * from akun ", function(err, akun, fields) {
+    connection.query("SELECT * from sekolah ", function(err, objek, fields) {
+      connection.query("SELECT * from jurnal where id="+req.params.id, function(err, jurnal, fields) {
+        connection.query("SELECT * from subjurnal where id_jurnal="+req.params.id+" order by id asc", function(err, subjurnal, fields) {
+          res.render('content-backoffice/manajemen_permintaan/edit_pemasukan',{akun,objek, user:req.user[0], jurnal, subjurnal}); 
+          })
+       })
+      })
+      })
 });
 
+router.post('/submit_pemasukan', cek_login, function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ 
+// console.log(post)
+var kode_akun=req.body.kode_akun;
+var nominal=req.body.nominal;
+var sub_kode=[];
+if(req.body.sub_kode){
+  sub_kode=req.body.sub_kode;
+}
+
+var jumlah=[];
+
+if(req.body.jumlah){
+  jumlah=req.body.jumlah;
+}
+var catatan=[];
+if(req.body.catatan){
+  catatan=req.body.catatan;
+}
+
+
+post['is_pemasukan']=1;
+post['id_user']=req.user[0].id_user;
+delete post.sub_kode;
+
+delete post.jumlah;
+delete post.catatan;
+delete post.kode_akun;
+delete post.nominal;
+console.log(sub_kode);
+
+console.log(jumlah);
+console.log(catatan);
+console.log(post);
+sql_enak("jurnal").where("id", req.body.id)
+  .update(post).then(function (count) {
+ console.log(count);
+})
+.finally(function() {
+  connection.query("DELETE FROM subjurnal where id_jurnal="+req.body.id, function(err, aax, fields) {
+  connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, debit) VALUES ('"+req.body.id+"', '"+kode_akun+"', '"+nominal+"');", function(err, aa, fields) {
+  for(var i=0;i<sub_kode.length;i++){
+    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, credit, catatan) VALUES ('"+req.body.id+"', '"+sub_kode[i]+"', '"+jumlah[i]+"','"+catatan[i]+"');", function(err, aa, fields) {
+      console.log("insert sub jurnal");
+    })
+  }
+})
+res.send('Berhasil'); 
+  })
+    }) 
+  
+});
+
+// -------------------------------------------------------------------
 router.get('/pengeluaran', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_permintaan/pengeluaran'); 
+  connection.query("select a.*, sum(b.debit) as nominal from jurnal a join subjurnal b on a.id= b.id_jurnal where a.is_pemasukan=0 and a.approval<>1 group by a.id order by a.approval asc, a.inserted desc", function(err, data, fields) {
+    if (err) throw err;
+     res.render('content-backoffice/manajemen_permintaan/pengeluaran', {data});
+    
+  })
 });
 
 router.get('/pengeluaran/edit/:id', cek_login, function(req, res) {
-  res.render('content-backoffice/manajemen_permintaan/edit_pengeluaran'); 
+  connection.query("SELECT * from akun ", function(err, akun, fields) {
+    connection.query("SELECT * from sekolah ", function(err, objek, fields) {
+      connection.query("SELECT * from jurnal where id="+req.params.id, function(err, jurnal, fields) {
+        connection.query("SELECT * from subjurnal where id_jurnal="+req.params.id+" order by id asc", function(err, subjurnal, fields) {
+          res.render('content-backoffice/manajemen_permintaan/edit_pengeluaran',{akun,objek, user:req.user[0], jurnal, subjurnal}); 
+          })
+       })
+      })
+      })
+});
+
+
+router.post('/submit_pengeluaran', cek_login, function(req, res) {
+  var idne ="";
+  var post = {}
+ post = req.body;
+ 
+// console.log(post)
+var kode_akun=req.body.kode_akun;
+var nominal=req.body.nominal;
+var sub_kode=[];
+if(req.body.sub_kode){
+  sub_kode=req.body.sub_kode;
+}
+
+var jumlah=[];
+
+if(req.body.jumlah){
+  jumlah=req.body.jumlah;
+}
+var catatan=[];
+if(req.body.catatan){
+  catatan=req.body.catatan;
+}
+
+
+post['is_pemasukan']=0;
+post['id_user']=req.user[0].id_user;
+delete post.sub_kode;
+
+delete post.jumlah;
+delete post.catatan;
+delete post.kode_akun;
+delete post.nominal;
+console.log(sub_kode);
+
+console.log(jumlah);
+console.log(catatan);
+console.log(post);
+sql_enak("jurnal").where("id", req.body.id)
+  .update(post).then(function (count) {
+ console.log(count);
+})
+.finally(function() {
+  connection.query("DELETE FROM subjurnal where id_jurnal="+req.body.id, function(err, aax, fields) {
+  connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, credit) VALUES ('"+req.body.id+"', '"+kode_akun+"', '"+nominal+"');", function(err, aa, fields) {
+  for(var i=0;i<sub_kode.length;i++){
+    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, debit, catatan) VALUES ('"+req.body.id+"', '"+sub_kode[i]+"', '"+jumlah[i]+"','"+catatan[i]+"');", function(err, aa, fields) {
+      console.log("insert sub jurnal");
+    })
+  }
+})
+res.send('Berhasil'); 
+  })
+    }) 
+  
 });
 module.exports = router;

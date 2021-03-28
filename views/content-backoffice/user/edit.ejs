@@ -35,10 +35,14 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Password<br/><small>(Isi kembali dengan password lama, apabila anda tidak ingin menggantinya)</small></label>
+                  <label>Grup</label>
                   <div class="row">
                     <div class="col-md-6">
-                      <input type="password" class="form-control" id="" name="pwd">
+                     <select name="sekolah">
+                        <%for(let i =0; i< sekolah.length;i++){%>
+                            <option value="<%=sekolah[i].nama%>"><%=sekolah[i].nama%></option>
+                          <%}%>
+                     </select>
                     </div>
                   </div>
                 </div>
