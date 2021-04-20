@@ -1,5 +1,11 @@
 <!--  BACKUP ASLI SERVER BENAR -->
 
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,7 +130,16 @@
     <button class="button"  id="btn-print">Cetak</button>
     <page size="A4">
         <div style="width: 100%;display: flex;">
-            <div style="width: 70%;background-color: ;"></div>
+            <div style="width: 25%;background-color: ;">
+               
+                <img src="/foto/<%= data[0].logo_sekolah%>" alt="" style="width: 50%;">
+               
+            </div>
+            <div style="width: 45%;background-color: ;">
+                <h2 style="text-align: center;margin:0;"><strong>YAYASAN BADAN AMAL JARIAH KELUARGA H.M. SULCHAN</strong></h2>
+                <h3 style="text-align: center;margin:0;"><strong><%= data[0].sekolah%></strong></h3>
+                <h5 style="margin: 0;text-align: center;"><%= data[0].alamat_sekolah%></h5>
+            </div>
             <div style="width: 30%;background-color: ;">
                 <h2 style="text-align: center;margin:0;"><strong>No. <%= data[0].no_id%></strong></h2>
             </div>
@@ -158,9 +173,9 @@
                                 <tbody>
                                     <% for(var i=0;i<data.length;i++){%>
                                     <tr>
-                                        <td style="width: 7mm;"><%= i+1%></td>
+                                        
                                         <td><%= data[i].jenis%></td>
-                                        <td><%= data[i].nominal%></td>
+                                        <td><%= numberWithCommas( parseInt(data[i].nominal))%></td>
                                     </tr>
                                     <%}%>
                                 </tbody>
@@ -186,7 +201,7 @@
                             <div><h4>Semarang, <%= data[0].tgl2%></h4></div>
                             <div style="width: 40%;border:1px solid black;display: flex;justify-content: center;align-items: center;margin-top: 2.5mm;border-radius: 6px;">
                                 <span><h3 style="margin:5px">Rp</h3></span>
-                                <span><h3 style="margin:5px;"><%= jum%>,-</h3></span>
+                                <span><h3 style="margin:5px;"><%= numberWithCommas(jum)%>,-</h3></span>
                             </div>
                         </td>
                         <td style="width: 30%;">

@@ -546,6 +546,25 @@
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
 $('#jk').val('<%= data[0].jk%>');
+$('#sekolah').val('<%= data[0].sekolah%>');
+
+$.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_master/get_kelas/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#kelas').append('<option >'+item.kelas+'</option>')
+                              })
+                             
+                              }
+                              
+                            });   
+                            $('#kelas').val('<%= data[0].rombel_now%>');
 
 $('#sekolah').change(function(){
   $("#kelas").empty();

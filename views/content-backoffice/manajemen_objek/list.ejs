@@ -16,7 +16,9 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-header header-line">
+          <%if(user[0].is_admin==1){%>
           <button class="btn btn-primary btn-embossed" type="button" data-toggle="modal" data-target=".modal-input"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</button>
+          <%}%>
         </div>
         <div class="panel-content pagination2">
           <table class="table table-bordered table-striped table-hover" id="data">
@@ -35,11 +37,13 @@
                   <td><%= data[i].nama%></td>
                   <td>
                     <center>
+                      <%if(user[0].is_admin==1){%>
                     <ul class="list-inline" style="text-align: center;">
                       <li><button class="btn btn-warning btn-embossed btn-sm" type="button" onclick="edit('<%= data[i].id%>')" style="margin-right: 0;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></li>
                       <li class="separator">|</li>
                       <li><a class="btn btn-danger btn-embossed btn-sm" role="button" onclick="hapus('<%= data[i].id%>')"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
                     </ul>
+                    <%}%>
                     </center>
                   </td>
                 </tr>

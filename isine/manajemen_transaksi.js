@@ -86,7 +86,7 @@ var sy = s.getFullYear();
     var ey = e.getFullYear();
     tgle=sd+" "+sm+" "+sy+"  s/d  "+ed+" "+em+" "+ey
   }
-  connection.query("SELECT a.*, b.debitt as nominal, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2 from jurnal a inner join (select id_jurnal, sum(debit) as debitt from subjurnal group by id_jurnal) b on a.id=b.id_jurnal where approval=1 and is_pemasukan=1"+q, function(err, data, fields) {
+  connection.query("SELECT a.*, b.debitt as nominal, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2 from jurnal a inner join (select id_jurnal, sum(debit) as debitt from subjurnal group by id_jurnal) b on a.id=b.id_jurnal where approval=1 and is_pemasukan=1 and id_objek='"+req.params.nama_sekolah+"'"+q, function(err, data, fields) {
     res.render('content-backoffice/manajemen_transaksi/transaksi_masuk',{data, nama_sekolah:req.params.nama_sekolah, tgl:tgle}); 
   })
 });
@@ -123,7 +123,7 @@ var sy = s.getFullYear();
     var ey = e.getFullYear();
     tgle=sd+" "+sm+" "+sy+"  s/d  "+ed+" "+em+" "+ey
   }
-  connection.query("SELECT a.*, b.creditt as nominal, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2 from jurnal a inner join (select id_jurnal, sum(credit) as creditt from subjurnal group by id_jurnal) b on a.id=b.id_jurnal where approval=1 and is_pemasukan=0"+q, function(err, data, fields) {
+  connection.query("SELECT a.*, b.creditt as nominal, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2 from jurnal a inner join (select id_jurnal, sum(credit) as creditt from subjurnal group by id_jurnal) b on a.id=b.id_jurnal where approval=1 and is_pemasukan=0 and id_objek='"+req.params.nama_sekolah+"'"+q, function(err, data, fields) {
     res.render('content-backoffice/manajemen_transaksi/transaksi_keluar',{data, nama_sekolah:req.params.nama_sekolah, tgl:tgle}); 
   })
 });

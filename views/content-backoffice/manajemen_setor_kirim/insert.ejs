@@ -1,13 +1,8 @@
 <% include ../../template-backoffice/header.ejs %>
-<%
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
-    <h2><strong>Approval</strong></h2>
+    <h2><strong>Tambah Data Setor/Kirim</strong></h2>
     <div class="breadcrumb-wrapper">
       <ol class="breadcrumb">
         <li><a href="/backoffice">Dashboard</a></li>
@@ -22,7 +17,6 @@
       <div class="panel">
         <div class="panel-content">
           <form role="form" id="forme" class="form-horizontal">
-            <input type="hidden" class="form-control" name="id" value="<%=jurnal[0].id%>">
             <div class="row">
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
@@ -31,7 +25,7 @@
                     <select class="form-control" name="kode_akun" data-search="true">
                       <option value="">-- Pilih --</option>
                             <% for(var i=0; i<akun.length; i++){ %>
-                              <option value="<%= akun[i].kode%>" <%=(subjurnal[0].kode_akun==akun[i].kode)?'selected':''%>><%= akun[i].kode%> <%= akun[i].nama%></option>
+                              <option value="<%= akun[i].kode%>"><%= akun[i].nama%></option>
                               <%}%>
                     </select>
                   </div>
@@ -43,7 +37,7 @@
                     <select class="form-control" name="id_objek" data-search="true">
                       <option value="">-- Pilih --</option>
                       <% for(var i=0; i<objek.length; i++){ %>
-                        <option <%=(jurnal[0].id_objek==objek[i].nama)?'selected':''%>><%= objek[i].nama%></option>
+                        <option><%= objek[i].nama%></option>
                         <%}%>
                     </select>
                   </div>
@@ -52,7 +46,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Keterangan</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="keterangan" value="<%=jurnal[0].keterangan%>">
+                    <input type="text" class="form-control" name="keterangan">
                   </div>
                 </div>
               </div>
@@ -61,20 +55,20 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">id</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="no_id" value="<%=jurnal[0].no_id%>">
+                    <input type="text" class="form-control" name="no_id">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Tanggal</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control tgl" name="tgl" id="tgl1" value="<%=jurnal[0].tgl%>">
+                    <input type="text" class="form-control tgl" name="tgl" id="tgl">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Nominal</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="" id="dnominal"><input type="hidden" class="form-control" name="nominal" id="nominal">
+                    <input type="text" class="form-control" id="dnominal"><input type="hidden" class="form-control" name="nominal" id="nominal">
                   </div>
                 </div>
               </div>
@@ -99,42 +93,34 @@
                       
                       <th>Jumlah</th>
                       <th>Catatan</th>
-                      <th>Option</th>
+                      
                     </tr>
                   </thead>
 
                   <tbody>
-                    <% let a=0;
-                    for(let i =1; i< subjurnal.length;i++){ a++%>
-                      
-                      <tr><td>
-                        <select class="form-control select2" name="sub_kode[]" >
-                          <option value="">-- Pilih --</option>
-                          <% for(var x=0; x<akun.length; x++){ %>
-                                        <option value="<%= akun[x].kode%>" <%=(subjurnal[i].kode_akun==akun[x].kode)?'selected':''%>><%= akun[x].kode%> <%= akun[x].nama%></option>
-                                        <%}%>
-                          </select></td>
-                          
-                          <td><input type="text" class="form-control jml" value="<%- numberWithCommas(subjurnal[i].debit)%>" onkeyup="cons(this,<%= a%>)" onblur="cons(this,<%= a%>)"><input type="hidden" class="form-control jml" name="jumlah[]" value="<%=subjurnal[i].debit%>" onblur="findTotal()" id="nom<%= a%>"></td>
-                          <td><input type="text" class="form-control" name="catatan[]" value="<%=subjurnal[i].catatan%>"></td>
-                          <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>
-                      <%}%>
+                    <tr>
+                      <td>
+                      <select class="form-control" name="sub_kode[]" id="subkode">
+                        <option value="">-- Pilih --</option>
+                        <% for(var i=0; i<akun.length; i++){ %>
+                                      <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
+                                      <%}%>
+                        </select></td>
+                        
+                        <td><input type="text" class="form-control jml" id="dniminil"><input type="hidden" class="form-control jml" name="jumlah[]" id="niminil"></td>
+                        <td><input type="text" class="form-control" name="catatan[]"></td>
+                        
+                      </tr>
                   </tbody>
                 </table>
               </div>
 
               <div class="col-md-12 col-lg-12" style="margin-left: 0;">
-                <span class="btn btn-primary btn-embossed tambah-tipe">Tambah</span>
+                <!-- <span class="btn btn-primary btn-embossed tambah-tipe">Tambah</span> -->
               </div>
             </div>
-            <select name="approval">
-              <option value="0" <%=(jurnal[0].approval==0)?'selected':''%>>Belum Disetujui</option>
-              <option value="1" <%=(jurnal[0].approval==1)?'selected':''%>> Disetujui</option>
-              <option value="2" <%=(jurnal[0].approval==2)?'selected':''%>>Tolak</option>
-          </select>
           </form>
           <div class="row">
-           
             <button type="button" class="btn btn-primary btn-embossed" onclick="simpan()">Simpan</button>
           </div>
         </div>
@@ -154,40 +140,22 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
-function cons(e, i){
-console.log(e.value);
-console.log(i);
-e.value = (e.value.replace(/[.]/g, "")).toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                    document.getElementById("nom"+i).value = e.value.replace(/[.]/g, "")
-                    findTotal();
-}
-
-$('body').on('DOMNodeInserted', 'select', function () {
-    $(this).select2();
-});
-var i=<%= a%>;
           $(".tambah-tipe").click(function(){
-            i++;
             $("#tipe-perumahan").append(`<tr><td>
-              <select class="form-control select2" name="sub_kode[]" >
+              <select class="form-control" name="sub_kode[]">
                 <option value="">-- Pilih --</option>
                 <% for(var i=0; i<akun.length; i++){ %>
                               <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
                               <%}%>
                 </select></td>
                 
-                <td><input type="text" class="form-control jml" onkeyup="cons(this, `+i+`)" onblur="cons(this, `+i+`)"><input type="hidden" class="form-control jml" id="nom`+i+`" name="jumlah[]" onblur="findTotal()"></td>
+                <td><input type="number" class="form-control jml" name="jumlah[]" onblur="findTotal()"></td>
                 <td><input type="text" class="form-control" name="catatan[]"></td>
                 <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>`);
           });
           $("#tipe-perumahan").on('click','.hapus-tipe',function(){
             $(this).parent().parent().remove();
           });
-
-          setTimeout(function(){
-$('.select2').select2();
-}, 100);
           var today = new Date();
           var dd = String(today.getDate()).padStart(2, '0');
           var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -196,44 +164,47 @@ $('.select2').select2();
           today = yyyy + '-' + mm + '-' + dd;
           
 
-          $('#tgl1').val(today);
+          $('#tgl').val(today);
 
 
-function findTotal(){
-    var arr = document.getElementsByName('jumlah[]');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('nominal').value = tot;
-    tot = tot.toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    document.getElementById('dnominal').value = tot;
-}
-findTotal()
+
+
 function simpan(){
-  
-  
-$.ajax({
-  type: 'POST',
-  url: '/manajemen_permintaan/submit_pengeluaran',
-  data: $('#forme').serialize(),
-  success: function(data){
-    console.log(data)
-    
-      alert(data);
-      location.reload();
-    
+  if($("#subkode").val()==""){
+    alert('Akun Tidak Boleh kosong !')
+  }else{
+    $.ajax({
+      type: 'POST',
+      url: '/manajemen_setor_kirim/submit',
+      data: $('#forme').serialize(),
+      success: function(data){
+        console.log(data)
+        
+          alert(data);
+          location.reload();
+        
+      }
+    });
   }
-});
+  
+
 
 }
+
 document.getElementById("dnominal").onkeyup =function (){    
     this.value = (this.value.replace(/[.]/g, "")).toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     
     document.getElementById("nominal").value = this.value.replace(/[.]/g, "")
+    
+}
+
+document.getElementById("dniminil").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    document.getElementById("dnominal").value = this.value;
+    document.getElementById("niminil").value = this.value.replace(/[.]/g, "");
+    document.getElementById("nominal").value = this.value.replace(/[.]/g, "");
     
 }
 </script>

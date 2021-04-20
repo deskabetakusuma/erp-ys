@@ -1,5 +1,9 @@
 <% include ../../template-backoffice/header.ejs %>
-
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -39,7 +43,7 @@
               <td><%= data[i].id_objek%></td>
               <td><%= data[i].no_id%></td>
               <td><%= data[i].keterangan%></td>
-              <td><%= data[i].nominal%></td>
+              <td style="text-align: right;"><%= numberWithCommas(data[i].nominal)%> ,-</td>
               <td><%= (data[i].approval==0)?'Belum Disetujui':(data[i].approval==1)?'Disetujui':'Ditolak'%></td>
             
               <td>

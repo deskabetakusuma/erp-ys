@@ -1,0 +1,139 @@
+<% include ../../template-backoffice/header.ejs %>
+
+<!-- BEGIN PAGE CONTENT -->
+<div class="page-content">
+  <div class="header">
+    <h2><strong>Data Rugi Laba</strong></h2>
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb">
+        <li><a href="/backoffice">Dashboard</a>
+        </li>
+        <li class="active">Data</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-header header-line">
+           <!-- <a class="btn btn-primary btn-embossed" href="/manajemen_basic/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a> -->
+        </div>
+        <div class="panel-content pagination2">
+          <table class="table table-bordered">
+            <tbody>
+              <tr style="background-color: #18a689;">
+                <td colspan="2" style="color: #fff;font-weight: bold;">PENDAPATAN</td>
+              </tr>
+
+              <tr>
+                <td>PSB TK SS 01 19</td>
+                <td style="text-align: right;">216.816.500</td>
+              </tr>
+
+              <tr>
+                <td>PSB TK SS 01 20/21</td>
+                <td style="text-align: right;">4.102.000</td>
+              </tr>
+
+              <tr>
+                <td>PSB TK SS 01 21/22</td>
+                <td style="text-align: right;">154.870.000</td>
+              </tr>
+
+
+              <tr>
+                <td style="text-align: right;"><strong>TOTAL PENDAPATAN</strong></td>
+                <td style="text-align: right;"><strong>0.000.000</strong></td>
+              </tr>
+
+              <tr style="background-color: #18a689;">
+                <td colspan="2" style="color: #fff;font-weight: bold;">BIAYA OPERASIONAL</td>
+              </tr>
+
+
+              <tr>
+                <td colspan="2"><strong>Biaya Operasional Yayasan</strong></td>
+              </tr>
+
+              <tr>
+                <td>Advertising</td>
+                <td style="text-align: right;">416.000</td>
+              </tr>
+
+              <tr>
+                <td>Adm/pajak Bank </td>
+                <td style="text-align: right;">1.216.697</td>
+              </tr>
+
+              <tr>
+                <td>Biaya Transaksi VA</td>
+                <td style="text-align: right;">324.000</td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><strong>Beban Operasional Sekolah</strong></td>
+              </tr>
+
+              <tr>
+                <td>Operasional TK SS 01</td>
+                <td style="text-align: right;"> 96.676.800</td>
+              </tr>
+
+              <tr>
+                <td>Operasional PSB  TK SS 01'20</td>
+                <td style="text-align: right;"> 53.043.400</td>
+              </tr>
+
+              <tr>
+                <td>BOP TK SS 01</td>
+                <td style="text-align: right;"> 26.250.000</td>
+              </tr>
+
+              <tr>
+                <td style="text-align: right;"><strong>TOTAL OPERASIONAL</strong></td>
+                <td style="text-align: right;"><strong>0.000.000</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div class="footer">
+    <div class="copyright">
+      <p class="pull-left sm-pull-reset">
+        <span>Copyright <span class="copyright">©</span> 2021 </span>
+        <span>Yayasan BAJ Keluarga H.M Sulchan</span>.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- END PAGE CONTENT -->
+
+<% include ../../template-backoffice/footer.ejs %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#data').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      "columnDefs": [
+          { "width": "100px", "targets": 1}
+      ],
+    });
+  });
+</script>

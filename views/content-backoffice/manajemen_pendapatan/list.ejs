@@ -1,5 +1,9 @@
 <% include ../../template-backoffice/header.ejs %>
-
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -26,6 +30,8 @@
                 <th class="header">Kode</th>
                 <th class="header">Nama Pendapatan</th>
                 <th class="header">Balance</th>
+                <th class="header">Otoritas</th>
+
                 <th class="header">Option</th>
               </tr>
             </thead>
@@ -36,7 +42,9 @@
                   <td><%= i+1%></td>
                   <td><%= data[i].kode%></td>
                   <td><%= data[i].nama%></td>
-                  <td><%= data[i].curr_balance%></td>
+                  <td style="text-align: right;"><%= numberWithCommas(data[i].curr_balance)%> ,-</td>
+              <td><%= data[i].flag%></td>
+
                   <td>
                     <center>
                     <ul class="list-inline" style="text-align: center;">
@@ -98,7 +106,8 @@
           <div class="form-group">
             <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" name="" id="balance">
+              <input type="text" class="form-control" name="" id="display" pattern="[0-9]*">
+            <input type="hidden" id="balance">
             </div>
           </div>
         </div>
@@ -145,7 +154,8 @@
           <div class="form-group">
             <label for="" class="col-sm-3 control-label" style="text-align: left;">Open Balance</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" name="" id="balancee">
+              <input type="text" class="form-control" name="" id="display2" pattern="[0-9]*">
+            <input type="hidden" id="balancee">
             </div>
           </div>
         </div>
@@ -200,6 +210,7 @@ function edit(id){
                                 
                                 $("#namae").val(data[0].nama);
                                 $("#balancee").val(data[0].balance);
+                                $("#display2").val(data[0].balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                                 
                                 
                              $(".modal-edit").modal("toggle");
@@ -263,8 +274,24 @@ function edit(id){
           }
       },
       "columnDefs": [
-          { "width": "100px", "targets": 4}
+          { "width": "100px", "targets": 5}
       ],
     });
   });
+
+  document.getElementById("display").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    document.getElementById("balance").value = this.value.replace(/[.]/g, "")
+    
+}
+
+document.getElementById("display2").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    document.getElementById("balancee").value = this.value.replace(/[.]/g, "")
+    
+}
 </script>

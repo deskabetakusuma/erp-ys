@@ -60,13 +60,17 @@ var upload = multer({ storage: storage })
 //start-------------------------------------
 router.get('/', cek_login, function(req, res) {
  
-  res.render('content-backoffice/manajemen_jatuh_tempo/list'); 
+  res.render('content-backoffice/manajemen_jatuh_tempo/list',{user:req.user}); 
 });
 
 router.get('/list_json', cek_login, function(req, res) {
+  var q="";
+  if(req.query.user!=""){
+q=" and sekolah='"+req.query.user+"'"
+  }
   var datane=[];
   var done=false;
-  connection.query("SELECT id, nama, sekolah, nisn, nipd, (select count(id) from reserved where deleted=0 and id_siswa=data_siswa.id) as jmlReserved from data_siswa where deleted=0", function(err, rows, fields) {
+  connection.query("SELECT id, nama, sekolah, nisn, nipd, (select count(id) from reserved where deleted=0 and id_siswa=data_siswa.id) as jmlReserved from data_siswa where deleted=0 and status='Aktif'"+q, function(err, rows, fields) {
     datane=rows;
     done=true;
   })

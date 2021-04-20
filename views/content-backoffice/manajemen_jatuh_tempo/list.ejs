@@ -53,6 +53,7 @@
 <% include ../../template-backoffice/footer.ejs %>
 
 <script type="text/javascript">
+var sekolah="<%= user[0].sekolah%>"
   $(document).ready(function() {
     var t  =  $('#data').DataTable({
       "language": {
@@ -73,7 +74,7 @@
       },
   
       "processing": true,
-           "ajax": "/manajemen_jatuh_tempo/list_json/",
+           "ajax": "/manajemen_jatuh_tempo/list_json?user="+sekolah,
            "columns": [
                { "data": null},
               //  { "data": "jenis"},
@@ -154,6 +155,7 @@
           if($(this).length>1){
             $(this).popover('hide');
           }
+          $(this).popover('destroy');
           $.getJSON( "/manajemen_jatuh_tempo/detail_reserved/"+$(this).attr('id_reserved'), function( data ) {
             console.log(data)
             $('.reserved').popover({

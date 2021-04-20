@@ -7,7 +7,7 @@
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
-    <h2><strong>Data Pengajuan Approval (Pengeluaran)</strong></h2>
+    <h2><strong>Data Siswa Yang Mengalami Tunggakan</strong></h2>
     <div class="breadcrumb-wrapper">
       <ol class="breadcrumb">
         <li><a href="/backoffice">Dashboard</a>
@@ -20,39 +20,43 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-header header-line">
-           <!-- <a class="btn btn-primary btn-embossed" href="/manajemen_basic/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a> -->
+           <!-- <a class="btn btn-primary btn-embossed" href="/manajemen_siswa/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a> -->
         </div>
         <div class="panel-content pagination2">
           <table class="table table-bordered table-striped table-hover" id="data">
             <thead>
               <tr>
-                <th class="header">No.</th>
-                <th class="header">Sumber</th>
-                <th class="header">No. Invoice</th>
-                <th class="header">Keterangan</th>
-                <th class="header">Nominal</th>
-                <th class="header">Status</th>
-                <th class="header">Option</th>
+                <th class="header" rowspan="2">No.</th>
+                <th class="header" rowspan="2">Sekolah</th>
+                <th class="header" rowspan="2">Nama Siswa</th>
+                <th class="header" rowspan="2">Jenis Kelamin</th>
+                <th class="header" rowspan="2">Alamat</th>
+                <th class="header" colspan="4">Kekurangan</th>
+                <th class="header" rowspan="2">Option</th>
+              </tr>
+
+              <tr>
+                <th class="header">SPP</th>
+                <th class="header">Dana Kegiatan</th>
+                <th class="header">Sumbangan Gedung</th>
+                <th class="header">Seragam</th>
+                
               </tr>
             </thead>
             
             <tbody>
-              <% for(let i =0; i< data.length; i++){%>
+              <%for(var i=0;i<data.length; i++){%>
             <tr>
               <td><%= i+1%></td>
-              <td><%= data[i].id_objek%></td>
-              <td><%= data[i].no_id%></td>
-              <td><%= data[i].keterangan%></td>
-              <td style="text-align: right;"><%= numberWithCommas(data[i].nominal)%> ,-</td>
-              <td><%= (data[i].approval==0)?'Belum Disetujui':(data[i].approval==1)?'Disetujui':'Ditolak'%></td>
-              <td>
-                <center>
-                <ul class="list-inline">
-                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/manajemen_permintaan/pengeluaran/edit/<%= data[i].id%>" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
-                 
-                </ul>
-                </center>
-              </td>
+              <td><%= data[i].sekolah%></td>
+              <td><%= data[i].nama%></td>
+              <td><%= data[i].jk%></td>
+              <td><%= data[i].alamat%></td>
+              <td><%= numberWithCommas (data[i].pay_spp-data[i].tag_spp)%></td>
+              <td><%= numberWithCommas (data[i].pay_kegiatan-data[i].tag_kegiatan)%></td>
+              <td><%= numberWithCommas (data[i].pay_gedung-data[i].tag_gedung)%></td>
+              <td><%= numberWithCommas (data[i].pay_seragam-data[i].tag_seragam)%></td>
+              <td><a href="/manajemen_pembayaran/insert?sekolah=<%= data[i].sekolah%>&siswa=<%= data[i].id%>">Pembayaran</a></td>
             </tr>
             <%}%>
             </tbody>

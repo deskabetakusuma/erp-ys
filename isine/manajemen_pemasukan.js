@@ -59,8 +59,14 @@ var upload = multer({ storage: storage })
 
 //start-------------------------------------
 router.get('/insert', cek_login, function(req, res) {
-  connection.query("SELECT * from akun ", function(err, akun, fields) {
-    connection.query("SELECT * from sekolah ", function(err, objek, fields) {
+  var q="";
+  var p="";
+  if(req.user[0].sekolah!=""){
+    q=" and flag='"+req.user[0].sekolah+"'"
+    p=" and nama='"+req.user[0].sekolah+"'"
+  }
+  connection.query("SELECT * from akun where deleted=0"+q, function(err, akun, fields) {
+    connection.query("SELECT * from sekolah where deleted=0"+p, function(err, objek, fields) {
       res.render('content-backoffice/manajemen_pemasukan/insert',{akun,objek, user:req.user[0]}); 
       })
     })
@@ -90,7 +96,7 @@ if(req.body.catatan){
   catatan=req.body.catatan;
 }
 
-if(req.user[0].is_admin=1){
+if(req.user[0].is_admin==1){
   post['approval']=1;
 }else{
   post['approval']=0;

@@ -1,4 +1,9 @@
 <% include ../../template-backoffice/header.ejs %>
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -69,7 +74,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Nominal</label>
                   <div class="col-sm-9">
-                    <input type="number" class="form-control" name="nominal" id="nominal">
+                    <input type="text" class="form-control" name="" id="dnominal"><input type="hidden" class="form-control" name="nominal" id="nominal">
                   </div>
                 </div>
               </div>
@@ -99,7 +104,8 @@
                   </thead>
 
                   <tbody>
-                    <%for(let i =1; i< subjurnal.length;i++){%>
+                    <% let a=0;
+                    for(let i =1; i< subjurnal.length;i++){ a++%>
                       
                       <tr><td>
                         <select class="form-control select2" name="sub_kode[]" >
@@ -109,7 +115,7 @@
                                         <%}%>
                           </select></td>
                           
-                          <td><input type="number" class="form-control jml" name="jumlah[]" value="<%=subjurnal[i].credit%>" onblur="findTotal()"></td>
+                          <td><input type="text" class="form-control jml" value="<%- numberWithCommas(subjurnal[i].credit)%>" onkeyup="cons(this,<%= a%>)" onblur="cons(this,<%= a%>)"><input type="hidden" class="form-control jml" name="jumlah[]" value="<%=subjurnal[i].credit%>" onblur="findTotal()" id="nom<%= a%>"></td>
                           <td><input type="text" class="form-control" name="catatan[]" value="<%=subjurnal[i].catatan%>"></td>
                           <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>
                       <%}%>
@@ -148,10 +154,20 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
+function cons(e, i){
+console.log(e.value);
+console.log(i);
+e.value = (e.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    document.getElementById("nom"+i).value = e.value.replace(/[.]/g, "")
+                    findTotal();
+}
 $('body').on('DOMNodeInserted', 'select', function () {
     $(this).select2();
 });
+var i=<%= a%>;
           $(".tambah-tipe").click(function(){
+            i++;
             $("#tipe-perumahan").append(`<tr><td>
               <select class="form-control select2" name="sub_kode[]" >
                 <option value="">-- Pilih --</option>
@@ -160,7 +176,7 @@ $('body').on('DOMNodeInserted', 'select', function () {
                               <%}%>
                 </select></td>
                 
-                <td><input type="number" class="form-control jml" name="jumlah[]" onblur="findTotal()"></td>
+                <td><input type="text" class="form-control jml" onkeyup="cons(this, `+i+`)" onblur="cons(this, `+i+`)"><input type="hidden" class="form-control jml" id="nom`+i+`" name="jumlah[]" onblur="findTotal()"></td>
                 <td><input type="text" class="form-control" name="catatan[]"></td>
                 <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>`);
           });
@@ -190,6 +206,10 @@ function findTotal(){
             tot += parseInt(arr[i].value);
     }
     document.getElementById('nominal').value = tot;
+    tot = tot.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    document.getElementById('dnominal').value = tot;
+
 }
 findTotal()
 function simpan(){
@@ -208,5 +228,12 @@ $.ajax({
   }
 });
 
+}
+document.getElementById("dnominal").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    document.getElementById("nominal").value = this.value.replace(/[.]/g, "")
+    
 }
 </script>

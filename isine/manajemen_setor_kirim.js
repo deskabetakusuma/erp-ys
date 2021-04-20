@@ -58,36 +58,21 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 //start-------------------------------------
-router.get('/', cek_login, function(req, res) {
-  var q="";
-  if(req.user[0].sekolah!=""){
-    q=" where c.id_objek='"+req.user[0].sekolah+"'"
-  }
-  console.log("SELECT a.*, b.nama, b.sekolah, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2 from pembayaran a left join data_siswa b on a.id_siswa=b.id left join jurnal c on a.id_jurnal=c.id"+q);
-  connection.query("SELECT a.*, b.nama, b.sekolah, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2 from pembayaran a left join data_siswa b on a.id_siswa=b.id left join jurnal c on a.id_jurnal=c.id"+q, function(err, data, fields) {
-  res.render('content-backoffice/manajemen_pembayaran/list',{data}); 
-  })
-});
+// router.get('/', cek_login, function(req, res) {
+//   res.render('content-backoffice/manajemen_basic/list'); 
+// });
 
 router.get('/insert', cek_login, function(req, res) {
   var q="";
   var p="";
-  var sekolah="";
-  var siswa="";
   if(req.user[0].sekolah!=""){
     q=" and flag='"+req.user[0].sekolah+"'"
     p=" and nama='"+req.user[0].sekolah+"'"
   }
-
-  if(req.query.sekolah){
-    sekolah=req.query.sekolah;
-  }
-  if(req.query.siswa){
-    siswa=req.query.siswa;
-  }
   connection.query("SELECT * from akun where deleted=0"+q, function(err, akun, fields) {
-    connection.query("SELECT * from sekolah where is_sekolah=1"+p, function(err, objek, fields) {
-      res.render('content-backoffice/manajemen_pembayaran/insert',{akun,objek, user:req.user[0], sekolah, siswa}); 
+    connection.query("SELECT * from sekolah where deleted=0"+p, function(err, objek, fields) {
+      res.render('content-backoffice/manajemen_setor_kirim/insert',{akun,objek, user:req.user[0]}); 
+      //res.json({akun,objek, user:req.user[0]})
       })
     })
 });
@@ -96,11 +81,10 @@ router.post('/submit', cek_login, function(req, res) {
   var idne ="";
   var post = {}
  post = req.body;
- 
+ var done=false;
 console.log(post)
 var kode_akun=req.body.kode_akun;
 var nominal=req.body.nominal;
-var id_siswa=req.body.id_siswa;
 var sub_kode=[];
 if(req.body.sub_kode){
   sub_kode=req.body.sub_kode;
@@ -111,61 +95,87 @@ var jumlah=[];
 if(req.body.jumlah){
   jumlah=req.body.jumlah;
 }
-
-
-var jenis=[];
-
-if(req.body.jenis){
-  jenis=req.body.jenis;
+var catatan=[];
+if(req.body.catatan){
+  catatan=req.body.catatan;
 }
 
-post['is_pemasukan']=1;
-post['approval']=1;
+if(req.user[0].is_admin==1){
+  post['approval']=1;
+}else{
+  post['approval']=0;
+}
+
+post['switch']=1;
+post['is_pemasukan']=0;
 post['id_user']=req.user[0].id_user;
 delete post.sub_kode;
 
 delete post.jumlah;
-
+delete post.catatan;
 delete post.kode_akun;
 delete post.nominal;
-delete post.jenis;
-delete post.id_siswa;
 console.log(sub_kode);
-console.log(jenis);
+
 console.log(jumlah);
+console.log(catatan);
+console.log(post);
 sql_enak.insert(post).into("jurnal").then(function (id) {
   console.log(id);
   idne=id;
 })
 .finally(function() {
-  var done=false;
-  connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, debit) VALUES ('"+idne+"', '"+kode_akun+"', '"+nominal+"');", function(err, aa, fields) {
+  done = false;
+  connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, credit) VALUES ('"+idne+"', '"+kode_akun+"', '"+nominal+"');", function(err, aa, fields) {
+    console.log(aa.insertId);
     done=true;
   })
   deasync.loopWhile(function(){return !done;});
+
   for(var i=0;i<sub_kode.length;i++){
     done=false;
-    connection.query("INSERT INTO pembayaran (id_siswa, jenis, nominal, tgl, id_jurnal, id_user) VALUES ('"+id_siswa+"', '"+jenis[i]+"', '"+jumlah[i]+"', '"+req.body.tgl+"', '"+idne+"', '"+post.id_user+"');", function(err, xx, fields) {
-    done=true;
-    })
-    deasync.loopWhile(function(){return !done;});
-    done=false;
-    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, credit) VALUES ('"+idne+"', '"+sub_kode[i]+"', '"+jumlah[i]+"');", function(err, aa, fields) {
+    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, debit, catatan) VALUES ('"+idne+"', '"+sub_kode[i]+"', '"+jumlah[i]+"','"+catatan[i]+"');", function(err, aa, fields) {
+      console.log("insert sub jurnal");
       done=true;
     })
     deasync.loopWhile(function(){return !done;});
-    
+  }
+  if(req.user[0].is_admin==1){
+    done=false;
+    var id_objek2;
+    connection.query("SELECT * from akun where kode='"+sub_kode[0]+"'", function(err, akun, fields) {
+      id_objek2=akun[0].flag;
+      done=true;
+    });
+    deasync.loopWhile(function(){return !done;});
+    done=false;
+    var id_jurnal2;
+    connection.query("INSERT INTO jurnal (id_objek, keterangan, no_id, tgl, id_user, is_pemasukan, approval, switch) VALUES ('"+id_objek2+"', '"+post.keterangan+"', '"+post.no_id+"', '"+post.tgl+"', '"+post.id_user+"', '1', '1', '1');", function(err, aa, fields) {
+      id_jurnal2=aa.insertId;
+      done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+
+    done=false;
+    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, debit, catatan) VALUES ('"+id_jurnal2+"', '"+sub_kode[0]+"', '"+jumlah[0]+"','"+catatan[0]+"');", function(err, aa, fields) {
+      done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+
+    done = false;
+    connection.query("INSERT INTO subjurnal (id_jurnal, kode_akun, credit) VALUES ('"+id_jurnal2+"', '"+kode_akun+"', '"+nominal+"');", function(err, aa, fields) {
+      console.log(aa.insertId);
+      done=true;
+    })
+    deasync.loopWhile(function(){return !done;});
+
   }
 
-    res.json(idne); 
+  
+    res.send('Berhasil'); 
     }) 
   
 });
 
-router.get('/invoice/:id_jurnal', cek_login, function(req, res) {
-  connection.query("SELECT a.*, b.no_id, c.sekolah, d.logo_sekolah, d.alamat as alamat_sekolah, DATE_FORMAT(a.tgl,'%d %M %Y') as tgl2, c.nama from pembayaran a left join data_siswa c on a.id_siswa=c.id left join jurnal b on a.id_jurnal=b.id left join sekolah d on c.sekolah=d.nama where a.id_jurnal="+req.params.id_jurnal, function(err, data, fields) {
-  res.render('content-backoffice/manajemen_invoice/invoice_sula',{data}); 
-  })
-  
-});
+
 module.exports = router;

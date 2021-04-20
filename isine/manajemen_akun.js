@@ -60,22 +60,28 @@ var upload = multer({ storage: storage })
 //start-------------------------------------
 // aset
 router.get('/aset', cek_login, function(req, res) {
-  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
-  from akun a
-    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
-    where LEFT(a.kode, 1)=1 and a.deleted=0`, function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_aset/list',{data:rows}); 
+  var q="";
+  if(req.user[0].sekolah!=""){
+    q=" and a.flag='"+req.user[0].sekolah+"'"
+  }
+  console.log(`select a.id, a.kode, a.kategori, a.nama, a.balance, a.flag, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit from akun a left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal left join jurnal on subjurnal.id_jurnal=jurnal.id left join akun on subjurnal.kode_akun=akun.kode where jurnal.approval=1 and jurnal.id_objek=akun.flag group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=1 and a.deleted=0`+q);
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, a.flag, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit from akun a left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal left join jurnal on subjurnal.id_jurnal=jurnal.id left join akun on subjurnal.kode_akun=akun.kode where jurnal.approval=1 and jurnal.id_objek=akun.flag group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=1 and a.deleted=0`+q, function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_aset/list',{data:rows, user:req.user}); 
   //res.json(rows)
   })
 });
 
 // hutang
 router.get('/hutang', cek_login, function(req, res) {
-  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
-  from akun a
-    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
-    where LEFT(a.kode, 1)=2 and a.deleted=0`, function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_hutang/list',{data:rows}); 
+  var q="";
+  if(req.user[0].sekolah!=""){
+    q=" and a.flag='"+req.user[0].sekolah+"'"
+  }
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, a.flag, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit from akun a left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal left join jurnal on subjurnal.id_jurnal=jurnal.id left join akun on subjurnal.kode_akun=akun.kode where jurnal.approval=1 and jurnal.id_objek=akun.flag group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=2 and a.deleted=0`+q, function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_hutang/list',{data:rows, user:req.user}); 
   //res.json(rows)
   })
 });
@@ -83,11 +89,13 @@ router.get('/hutang', cek_login, function(req, res) {
 
 // modal
 router.get('/modal', cek_login, function(req, res) {
-  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
-  from akun a
-    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
-    where LEFT(a.kode, 1)=3 and a.deleted=0`, function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_modal/list',{data:rows}); 
+  var q="";
+  if(req.user[0].sekolah!=""){
+    q=" and a.flag='"+req.user[0].sekolah+"'"
+  }
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, a.flag, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit from akun a left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal left join jurnal on subjurnal.id_jurnal=jurnal.id left join akun on subjurnal.kode_akun=akun.kode where jurnal.approval=1 and jurnal.id_objek=akun.flag group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=3 and a.deleted=0`+q, function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_modal/list',{data:rows, user:req.user}); 
   //res.json(rows)
   })
 });
@@ -95,22 +103,26 @@ router.get('/modal', cek_login, function(req, res) {
 
 // pendapatan
 router.get('/pendapatan', cek_login, function(req, res) {
-  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
-  from akun a
-    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
-    where LEFT(a.kode, 1)=4 and a.deleted=0`, function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_pendapatan/list',{data:rows}); 
+  var q="";
+  if(req.user[0].sekolah!=""){
+    q=" and a.flag='"+req.user[0].sekolah+"'"
+  }
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, a.flag, IF(b.jml_credit or b.jml_debit, a.balance+b.jml_credit-b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit from akun a left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal left join jurnal on subjurnal.id_jurnal=jurnal.id left join akun on subjurnal.kode_akun=akun.kode where jurnal.approval=1 and jurnal.id_objek=akun.flag group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=4 and a.deleted=0`+q, function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_pendapatan/list',{data:rows, user:req.user}); 
   //res.json(rows)
   })
 });
 
 // beban
 router.get('/beban', cek_login, function(req, res) {
-  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit
-  from akun a
-    left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal group by kode_akun) b on a.kode = b.kode_akun
-    where LEFT(a.kode, 1)=6 and a.deleted=0`, function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_beban/list',{data:rows}); 
+  var q="";
+  if(req.user[0].sekolah!=""){
+    q=" and a.flag='"+req.user[0].sekolah+"'"
+  }
+  connection.query(`select a.id, a.kode, a.kategori, a.nama, a.balance, a.flag, IF(b.jml_credit or b.jml_debit, a.balance-b.jml_credit+b.jml_debit, a.balance) as curr_balance, b.jml_credit, b.jml_debit from akun a left join (select kode_akun, sum(credit) as jml_credit, sum(debit) as jml_debit from subjurnal left join jurnal on subjurnal.id_jurnal=jurnal.id left join akun on subjurnal.kode_akun=akun.kode where jurnal.approval=1 and jurnal.id_objek=akun.flag group by kode_akun) b on a.kode = b.kode_akun
+    where LEFT(a.kode, 1)=6 and a.deleted=0`+q, function(err, rows, fields) {
+  res.render('content-backoffice/manajemen_beban/list',{data:rows, user:req.user}); 
   //res.json(rows)
   })
 });
@@ -119,7 +131,7 @@ router.get('/beban', cek_login, function(req, res) {
 //objek
 router.get('/objek', cek_login, function(req, res) {
   connection.query("select * from sekolah where is_sekolah=0 and deleted=0", function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_objek/list',{data:rows}); 
+  res.render('content-backoffice/manajemen_objek/list',{data:rows, user:req.user}); 
   })
 });
 
@@ -139,6 +151,12 @@ router.post('/submit_akun', cek_login, function(req, res) {
   var idne ="";
   var post = {}
  post = req.body;
+ if(req.user[0].sekolah==""){
+  post['flag']="Yayasan BAJ Keluarga H.M Sulchan";
+ }else{
+  post['flag']=req.user[0].sekolah;
+ }
+ 
  post['id_user']=req.user[0].id_user
 console.log(post)
 var cek_rows;

@@ -79,7 +79,7 @@ router.get('/verifikasi', function(req, res) {
 
 router.get('/insert', cek_login, function(req, res) {
 
-    connection.query("select * from sekolah where deleted=0", function(err, sekolah, fields) {
+    connection.query("select * from sekolah where deleted=0 and is_sekolah=1", function(err, sekolah, fields) {
       if (err) throw err;
        res.render('content-backoffice/user/insert', {sekolah});
       
@@ -98,7 +98,7 @@ router.get('/edit/:id', cek_login, function(req, res) {
   }
   connection.query("select * from user where id_user='"+req.params.id+"'"+tambahan, function(err, rows, fields) {
     if (err) throw err;
-    connection.query("select * from sekolah where deleted=0"+tambahan2, function(err, sekolah, fields) {
+    connection.query("select * from sekolah where is_sekolah=1 and deleted=0"+tambahan2, function(err, sekolah, fields) {
       if (err) throw err;
        res.render('content-backoffice/user/edit', {sekolah,data : rows});
       

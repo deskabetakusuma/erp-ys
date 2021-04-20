@@ -490,7 +490,7 @@
                 <select class="form-control" name="sekolah" id="sekolah">
                   <option value="">-- Pilih --</option>
                   <% var k=0; for(var i=0; i<sekolah.length; i++){ %>
-                    <option><%= sekolah[i].nama%></option>
+                    <option <%if(user[0].sekolah==sekolah[i].nama){%>selected<%}%>><%= sekolah[i].nama%></option>
                     <%}%>
                 </select>
               </div>
@@ -542,6 +542,22 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
+$.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_master/get_kelas/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#kelas').append('<option >'+item.kelas+'</option>')
+                              })
+                             
+                              }
+                            });  
+                            
 $('#sekolah').change(function(){
   $("#kelas").empty();
         $('#kelas').select2('val', null);

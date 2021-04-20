@@ -92,7 +92,9 @@
                             <tbody>
                               <tr>
                                 <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control tgl" name="" id="tanggale" placeholder="Tanggal Jatuh Tempo"></td>
-                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="nominale" placeholder="Nominal Pembayaran"></td>
+                                <td style="padding: 0 10px;margin: 0;"><input type="text" class="form-control" name="" id="dnominale" placeholder="Nominal Piutang">
+                                  <input type="hidden" class="form-control" name="" id="nominale"></td>
+                                
                                 <td style="padding: 0 10px;margin: 0;"><button type="button" class="btn btn-primary btn-embossed" id="proses">Proses</button></td>
                               </tr>
                             </tbody>
@@ -106,9 +108,9 @@
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th style="width: 20px;">Pembayaran</th>
+                            <th style="width: 20px;">Piutang</th>
                             <th>Tanggal Jatuh Tempo</th>
-                            <th>Nominal Pembayaran</th>
+                            <th>Nominal Piutang</th>
                           </tr>
                         </thead>
 
@@ -116,73 +118,85 @@
                           <tr>
                             <td style="text-align: center;">1</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_1" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom1" onkeyup="conspp(this,1)" placeholder="Nominal Piutang">
+                              <input type="text" class="form-control nom" name="nominal_spp[]" id="nom1"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">2</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_2" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom2" onkeyup="conspp(this,2)"placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom2"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">3</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_3" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom3" onkeyup="conspp(this,3)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom3"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">4</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_4" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom4" onkeyup="conspp(this,4)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom4"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">5</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_5" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom5" onkeyup="conspp(this,5)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom5"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">6</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_6" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom6" onkeyup="conspp(this,6)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom6"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">7</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_7" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom7" onkeyup="conspp(this,7)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom7"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">8</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_8" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom8" onkeyup="conspp(this,8)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom8"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">9</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_9" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom9" onkeyup="conspp(this,9)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom9"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">10</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_10" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom10" onkeyup="conspp(this,10)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom10"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">11</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_11" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom11" onkeyup="conspp(this,11)" placeholder="Nominal Piutang">
+                              <input type="hidden" class="form-control nom" name="nominal_spp[]" id="nom11"></td>
                           </tr>
 
                           <tr>
                             <td style="text-align: center;">12</td>
                             <td><input type="text" class="form-control tgl" name="tempo_spp[]" id="tempo_12" placeholder="Tanggal Jatuh Tempo" required></td>
-                            <td><input type="text" class="form-control nom" name="nominal_spp[]" id="" placeholder="Nominal Pembayaran"></td>
+                            <td><input type="text" class="form-control display" name="" id="disnom12" onkeyup="conspp(this,12)" placeholder="Nominal Piutang">
+                              <input type="text" class="form-control nom" name="nominal_spp[]" id="nom12"></td>
                           </tr>
 
                         </tbody>
@@ -198,13 +212,13 @@
                         <thead>
                           <tr>
                             <th style="text-align: center;">Tanggal Jatuh Tempo</th>
-                            <th style="text-align: center;">Nominal Tagihan</th>
+                            <th style="text-align: center;">Nominal Piutang</th>
                             <th style="text-align: center;width: 100px;">Option</th>
                           </tr>
                         </thead>
                       </table>
 
-                      <span class="btn btn-warning btn-embossed tambah-operasional">Tambah Pembayaran</span>
+                      <span class="btn btn-warning btn-embossed tambah-operasional">Tambah Piutang</span>
                     </div>
                   </div>
                 </div>
@@ -216,14 +230,14 @@
                         <thead>
                           <tr>
                             <th style="text-align: center;">Tanggal Jatuh Tempo</th>
-                            <th style="text-align: center;">Nominal Tagihan</th>
+                            <th style="text-align: center;">Nominal Piutang</th>
                             <th style="text-align: center;">Kategori</th>
                             <th style="text-align: center;width: 100px;">Option</th>
                           </tr>
                         </thead>
                       </table>
 
-                      <span class="btn btn-warning btn-embossed tambah-gedung-seragam">Tambah Pembayaran</span>
+                      <span class="btn btn-warning btn-embossed tambah-gedung-seragam">Tambah Piutang</span>
                     </div>
                   </div>
                 </div>
@@ -254,6 +268,29 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
+function conspp(e, i){
+console.log(e.value);
+console.log(i);
+e.value = (e.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    document.getElementById("nom"+i).value = e.value.replace(/[.]/g, "")
+}
+function conop(e, i){
+console.log(e.value);
+console.log(i);
+e.value = (e.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    document.getElementById("nomop"+i).value = e.value.replace(/[.]/g, "")
+}
+
+function condung(e, i){
+console.log(e.value);
+console.log(i);
+e.value = (e.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    document.getElementById("nomdung"+i).value = e.value.replace(/[.]/g, "")
+}
+
 moment.addRealMonth = function addRealMonth(d) {
   var fm = moment(d).add(1, 'M');
   var fmEnd = moment(fm).endOf('month');
@@ -266,6 +303,7 @@ $("#proses").click(function(){
   var mont=$("#tanggale").val();
   var nominal=$("#nominale").val();
   $(".nom").val(nominal);
+  $(".display").val(nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
   for(var i=1; i<=12; i++){
     
     $("#tempo_"+i+"").val(mont);
@@ -321,9 +359,10 @@ $('#sekolah').change(function(){
                     
                     
                 })
-
+var i=0;
   $(".tambah-operasional").click(function(){
-    $("#operasional").append('<tr><td><input type="text" class="form-control tgl" name="tempo_op[]" id="" placeholder="Tanggal Pembayaran" required></td><td><input type="text" class="form-control" name="nominal_op[]" id="" placeholder="Nominal Pembayaran"></td><td><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></td></tr>');
+    i++;
+    $("#operasional").append('<tr><td><input type="text" class="form-control tgl" name="tempo_op[]" id="" placeholder="Tanggal Jatuh Tempo Piutang" required></td><td><input type="text" class="form-control" onkeyup="conop(this, '+i+')" placeholder="Nominal Piutang"><input type="hidden" class="form-control" name="nominal_op[]" id="nomop'+i+'"></td><td><button class="btn btn-danger btn-embossed hapus-operasional">Hapus</button></td></tr>');
     $('#operasional').find(".tgl").datepicker({
               format: 'yyyy-mm-dd',
               orientation: "auto top",
@@ -338,9 +377,10 @@ $('#sekolah').change(function(){
     row.remove();
     
   });
-
+var j=0;
   $(".tambah-gedung-seragam").click(function(){
-    $("#gedung-seragam").append('<tr><td><input type="text" class="form-control tgl" name="tempo_gedung[]" id="" placeholder="Tanggal Pembayaran" required></td><td><input type="text" class="form-control" name="nominal_gedung[]" id="" placeholder="Nominal Pembayaran"></td><td><select class="form-control" name="jenis[]"><option>Sumbangan Gedung</option><option>Seragam</option></select></td><td><button class="btn btn-danger btn-embossed hapus-gedung-seragam">Hapus</button></td></tr>');
+    j++;
+    $("#gedung-seragam").append('<tr><td><input type="text" class="form-control tgl" name="tempo_gedung[]" id="" placeholder="Tanggal Jatuh Tempo Piutang" required></td><td><input type="text" class="form-control" onkeyup="condung(this, '+j+')" placeholder="Nominal Piutang"><input type="hidden" class="form-control" name="nominal_gedung[]" id="nomdung'+j+'"></td><td><select class="form-control" name="jenis[]"><option>Sumbangan Gedung</option><option>Seragam</option></select></td><td><button class="btn btn-danger btn-embossed hapus-gedung-seragam">Hapus</button></td></tr>');
     $('#gedung-seragam').find(".tgl").datepicker({
               format: 'yyyy-mm-dd',
               orientation: "auto top",
@@ -358,5 +398,12 @@ $('#sekolah').change(function(){
 
   
 
-  
+  document.getElementById("dnominale").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    document.getElementById("nominale").value = this.value.replace(/[.]/g, "")
+    
+}
+
 </script>

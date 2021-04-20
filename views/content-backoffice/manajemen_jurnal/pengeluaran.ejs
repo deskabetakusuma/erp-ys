@@ -1,5 +1,9 @@
 <% include ../../template-backoffice/header.ejs %>
-
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -17,9 +21,19 @@
       <div class="panel">
         <div class="panel-header header-line">
           <form action="#">
-              <input type="text" name="tgl_start" placeholder="tgl start" value="<%= tgl_start%>">
-              <input type="text" name="tgl_end" placeholder="tgl akhir" value="<%= tgl_end%>">
-              <button id="cari">CARI</button>
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <label for="">Tanggal Awal</label>
+                <input type="text" name="tgl_start" placeholder="Tanggal Awal" class="form-control" value="<%= tgl_start%>">
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <label for="">Tanggal Akhir</label>
+                <input type="text" name="tgl_end" placeholder="Tanggal Akhir" class="form-control" value="<%= tgl_end%>">
+              </div>
+            </div>
+              
+              
+              <button id="cari" class="btn btn-primary btn-embossed" style="margin-top: 15px;">CARI</button>
             </form>
         </div>
         <div class="panel-content pagination2">
@@ -51,8 +65,8 @@
                 <td></td>
                 <td><%= data[a].subjurnal[b].kode_akun%></td>
                 <td><%= data[a].subjurnal[b].nama%></td>
-                <td><%= data[a].subjurnal[b].debit%></td>
-                <td><%= data[a].subjurnal[b].credit%></td>
+                <td style="text-align: right;"><%= numberWithCommas(data[a].subjurnal[b].debit)%> ,-</td>
+                <td style="text-align: right;"><%= numberWithCommas(data[a].subjurnal[b].credit)%> ,-</td>
                 <td><%= data[a].subjurnal[b].catatan%></td>
               </tr>
               <%}%>
@@ -96,6 +110,7 @@
             "sLast":     "Terakhir"
           }
       },
+      "pageLength": 50
       // "processing": true,
       //      "ajax": "/manajemen_jurnal/pemasukan_json",
       //      "columns": [

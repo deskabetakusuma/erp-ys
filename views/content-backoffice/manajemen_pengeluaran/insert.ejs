@@ -37,7 +37,7 @@
                     <select class="form-control" name="id_objek" data-search="true">
                       <option value="">-- Pilih --</option>
                       <% for(var i=0; i<objek.length; i++){ %>
-                        <options><%= objek[i].nama%></options>
+                        <option><%= objek[i].nama%></option>
                         <%}%>
                     </select>
                   </div>
@@ -68,7 +68,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Nominal</label>
                   <div class="col-sm-9">
-                    <input type="number" class="form-control" name="nominal" id="nominal">
+                    <input type="text" class="form-control" name="" id="dnominal"><input type="hidden" class="form-control" name="nominal" id="nominal">
                   </div>
                 </div>
               </div>
@@ -128,7 +128,17 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
+function con(e, i){
+console.log(e.value);
+console.log(i);
+e.value = (e.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    document.getElementById("nomak"+i).value = e.value.replace(/[.]/g, "")
+                    findTotal();
+}
+var i=0;
           $(".tambah-tipe").click(function(){
+            i++;
             $("#tipe-perumahan").append(`<tr><td>
               <select class="form-control" name="sub_kode[]">
                 <option value="">-- Pilih --</option>
@@ -137,7 +147,7 @@
                               <%}%>
                 </select></td>
                 
-                <td><input type="number" class="form-control jml" name="jumlah[]" onblur="findTotal()"></td>
+                <td><input type="text" class="form-control jml" onkeyup="con(this, `+i+`)" onblur="con(this, `+i+`)"><input type="hidden" class="form-control jml" id="nomak`+i+`" name="jumlah[]" onblur="findTotal()"></td>
                 <td><input type="text" class="form-control" name="catatan[]"></td>
                 <td><button class="btn btn-danger btn-sm hapus-tipe">Hapus</button></td></tr>`);
           });
@@ -163,6 +173,9 @@ function findTotal(){
             tot += parseInt(arr[i].value);
     }
     document.getElementById('nominal').value = tot;
+    tot = tot.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    document.getElementById('dnominal').value = tot;
 }
 
 function simpan(){
@@ -181,5 +194,12 @@ $.ajax({
   }
 });
 
+}
+document.getElementById("dnominal").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    document.getElementById("nominal").value = this.value.replace(/[.]/g, "")
+    
 }
 </script>

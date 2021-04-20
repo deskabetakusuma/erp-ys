@@ -1,4 +1,9 @@
   <% include ../../template-backoffice/header.ejs %>
+  <%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+%>
 
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
@@ -41,7 +46,7 @@
                     <td><%= data[i].nama%></td>
                     <td><%= data[i].tgl2%></td>
                     <td><%= data[i].jenis%></td>
-                    <td><%= data[i].nominal%></td>
+                    <td style="text-align: right;"><%= numberWithCommas(data[i].nominal)%> ,-</td>
                   </tr>
                   <%}%>
                 </tbody>

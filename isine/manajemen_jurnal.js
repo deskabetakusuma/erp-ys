@@ -65,6 +65,11 @@ router.get('/pemasukan', cek_login, function(req, res) {
   var q="";
   let tgl_start='';
   let tgl_end='';
+  if(req.user[0].sekolah!=""){
+    q+=" and id_objek='"+req.user[0].sekolah+"'"
+  }else{
+    q+=" and id_objek='Yayasan BAJ Keluarga H.M Sulchan'"
+  }
   if(req.query.tgl_start){
     tgl_start = req.query.tgl_start;
     q+=" and tgl>='"+req.query.tgl_start+"'"
@@ -75,6 +80,7 @@ router.get('/pemasukan', cek_login, function(req, res) {
   }
   var done=false;
   connection.query("select *, DATE_FORMAT(tgl,'%d %m %Y') as tgl2 from jurnal where is_pemasukan=1 and approval=1"+q, function(err, rows, fields) {
+    console.log(rows);
 datane=rows;
 for(let i =0; i < datane.length; i++){
    datane[i].tgl_tampil =  moment(datane[i].tgl).format('dddd D/MMMM/YYYY')
@@ -85,7 +91,7 @@ done=true;
   for(var i=0;i<datane.length;i++){
     datane[i].subjurnal=[];
     done=false;
-    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+datane[i].id, function(err, rows, fields) {
+    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+datane[i].id+" order by id asc", function(err, rows, fields) {
       datane[i].subjurnal=rows;
       done=true;
     })
@@ -105,6 +111,11 @@ router.get('/pengeluaran', cek_login, function(req, res) {
   var q="";
   let tgl_start='';
   let tgl_end='';
+  if(req.user[0].sekolah!=""){
+    q+=" and id_objek='"+req.user[0].sekolah+"'"
+  }else{
+    q+=" and id_objek='Yayasan BAJ Keluarga H.M Sulchan'"
+  }
   if(req.query.tgl_start){
     tgl_start = req.query.tgl_start;
     q+=" and tgl>='"+req.query.tgl_start+"'"
@@ -125,14 +136,14 @@ done=true;
   for(var i=0;i<datane.length;i++){
     datane[i].subjurnal=[];
     done=false;
-    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+datane[i].id, function(err, rows, fields) {
+    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+datane[i].id+" order by id asc", function(err, rows, fields) {
       datane[i].subjurnal=rows;
       done=true;
     })
     deasync.loopWhile(function(){return !done;});
   }
   
-  // res.json(datane)
+  //res.json(datane)
   res.render('content-backoffice/manajemen_jurnal/pengeluaran',{data:datane, tgl_start, tgl_end}); 
 });
 
@@ -161,7 +172,7 @@ done=true;
   deasync.loopWhile(function(){return !done;});
   
     done=false;
-    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+req.params.id, function(err, rows, fields) {
+    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+req.params.id+" order by id asc", function(err, rows, fields) {
       subjurnale=rows;
       done=true;
     })
@@ -196,7 +207,7 @@ done=true;
   deasync.loopWhile(function(){return !done;});
   
     done=false;
-    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+req.params.id, function(err, rows, fields) {
+    connection.query("select a.*, b.nama from subjurnal a left join akun b on a.kode_akun=b.kode where a.id_jurnal="+req.params.id+" order by id asc", function(err, rows, fields) {
       subjurnale=rows;
       done=true;
     })

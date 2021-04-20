@@ -14,6 +14,8 @@
       </ol>
     </div> -->
   </div>
+  
+
 <%for(var i=0;i<data.length;i++){%>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">      
@@ -151,7 +153,11 @@
                   <h1 style="color: #fff;text-align: right;font-size: 36px;"><strong><%= data[i].nunggak%></strong></h1>
                   <h4 style="color: #fff;text-align: right;">dari jumlah siswa <strong><%= data[i].jml_siswa%></strong> </h4>
                   <hr>
-                  <a href="/manajemen_jatuh_tempo" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                  <%if(data[i].is_sekolah==1){%>
+                  <a href="/manajemen_siswa/list_tunggakan?sekolah=<%= data[i].nama%>" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                  <%}else{%>
+                    <a href="/manajemen_siswa/list_tunggakan" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                    <%}%>
                 </div>
               </div>
             </div>
@@ -189,7 +195,11 @@
                   </table>
                   <h1 style="color: #fff;text-align: right;font-size: 36px;"><strong>Rp <%= numberWithCommas( data[i].nomnunggak)%>,-</strong></h1>
                   <hr>
-                  <a href="/manajemen_jatuh_tempo" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                  <%if(data[i].is_sekolah==1){%>
+                    <a href="/manajemen_siswa/list_tunggakan?sekolah=<%= data[i].nama%>" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                    <%}else{%>
+                      <a href="/manajemen_siswa/list_tunggakan" class="btn btn-danger btn-embossed">Selengkapnya</a>
+                      <%}%>
                 </div>
               </div>
             </div>

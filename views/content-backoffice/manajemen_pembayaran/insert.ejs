@@ -79,7 +79,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-3 control-label" style="text-align: left;">Nominal</label>
                   <div class="col-sm-9">
-                    <input type="number" class="form-control" name="nominal" id="nominal">
+                    <input type="text" class="form-control" name="" id="dnominal"><input type="hidden" class="form-control" name="nominal" id="nominal">
                   </div>
                 </div>
               </div>
@@ -135,7 +135,39 @@
 
 <% include ../../template-backoffice/footer.ejs %>
 <script type="text/javascript">
+function con(e, i){
+console.log(e.value);
+console.log(i);
+e.value = (e.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    document.getElementById("nomak"+i).value = e.value.replace(/[.]/g, "")
+                    findTotal();
+}
+
+$("#sekolah").val("<%= sekolah%>");
+var siswane="<%= siswa%>"
+if($("#sekolah").val()!=""){
+
+  $.ajax({
+                              type : "GET",
+                              async : false,
+                              global : false,
+                              url : "/manajemen_siswa/get_siswa/"+$('#sekolah').val(),
+                              dataType : 'json',
+                              success: function (data) {
+                                console.log(data)
+                               $.each(data, function(index, item){
+                           
+                                  $('#id_siswa').append('<option value="'+item.id+'">'+item.nama+'</option>')
+                              })
+                             
+                              }
+                            });  
+                            $("#id_siswa").val(siswane);
+}
+var i=0;
           $(".tambah-tipe").click(function(){
+            i++;
             $("#tipe-perumahan").append(`<tr>
               <td><select class="form-control" name="jenis[]"><option value="">-- Pilih --</option><option>Formulir Pendaftaran</option><option>Sumbangan Gedung</option><option>Dana Kegiatan</option><option>Seragam</option><option>SPP</option><option>Lain-lain</option></select></td>
               <td><select class="form-control" name="sub_kode[]">
@@ -144,7 +176,7 @@
                   <option value="<%= akun[i].kode%>"><%= akun[i].kode%> <%= akun[i].nama%></option>
                               <%}%>
                 </select></td>
-                 <td><input type="number" class="form-control jml" name="jumlah[]" onblur="findTotal()"></td>
+                <td><input type="text" class="form-control jml" onkeyup="con(this, `+i+`)" onblur="con(this, `+i+`)"><input type="hidden" class="form-control jml" id="nomak`+i+`" name="jumlah[]" onblur="findTotal()"></td>
                  <td><button class="btn btn-danger btn-sm hapus-tipe btn-embossed">Hapus</button></td></tr>`);
           });
           $("#tipe-perumahan").on('click','.hapus-tipe',function(){
@@ -169,6 +201,9 @@
             tot += parseInt(arr[i].value);
     }
     document.getElementById('nominal').value = tot;
+    tot = tot.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    document.getElementById('dnominal').value = tot;
 }
 
 function simpan(){
@@ -217,4 +252,12 @@ function simpan(){
                     
                     
                 })
+
+document.getElementById("dnominal").onkeyup =function (){    
+    this.value = (this.value.replace(/[.]/g, "")).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    
+    document.getElementById("nominal").value = this.value.replace(/[.]/g, "")
+    
+}
 </script>

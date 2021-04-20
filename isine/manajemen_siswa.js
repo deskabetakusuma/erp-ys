@@ -58,26 +58,46 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 //start-------------------------------------
+router.get('/list_tunggakan', cek_login, function(req, res) {
+  var q="";
+  if(req.query.sekolah){
+    q=`and a.sekolah='`+req.query.sekolah+`'`
+  }
+  console.log(`select a.*, b.spp as tag_spp, b.kegiatan as tag_kegiatan, b.gedung as tag_gedung, b.seragam as tag_seragam, c.spp1 as pay_spp, c.kegiatan1 as pay_kegiatan, c.gedung1 as pay_gedung, c.seragam1 as pay_seragam from data_siswa a left join (select id_siswa, sum(if(jenis_tagihan = 'SPP',nominal_tagihan,0)) as spp, sum(if(jenis_tagihan = 'Dana Kegiatan',nominal_tagihan,0)) as kegiatan, sum(if(jenis_tagihan = 'Sumbangan Gedung',nominal_tagihan,0)) as gedung, sum(if(jenis_tagihan = 'Seragam',nominal_tagihan,0)) as seragam from tagihan where DATE_FORMAT(jatuh_tempo,'%Y%m')<=DATE_FORMAT(curdate(),'%Y%m') group by id_siswa) b on a.id=b.id_siswa left join (select id_siswa, sum(if(jenis = 'SPP',nominal,0)) as spp1, sum(if(jenis = 'Dana Kegiatan',nominal,0)) as kegiatan1, sum(if(jenis = 'Sumbangan Gedung',nominal,0)) as gedung1, sum(if(jenis = 'Seragam',nominal,0)) as seragam1 from pembayaran group by id_siswa) c on a.id=c.id_siswa where (b.spp>c.spp1 or b.seragam>c.seragam1 or b.gedung>c.gedung1 or b.kegiatan>c.kegiatan1) and a.status='Aktif' and a.deleted=0`+q);
+  connection.query(`select a.*, b.spp as tag_spp, b.kegiatan as tag_kegiatan, b.gedung as tag_gedung, b.seragam as tag_seragam,
+   c.spp1 as pay_spp, c.kegiatan1 as pay_kegiatan, c.gedung1 as pay_gedung, c.seragam1 as pay_seragam
+  from data_siswa a left join (select id_siswa, sum(if(jenis_tagihan = 'SPP',nominal_tagihan,0)) as spp, sum(if(jenis_tagihan = 'Dana Kegiatan',nominal_tagihan,0)) as kegiatan, sum(if(jenis_tagihan = 'Sumbangan Gedung',nominal_tagihan,0)) as gedung, sum(if(jenis_tagihan = 'Seragam',nominal_tagihan,0)) as seragam from tagihan where DATE_FORMAT(jatuh_tempo,'%Y%m')<=DATE_FORMAT(curdate(),'%Y%m') group by id_siswa) b on a.id=b.id_siswa
+   left join (select id_siswa, sum(if(jenis = 'SPP',nominal,0)) as spp1, sum(if(jenis = 'Dana Kegiatan',nominal,0)) as kegiatan1, sum(if(jenis = 'Sumbangan Gedung',nominal,0)) as gedung1, sum(if(jenis = 'Seragam',nominal,0)) as seragam1 from pembayaran group by id_siswa) c on a.id=c.id_siswa 
+   where (b.spp>c.spp1 or b.seragam>c.seragam1 or b.gedung>c.gedung1 or b.kegiatan>c.kegiatan1) and a.status='Aktif' and a.deleted=0`+q, function(err, rows, fields) {
+    //res.json({data:rows})
+    res.render('content-backoffice/manajemen_siswa/list_tunggakan',{data:rows}); 
+  })
+});
+
 router.get('/detail/:id', cek_login, function(req, res) {
   res.render('content-backoffice/manajemen_siswa/detail'); 
 });
 
 router.get('/', cek_login, function(req, res) {
-    connection.query("SELECT *, DATE_FORMAT(tanggal_lahir,'%d %M %Y') as tanggal_lahir2 from data_siswa where deleted=0", function(err, data, fields) {
+  var q="";
+  if(req.user[0].sekolah!=""){
+    q=" and sekolah='"+req.user[0].sekolah+"'"
+  }
+    connection.query("SELECT *, DATE_FORMAT(tanggal_lahir,'%d %M %Y') as tanggal_lahir2 from data_siswa where deleted=0"+q, function(err, data, fields) {
   res.render('content-backoffice/manajemen_siswa/list',{data}); 
     })
 });
 
 router.get('/insert', cek_login, function(req, res) {
   connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_siswa/insert',{sekolah:rows}); 
+  res.render('content-backoffice/manajemen_siswa/insert',{sekolah:rows, user:req.user}); 
   })
 });
 
 router.get('/edit/:id', cek_login, function(req, res) {
   connection.query("SELECT *, DATE_FORMAT(tanggal_lahir,'%Y-%m-%d') as tanggal_lahir2 from data_siswa where deleted=0 and id="+req.params.id, function(err, data, fields) {
   connection.query("SELECT * from sekolah where deleted=0 and is_sekolah=1", function(err, rows, fields) {
-  res.render('content-backoffice/manajemen_siswa/edit',{data, sekolah:rows});
+  res.render('content-backoffice/manajemen_siswa/edit',{data, sekolah:rows, user:req.user});
   }) 
 })
 });
@@ -141,7 +161,7 @@ router.get('/delete/:id', cek_login, function(req, res) {
 });
 
 router.get('/get_siswa/:nama_sekolah', function(req, res) {
-  connection.query("SELECT id, nama, nisn, nipd from data_siswa where deleted=0 and sekolah='"+req.params.nama_sekolah+"'", function(err, data, fields) {
+  connection.query("SELECT id, nama, nisn, nipd from data_siswa where deleted=0 and sekolah='"+req.params.nama_sekolah+"' and status='Aktif'", function(err, data, fields) {
     res.json(data)
   });
 });
